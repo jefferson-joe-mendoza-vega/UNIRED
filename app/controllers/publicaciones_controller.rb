@@ -6,7 +6,7 @@ class PublicacionesController < ApplicationController
   before_action :load_reactions_counts, only: [:show]
 
   def index
-    @categories = Category.all
+    @categories = Category.order(:name)
     load_faculty_publicaciones if params[:category_id].present? || params[:faculty_id].present?
     search_publicaciones if params[:query].present?
     @pagy, @publicaciones = pagy_countless(@publicaciones, items: 25)
@@ -60,6 +60,7 @@ class PublicacionesController < ApplicationController
   def load_faculty_publicaciones
     @publicaciones = @publicaciones.where(category_id: params[:category_id]) if params[:category_id].present?
     @publicaciones = @publicaciones.joins(:user).where(users: { faculty_id: params[:faculty_id] }) if params[:faculty_id].present?
+  
   end
 
   def search_publicaciones
