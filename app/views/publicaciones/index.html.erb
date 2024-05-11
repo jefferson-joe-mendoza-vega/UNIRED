@@ -76,6 +76,127 @@
           <% end %>
         </div>
         <br>
+        <%if @publicaciones_fijadas_facultad.present? %>
+          <% @publicaciones_fijadas_facultad.each do |publicacion| %>
+            <h1 style="color: #FFFFFF;">Publicaciones fijadas 📌</h1>
+            <div class="card my-0">
+              <%if publicacion.fijada.present? %>
+                <div class="card-body">
+                  <!-- Contenedor del nombre de usuario -->
+                  <% if publicacion.mostrar_nombre? %>
+                    <strong ></strong>
+                  <% else%>
+                    <div class="usuario">
+                      <div class="nombre-usuario">
+                        <i class="bi bi-person me-2" style="font-size: 32px;"></i>
+                        <strong ><%= link_to "#{publicacion.user.username} - #{publicacion.user.faculty.name}", usuario_path(publicacion.user.username), style: "color: white;", data: { turbo_frame: '_top' }%></strong>
+                        <% if publicacion.user.verified %>
+                          <span class="badge bg-success">Verificado</span>
+                        <% end %>
+                        <% if publicacion.user.admin %>
+                          <span class="badge bg-primary">Administrador</span>
+                        <% end %>
+                      </div>
+                    </div>
+                  <% end %>
+                  <!-- Contenido de la publicación -->
+                  <p class="fecha-publicacion"><i class="far fa-calendar-alt"></i> <%= publicacion.created_at.strftime("%d/%m/%Y %H:%M") %></p>
+                  <%= link_to publicacion_path(publicacion.id), style: "color: black;", data: { turbo_frame: '_top' } do %>
+                    <strong><h3 style="color: white;"><%= publicacion.titulo %></h3></strong>
+                    <% if publicacion.imagen.attached? %>
+                      <%= image_tag publicacion.imagen, class: "img-fluid", alt: "Imagen de la publicación" %>
+                    <% else %>
+                      <div class="placeholder-image"></div>
+                        <p class="descripcion-publicacion" style="color: white;">
+                          <% truncated_description = truncate(publicacion.descripcion, length: 150) %>
+                          <% lines = truncated_description.lines.take(6) %>
+                          <%= simple_format(lines.join) %>
+                          <% if publicacion.descripcion.lines.count > 6 %>
+                            <%= link_to 'Leer más', '#', class: 'leer-mas' %>
+                          <% end %>
+                          <span class="descripcion-completa" style="display:none;">
+                            <%= simple_format(publicacion.descripcion) %>
+                            <%= link_to 'Leer menos', '#', class: 'leer-menos', style: 'display:none;' %>
+                          </span>
+                        </p>
+                    <% end %>
+                    <% if publicacion.video.attached? %>
+                      <div class="embed-responsive embed-responsive-16by9">
+                        <%= video_tag publicacion.video, controls: true, class: "embed-responsive-item" %>
+                      </div>
+                    <% end %>
+                    <p class="comentarios">
+                      <span >Comentarios: <%= publicacion.comments.count %></span>
+                    </p>
+                  <% end %>
+                </div>
+              <%end%>
+            </div>
+            <br>
+          <% end %>
+        <%end%>
+
+
+        <%if @publicaciones_fijadas_index.present? %>
+          <% @publicaciones_fijadas_index.each do |publicacion| %>
+            <h1 style="color: #FFFFFF;">Publicaciones fijadas 📌</h1>
+            <div class="card my-0">
+              <%if publicacion.fijadaindex.present? %>
+                <div class="card-body">
+                  <!-- Contenedor del nombre de usuario -->
+                  <% if publicacion.mostrar_nombre? %>
+                    <strong ></strong>
+                  <% else%>
+                    <div class="usuario">
+                      <div class="nombre-usuario">
+                        <i class="bi bi-person me-2" style="font-size: 32px;"></i>
+                        <strong ><%= link_to "#{publicacion.user.username} - #{publicacion.user.faculty.name}", usuario_path(publicacion.user.username), style: "color: white;", data: { turbo_frame: '_top' }%></strong>
+                        <% if publicacion.user.verified %>
+                          <span class="badge bg-success">Verificado</span>
+                        <% end %>
+                        <% if publicacion.user.admin %>
+                          <span class="badge bg-primary">Administrador</span>
+                        <% end %>
+                      </div>
+                    </div>
+                  <% end %>
+                  <!-- Contenido de la publicación -->
+                  <p class="fecha-publicacion"><i class="far fa-calendar-alt"></i> <%= publicacion.created_at.strftime("%d/%m/%Y %H:%M") %></p>
+                  <%= link_to publicacion_path(publicacion.id), style: "color: black;", data: { turbo_frame: '_top' } do %>
+                    <strong><h3 style="color: white;"><%= publicacion.titulo %></h3></strong>
+                    <% if publicacion.imagen.attached? %>
+                      <%= image_tag publicacion.imagen, class: "img-fluid", alt: "Imagen de la publicación" %>
+                    <% else %>
+                      <div class="placeholder-image"></div>
+                        <p class="descripcion-publicacion" style="color: white;">
+                          <% truncated_description = truncate(publicacion.descripcion, length: 150) %>
+                          <% lines = truncated_description.lines.take(6) %>
+                          <%= simple_format(lines.join) %>
+                          <% if publicacion.descripcion.lines.count > 6 %>
+                            <%= link_to 'Leer más', '#', class: 'leer-mas' %>
+                          <% end %>
+                          <span class="descripcion-completa" style="display:none;">
+                            <%= simple_format(publicacion.descripcion) %>
+                            <%= link_to 'Leer menos', '#', class: 'leer-menos', style: 'display:none;' %>
+                          </span>
+                        </p>
+                    <% end %>
+                    <% if publicacion.video.attached? %>
+                      <div class="embed-responsive embed-responsive-16by9">
+                        <%= video_tag publicacion.video, controls: true, class: "embed-responsive-item" %>
+                      </div>
+                    <% end %>
+                    <p class="comentarios">
+                      <span >Comentarios: <%= publicacion.comments.count %></span>
+                    </p>
+                  <% end %>
+                </div>
+              <%end%>
+            </div>
+            <br>
+          <% end %>
+        <%end%>
+
         <%= turbo_frame_tag "publicacionss~#{@pagy.page}" do %>
           <!-- Lista de Publicaciones -->
           <h1 style="color: #FFFFFF;">Publicaciones</h1>

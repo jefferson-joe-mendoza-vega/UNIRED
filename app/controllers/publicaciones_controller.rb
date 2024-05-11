@@ -10,6 +10,17 @@ class PublicacionesController < ApplicationController
     load_faculty_publicaciones if params[:category_id].present? || params[:faculty_id].present?
     search_publicaciones if params[:query].present?
     @pagy, @publicaciones = pagy_countless(@publicaciones, items: 25)
+    
+    @publicaciones_fijadas_index = Publicacion.where(fijadaindex: true) unless params[:faculty_id].present?
+
+    
+    if params[:faculty_id].present?
+      @publicaciones_fijadas_facultad = Publicacion.where(fijada: true)
+      faculty_id = params[:faculty_id]
+      @publicaciones_fijadas_facultad = @publicaciones_fijadas_facultad.joins(:user).where(users: { faculty_id: faculty_id })
+    end
+
+
   end
 
   def show
