@@ -9,7 +9,7 @@ class PublicacionesController < ApplicationController
     @categories = Category.all
     load_faculty_publicaciones if params[:category_id].present? || params[:faculty_id].present?
     search_publicaciones if params[:query].present?
-    @pagy, @publicaciones = pagy_countless(@publicaciones, items: 10)
+    @pagy, @publicaciones = pagy_countless(@publicaciones, items: 5)
   end
 
   def show
