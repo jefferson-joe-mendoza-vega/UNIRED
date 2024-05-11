@@ -1,7 +1,8 @@
 
     .img-menu {
       width: 30px; /* Ajusta el tamaño según lo necesites */
-      margin-left: -10px; /* Mueve la imagen más a la izquierda */
+      margin-left: -5px; /* Mueve la imagen más a la izquierda */
+      margin-top: 40px; /* Mueve la imagen hacia abajo */
       animation: saltar 2s ease infinite; /* Agrega la animación de salto */
     }
     
