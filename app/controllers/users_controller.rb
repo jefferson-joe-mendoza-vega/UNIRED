@@ -16,8 +16,9 @@ class UsersController < ApplicationController
         @usuarios = User.where("promotion ILIKE ?", "%#{promotion_ano}%")
         @pagy, @usuarios = pagy_countless(@usuarios, items: 10)
       else
-        @usuarios = User.includes(:faculty).all
-        @pagy, @usuarios = pagy_countless(@usuarios, items: 10)
+        @usuarios = User.includes(:faculty).all.order(created_at: :desc)
+
+        @pagy, @usuarios = pagy_countless(@usuarios, items: 20)
       end
       
 
