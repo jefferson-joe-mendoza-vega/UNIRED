@@ -46,8 +46,8 @@ class PublicacionesController < ApplicationController
   end
 
   def destroy
-    autorizar! publicacion
-    publicacion.destroy
+    autorizar! @publicacion
+    @publicacion.destroy
     redirect_to publicaciones_path, notice: 'La publicación se ha eliminado correctamente.', status: :see_other
   end
 
