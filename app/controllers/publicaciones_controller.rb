@@ -29,7 +29,7 @@ class PublicacionesController < ApplicationController
   end
 
   def edit
-    autorizar! publicacion
+    autorizar! @publicacion
   end
 
   def tendencias
@@ -37,8 +37,8 @@ class PublicacionesController < ApplicationController
   end
 
   def update
-    autorizar! publicacion
-    if publicacion.update(publicacion_params)
+    autorizar! @publicacion
+    if @publicacion.update(publicacion_params)
       redirect_to publicaciones_path, notice: 'Tu publicación se ha actualizado correctamente.'
     else 
       render :edit, status: :unprocessable_entity
