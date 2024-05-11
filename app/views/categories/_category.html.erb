@@ -1,0 +1,13 @@
+<div id="<%= dom_id category %>">
+
+  <p>
+    <strong>Name:</strong>
+    <%= category.name %>
+  </p>
+  <%= link_to 'editar', edit_category_path(category) %>
+  <%= link_to 'eliminar categoria', category_path(category), data: {turbo_method: :delete, turbo_confirm: 'Estas seguro?'} %>
+
+</div>
+
+<table class="table table-hover">
+    <thead>

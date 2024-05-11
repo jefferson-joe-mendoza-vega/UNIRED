@@ -1,0 +1,21 @@
+<%= form_with(model: @user, url: usuario_path(@user.username), method: :patch) do |form| %>
+    <div class="field">
+      <%= form.label :facebook, "Facebook" %>
+      <%= form.text_field :facebook, id: :user_facebook %>
+    </div>
+  
+    <div class="field">
+      <%= form.label :whatsapp, "WhatsApp" %>
+      <%= form.text_field :whatsapp, id: :user_whatsapp %>
+    </div>
+  
+    <div class="field">
+      <%= form.label :telegram, "Telegram" %>
+      <%= form.text_field :telegram, id: :user_telegram %>
+    </div>
+  
+    <div class="actions">
+      <%= form.submit "Guardar" %>
+    </div>
+<% end %>
+  

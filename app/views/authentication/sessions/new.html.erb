@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Iniciar Sesión</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: #f8f9fa;
+            color: #495057;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        .login-form {
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            margin-top: 50px;
+        }
+
+        .form-group label {
+            font-weight: bold;
+        }
+
+        .form-control {
+            border-radius: 10px;
+        }
+
+        .btn-primary {
+            background-color: #007bff;
+            border: none;
+            border-radius: 10px;
+            font-weight: bold;
+        }
+
+        .btn-primary:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      <%= form_with(url: sessions_path, class: "login-form") do |form| %>        
+        <h2 class="text-center mb-4">Iniciar sesión</h2>
+
+        <% if flash[:danger] %>
+          <div class="alert alert-danger">
+            <%= flash[:danger] %>
+          </div>
+        <% end %>
+
+        <div class="form-group">
+          <%= form.label :login, class: "font-weight-bold" %>
+          <%= form.text_field :login, class: "form-control", placeholder: "Correo electrónico o nombre de usuario", autocapitalize: "off" %>
+        </div>
+        
+        <div class="form-group">
+          <%= form.label :password, class: "font-weight-bold" %>
+          <%= form.password_field :password, class: "form-control", placeholder: "Contraseña" %>
+        </div>
+      
+        <div class="form-group">
+          <%= form.submit "Iniciar sesión", class: "btn btn-primary btn-block" %>
+        </div>
+      <% end %>
+    </div>
+    <div class="text-center mt-3">
+        ¿Ya tienes una cuenta? <a href="<%= new_user_path %>">Registrate aquí</a>
+    </div>
+  </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

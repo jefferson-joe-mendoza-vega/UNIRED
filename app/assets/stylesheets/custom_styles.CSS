@@ -1,0 +1,19 @@
+.container {
+    display: inline-block;
+    padding: 10px 20px;
+    border-radius: 5px;
+    margin-bottom: 15px;
+    font-family: Arial, sans-serif;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.notice {
+    background-color: #d4edda; /* Verde claro para mensajes de éxito */
+    color: #155724; /* Color de texto para mensajes de éxito */
+}
+
+.alert {
+    background-color: #f8d7da; /* Rojo claro para mensajes de error */
+    color: #721c24; /* Color de texto para mensajes de error */
+}

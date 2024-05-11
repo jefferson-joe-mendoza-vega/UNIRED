@@ -1,0 +1,12 @@
+<div id="<%= dom_id faculty %>">
+
+  <p>
+    <strong>Name:</strong>
+    <%= faculty.name %>
+  </p>
+
+  <%= link_to 'eliminar faculty', faculty_path(faculty), data: {turbo_method: :delete, turbo_confirm: 'Estas seguro?'} %>
+
+</div>
+
+

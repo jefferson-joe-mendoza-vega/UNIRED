@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Red Social - Publicaciones</title>
+  <!-- Bootstrap CSS -->
+  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Font Awesome Icons -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+  <!-- Estilos personalizados -->
+  <%= stylesheet_link_tag 'index' %>
+</head>
+<body>
+  <!-- Columna de Categorías -->
+  <div class="sidebar">
+    <button class="toggle-btn">
+      <%= image_tag("tendencias.png", alt: "Menú", title: "Menú", class: "img-menu") %>
+    </button>
+    <ul class="menu">
+      <h2 style="color: white;">Te puede interesar</h2>
+      <li><a href="#"><%= link_to "Ver más perfiles", usuario_index_path, class: "btn btn-primary" %></a></li>
+      <li><a href="#"><%= link_to "Tendencias", tendencias_path, class: "btn btn-primary" %></a></li>
+      <h2 style="color: white;">Categorías</h2>
+      <div class="categories-container" style="max-height: 300px; overflow-y: auto;">
+        <%= render partial: 'category', collection: @categories %>
+      </div>
+      <div class="border-bottom mb-3"></div>
+      <li><a href="https://joesedux.000webhostapp.com/">Servicios</a></li>
+      <li><a href="https://wa.me/901905616">Contactanos</a></li>
+      <li><a href="https://t.me/+snUG4c4aVKczZDUx">Ayudanos a mejorar</a></li>
+    </ul>
+  </div>
+
+  <div class="container mt-5">
+    <div class="row">
+      <!-- Columna de Publicaciones -->
+      <div class="col-md-8">
+        <!-- Formulario de búsqueda -->
+        <%= form_with url: publicaciones_path, method: :get do |form| %>
+          <div class="form-group">
+            <div class="input-group">
+              <%= form.text_field :query, class: "form-control", placeholder: "🔍Buscar en forUnas" %>
+              <div class="input-group-append">
+                <%= form.submit "Buscar", class: "btn btn-primary" %>
+              </div>
+            </div>
+          </div>
+        <% end %>
+        <br>
+        <!-- Lista de enlaces para filtrar por facultad -->
+        <div class="facultades">
+          <strong><span class="filtrar">Filtrar todas las publicaciones por facultad:</span></strong>
+          <div class="scroll-horizontal">
+            <div class="btn-group">
+              <% Faculty.all.each do |faculty| %>
+                <%= link_to faculty.name, publicaciones_path(faculty_id: faculty.id), class: "btn btn-warning me-md-3 mb-2 mb-md-0", role: "button" %>
+              <% end %>
+            </div>
+          </div>
+        </div>
+        <br>
+        <strong class="exclusive-heading">
+          <h2 class="facultad_filtrada"><%= @faculty_name %></h2>
+        </strong>
+        <br>
+        <div class="col-4 text-end">
+          <!-- Botón de nueva publicación -->
+          <% if Current.user %>
+            <div class="d-grid gap-2 d-md-flex justify-content-md-end ms-auto">
+              <%= link_to(nueva_publicacion_path, class: "btn btn-warning btn-md") do %>
+                <i class="bi bi-journal-plus me-2"></i> Nueva publicación
+              <% end %>
+            </div>
+          <% end %>
+        </div>
+        <br>
+        <%= turbo_frame_tag "publicacionss~#{@pagy.page}" do %>
+          <!-- Lista de Publicaciones -->
+          <h1 style="color: #FFFFFF;">Publicaciones</h1>
+          <% @publicaciones.each do |publicacion| %>
+            <div class="card my-0">
+              <div class="card-body">
+                <!-- Contenedor del nombre de usuario -->
+                <% if publicacion.mostrar_nombre? %>
+                  <strong ></strong>
+                <% else%>
+                  <div class="usuario">
+                    <div class="nombre-usuario">
+                      <i class="bi bi-person me-2" style="font-size: 32px;"></i>
+                      <strong ><%= link_to "#{publicacion.user.username} - #{publicacion.user.faculty.name}", usuario_path(publicacion.user.username), style: "color: white;", data: { turbo_frame: '_top' }%></strong>
+                      <% if publicacion.user.verified %>
+                        <span class="badge bg-success">Verificado</span>
+                      <% end %>
+                      <% if publicacion.user.admin %>
+                        <span class="badge bg-primary">Administrador</span>
+                      <% end %>
+                    </div>
+                  </div>
+                <% end %>
+                <!-- Contenido de la publicación -->
+                <p class="fecha-publicacion"><i class="far fa-calendar-alt"></i> <%= publicacion.created_at.strftime("%d/%m/%Y %H:%M") %></p>
+                <%= link_to publicacion_path(publicacion.id), style: "color: black;", data: { turbo_frame: '_top' } do %>
+                  <strong><h3 style="color: white;"><%= publicacion.titulo %></h3></strong>
+                  <% if publicacion.imagen.attached? %>
+                    <%= image_tag publicacion.imagen, class: "img-fluid", alt: "Imagen de la publicación" %>
+                  <% else %>
+                    <div class="placeholder-image"></div>
+                      <p class="descripcion-publicacion" style="color: white;">
+                        <% truncated_description = truncate(publicacion.descripcion, length: 150) %>
+                        <% lines = truncated_description.lines.take(6) %>
+                        <%= simple_format(lines.join) %>
+                        <% if publicacion.descripcion.lines.count > 6 %>
+                          <%= link_to 'Leer más', '#', class: 'leer-mas' %>
+                        <% end %>
+                        <span class="descripcion-completa" style="display:none;">
+                          <%= simple_format(publicacion.descripcion) %>
+                          <%= link_to 'Leer menos', '#', class: 'leer-menos', style: 'display:none;' %>
+                        </span>
+                      </p>
+                  <% end %>
+                  <% if publicacion.video.attached? %>
+                    <div class="embed-responsive embed-responsive-16by9">
+                      <%= video_tag publicacion.video, controls: true, class: "embed-responsive-item" %>
+                    </div>
+                  <% end %>
+                  <p class="comentarios">
+                    <span >Comentarios: <%= publicacion.comments.count %></span>
+                  </p>
+                <% end %>
+                <!-- MOSTRAR REACCIONES DESTACADAS -->   
+                <% destacadas = publicacion.reactions.group(:reaction_type).count.sort_by { |_, v| -v }.first(3) %>
+                <% if destacadas.present? %>
+                  <div class="reacciones-destacadas">
+                    <%= link_to reacciones_path(publicacion_id: publicacion.id), data: { turbo_frame: '_top' } do %>
+                      <% destacadas.each do |tipo, cantidad| %>
+                        <%= "#{tipo.humanize.capitalize}" "#{cantidad}" if tipo.present? %>
+                      <% end %>
+                    <% end %>
+                  </div>
+                <% end %>
+                <!-- CONTENEDOR PARA REACCIONAR-->
+                <% me_divierte_count = publicacion.reactions.where(reaction_type: 'me_divierte').count %>
+                <% me_gusta_count = publicacion.reactions.where(reaction_type: 'me_gusta').count %>
+                <% me_encanta_count = publicacion.reactions.where(reaction_type: 'me_encanta').count %> 
+                <% me_asombra_count = publicacion.reactions.where(reaction_type: 'me_asombra').count %> 
+                <% me_entristece_count = publicacion.reactions.where(reaction_type: 'me_entristece').count %> 
+                <% me_enoja_count = publicacion.reactions.where(reaction_type: 'me_enoja').count %> 
+                <div class="border-bottom mb-3"></div>
+                <% if Current.user %>
+                  <%= link_to reactions_path(publicacion_id: publicacion.id, reaction_type: :me_gusta), method: :post, remote: true do %>
+                    <button class="like" onclick="selectReaction(this)">
+                      <i class="fas fa-thumbs-up"></i> <%= me_gusta_count %>
+                    </button>
+                  <% end %>
+                  <%= link_to reactions_path(publicacion_id: publicacion.id, reaction_type: :me_encanta), method: :post, remote: true do %>
+                    <button class="heart" onclick="selectReaction(this)">
+                      <i class="fas fa-heart"></i> <%= me_encanta_count %>
+                    </button>
+                  <% end %>
+                  <%= link_to reactions_path(publicacion_id: publicacion.id, reaction_type: :me_divierte), method: :post, remote: true do %>
+                    <button class="laugh" onclick="selectReaction(this)">
+                      <i class="fas fa-laugh"></i> <%= me_divierte_count %>
+                    </button>
+                  <% end %>
+                  <%= link_to reactions_path(publicacion_id: publicacion.id, reaction_type: :me_asombra), method: :post, remote: true do %>
+                    <button class="sad" onclick="selectReaction(this)">
+                      <i class="fas fa-sad-tear"></i> <%= me_asombra_count %>
+                    </button>
+                  <% end %>
+                  <%= link_to reactions_path(publicacion_id: publicacion.id, reaction_type: :me_entristece), method: :post, remote: true do %>
+                    <button class="angry" onclick="selectReaction(this)">
+                      <i class="fas fa-sad-tear"></i> <%= me_entristece_count %>
+                    </button>
+                  <% end %>
+                  <%= link_to reactions_path(publicacion_id: publicacion.id, reaction_type: :me_enoja), method: :post, remote: true do %>
+                    <button class="angry" onclick="selectReaction(this)">
+                      <i class="fas fa-angry"></i> <%= me_enoja_count %>
+                    </button>
+                  <% end %>
+                <% end %>
+              </div>
+            </div>
+            <br>
+          <% end %>
+          <%= turbo_frame_tag "publicacionss~#{@pagy.next}", src: pagy_url_for(@pagy,@pagy.next), loading: :lazy if @pagy.next %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bootstrap JS (opcional, si lo necesitas) -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+</body>
+<script type="text/javascript">
+  $(document).ready(function() {
+    $('.leer-mas').click(function(e) {
+      e.preventDefault();
+      $(this).hide();
+      $(this).siblings('.descripcion-completa').show();
+      $(this).siblings('.leer-menos').show();
+    });
+
+    $('.leer-menos').click(function(e) {
+      e.preventDefault();
+      $(this).hide();
+      $(this).siblings('.descripcion-completa').hide();
+      $(this).siblings('.leer-mas').show();
+    });
+  });
+  document.querySelector('.toggle-btn').addEventListener('click', function() {
+    document.querySelector('.sidebar').classList.toggle('show');
+  });
+  // Cuando cambia la selección del desplegable, enviar automáticamente el formulario
+  document.addEventListener("DOMContentLoaded", function() {
+    const selectFacultad = document.querySelector("#faculty_id");
+    selectFacultad.addEventListener("change", function() {
+      document.querySelector("#filtro-form").submit();
+    });
+  });
+
+  function selectReaction(button) {
+    // Remover la clase 'selected' de todos los botones de reacción
+    document.querySelectorAll('.reacciones button').forEach(btn => {
+        btn.classList.remove('selected');
+    });
+
+    // Agregar la clase 'selected' al botón de reacción clicado
+    button.classList.add('selected');
+  }
+</script>
+</html>

@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Editar Publicación</title>
+  <!-- Bootstrap CSS -->
+  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+  <style>
+    body {
+        background-color: #f8f9fa;
+        color: #495057;
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+    }
+
+    .card-header {
+        background-color: #007bff;
+        color: #fff;
+    }
+
+    .form-control {
+        border-radius: 10px;
+    }
+
+    .btn-primary {
+        background-color: #007bff;
+        border: none;
+        border-radius: 10px;
+        font-weight: bold;
+    }
+
+    .btn-primary:hover {
+        background-color: #0056b3;
+    }
+
+    /* Estilo personalizado para la caja de descripción */
+    .descripcion-textarea {
+        max-height: 120px; /* Altura máxima de cinco líneas */
+        overflow-y: auto; /* Habilitar el desplazamiento vertical */
+    }
+  </style>
+</head>
+<body>
+  <div class="container mt-5">
+    <div class="row justify-content-center">
+      <div class="col-md-6">
+        <div class="card">
+          <div class="card-header bg-primary text-white">
+            <h4 class="card-title text-center mb-0">Editar Publicación</h4>
+          </div>
+          <div class="card-body">
+            <%= form_with model: @publicacion, html: { class: "form" } do |form| %>
+              <% @publicacion.errors.full_messages.each do |error| %>
+                <div class="alert alert-danger" role="alert">
+                  <%= error %>
+                </div>
+              <% end %>
+              
+              <div class="form-group">
+                <%= form.label :titulo, class: "font-weight-bold" %>
+                <%= form.text_field :titulo, class: "form-control", placeholder: "Ingrese el título de la publicación" %>
+              </div>
+
+              <div class="form-group">
+                <%= form.label :descripcion, class: "font-weight-bold" %>
+                <%= form.text_area :descripcion, class: "form-control descripcion-textarea", placeholder: "Ingrese la descripción de la publicación", rows: "5" %>
+              </div>
+
+              <div class="form-group">
+                <%= form.label :category_id, "Categoría", class: "font-weight-bold" %>
+                <%= form.collection_select :category_id, Category.all.order(name: :asc), :id, :name, { prompt: "Selecciona una categoría" }, class: "form-control" %>
+              </div>
+
+              <div class="form-group">
+                <%= form.label :imagen, "Adjuntar imagen", class: "font-weight-bold" %>
+                <%= form.file_field :imagen, class: "form-control-file", id: "imagen-input", onchange: "previewFile('imagen')" %>
+                <img src="#" alt="Vista previa de imagen" id="imagen-preview" style="display: none; max-width: 100%; height: auto;">
+                <button type="button" class="btn btn-danger mt-2" id="remove-imagen" style="display: none;" onclick="removeFile('imagen')">Eliminar Imagen</button>
+              </div>
+
+              <div class="form-group">
+                <%= form.label :video, "Adjuntar video", class: "font-weight-bold" %>
+                <%= form.file_field :video, class: "form-control-file", id: "video-input", onchange: "previewFile('video')" %>
+                <video src="#" alt="Vista previa de video" id="video-preview" style="display: none; max-width: 100%;" controls></video>
+                <button type="button" class="btn btn-danger mt-2" id="remove-video" style="display: none;" onclick="removeFile('video')">Eliminar Video</button>
+              </div>
+
+              <div class="form-check">
+                <%= form.label :mostrar_nombre, "No Mostrar Nombre", class: "form-check-label font-weight-bold" %>
+                <%= form.check_box :mostrar_nombre, class: "form-check-input" %>
+              </div>
+
+              <% if Current.user && Current.user.admin? %>
+                <div class="form-group">
+                  <%= form.label :fijada, "Fijar publicación por facultad", class: "font-weight-bold" %>
+                  <%= form.check_box :fijada, class: "form-check-input" %>
+                </div>
+                <div class="form-group">
+                  <%= form.label :fijada, "Fijar publicación en index", class: "font-weight-bold" %>
+                  <%= form.check_box :fijadaindex, class: "form-check-input" %>
+                </div>
+              <% end %>
+
+              <div class="form-group">
+                <%= form.submit "Guardar cambios", class: "btn btn-primary btn-block" %>
+              </div>
+            <% end %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+
+  <!-- Bootstrap JS (opcional, si lo necesitas) -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+  <script>
+    function previewFile(type) {
+      const fileInput = document.querySelector(`#${type}-input`);
+      const preview = document.querySelector(`#${type}-preview`);
+      const removeButton = document.querySelector(`#remove-${type}`);
+
+      const file = fileInput.files[0];
+      const reader = new FileReader();
+
+      reader.addEventListener("load", function () {
+        preview.src = reader.result;
+        preview.style.display = "block";
+        removeButton.style.display = "block";
+      }, false);
+
+      if (file) {
+        reader.readAsDataURL(file);
+      }
+    }
+
+    function removeFile(type) {
+      const fileInput = document.querySelector(`#${type}-input`);
+      const preview = document.querySelector(`#${type}-preview`);
+      const removeButton = document.querySelector(`#remove-${type}`);
+
+      fileInput.value = ""; // Reset file input
+      preview.src = "#"; // Reset preview src
+      preview.style.display = "none"; // Hide preview
+      removeButton.style.display = "none"; // Hide remove button
+    }
+    
+    // Función para mostrar u ocultar los botones de eliminar según la selección
+    document.querySelectorAll('.form-control-file').forEach(function(input) {
+      input.addEventListener('change', function() {
+        const type = this.id.split('-')[0];
+        const removeButton = document.querySelector(`#remove-${type}`);
+        if (this.files.length > 0) {
+          removeButton.style.display = "block";
+        } else {
+          removeButton.style.display = "none";
+        }
+      });
+    });
+  </script>
+</body>
+</html>

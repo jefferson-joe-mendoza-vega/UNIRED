@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Usuarios</title>
+  <!-- Bootstrap CSS -->
+  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Font Awesome -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Roboto', sans-serif;
+      background-color: #000;
+      color: #fff;
+      margin: 0;
+      padding: 0;
+    }
+    .container {
+      max-width: 800px;
+    }
+    .card {
+      border: none;
+      box-shadow: 0px 0px 20px rgba(255, 255, 255, 0.1);
+      transition: transform 0.3s ease;
+      background-color: #222;
+    }
+    .card:hover {
+      transform: translateY(-5px);
+    }
+    .card-title {
+      color: #fff;
+      font-size: 18px;
+      font-weight: bold;
+    }
+    .card-text {
+      color: #ccc;
+      font-size: 14px;
+    }
+    .input-group {
+      margin-bottom: 20px;
+    }
+    .form-control {
+      border-radius: 20px;
+      background-color: #333;
+      color: #fff;
+    }
+    .btn-primary {
+      background-color: #007bff;
+      border-color: #007bff;
+      transition: background-color 0.3s ease;
+    }
+    .btn-primary:hover {
+      background-color: #0056b3;
+      border-color: #0056b3;
+    }
+    .btn-danger {
+      background-color: #dc3545;
+      border-color: #dc3545;
+      transition: background-color 0.3s ease;
+    }
+    .btn-danger:hover {
+      background-color: #c82333;
+      border-color: #bd2130;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container mt-5">
+  <!-- Formulario de búsqueda -->
+  <form action="<%= usuario_index_path %>" method="get" class="form-inline">
+    <div class="input-group input-group-lg">
+      <input type="text" name="query" class="form-control" placeholder="Buscar por @nombre o !facultad o #promo" style="width: 450px;">
+      <div class="input-group-append">
+        <button type="submit" class="btn btn-primary">Buscar</button>
+      </div>
+    </div>
+  </form>
+
+  <!-- Listado de usuarios -->
+  <div class="row">
+    <% @usuarios.each do |usuario| %>
+      <div class="col-md-4 mb-4">
+        <div class="card h-100 shadow">
+          <div class="card-body">
+             <i class="bi bi-person me-2" style="font-size: 32px;"></i>
+            <h5 class="card-title"><%= usuario.username %></h5>
+            <% if usuario.faculty %>
+              <p class="card-text"><strong>Facultad:</strong> <%= usuario.faculty.name %> - <%= usuario.promotion %></p>
+            <% end %>
+            <p class="card-text"><strong>Publicaciones:</strong> <%= usuario.publicacions.count %></p>
+            <% if Current.user && Current.user.admin? %>
+              <a href="<%= eliminar_usuario_path(usuario.id) %>" class="btn btn-danger btn-sm mr-2" data-turbo-method="delete" data-turbo-confirm="¿Estás seguro?">Eliminar Usuario</a>
+            <% end %>
+            <a href="<%= usuario_path(usuario.username) %>" class="btn btn-primary btn-sm">Ver perfil</a>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>
+
+<!-- Bootstrap JS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+</body>
+</html>

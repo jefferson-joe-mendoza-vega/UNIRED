@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Reacciones de la Publicación</title>
+  <!-- Bootstrap CSS -->
+  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Font Awesome Icons -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
+  <!-- Estilos personalizados -->
+  <style>
+    /* Estilos para el encabezado */
+    h1 {
+      color: #333;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+
+    /* Estilos para las tarjetas */
+    .card {
+      border: none;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      margin-bottom: 20px;
+    }
+
+    /* Estilos para el cuerpo de la tarjeta */
+    .card-body {
+      padding: 20px;
+    }
+
+    /* Estilos para el texto de la tarjeta */
+    .card-text {
+      color: #333;
+      font-size: 18px;
+      margin-bottom: 10px;
+    }
+
+    /* Estilos para los iconos de reacciones */
+    .reaction-icons {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 20px;
+    }
+
+    /* Estilos para cada icono de reacción */
+    .reaction-icon {
+      font-size: 28px;
+      color: #666;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Reacciones de la Publicación</h1>
+
+    <% if @reactions.any? %>
+      <% @reactions.group_by(&:reaction_type).each do |reaction_type, reactions| %>
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">Tipo de Reacción: <%= reaction_type %></h5>
+            <% reactions.each do |reaction| %>
+              <p class="card-text">Usuario: <%= reaction.user.username %></p>
+              <!-- Otros detalles de la reacción si es necesario -->
+            <% end %>
+            <!-- Iconos de reacciones -->
+            <div class="reaction-icons">
+              <!-- Icono correspondiente a la reacción -->
+              <% case reaction_type %>
+                <% when 'me_gusta' %>
+                  <i class="far fa-thumbs-up reaction-icon"></i>
+                <% when 'me_encanta' %>
+                  <i class="far fa-heart reaction-icon"></i>
+                <% when 'me_divierte' %>
+                  <i class="far fa-laugh-squint reaction-icon"></i>
+                <% when 'me_asombra' %>
+                  <i class="far fa-surprise reaction-icon"></i>
+                <% when 'me_entristese' %>
+                  <i class="far fa-sad-tear reaction-icon"></i>
+                <% when 'me_enoja' %>
+                  <i class="far fa-angry reaction-icon"></i>
+              <% end %>
+              <!-- Cantidad de reacciones -->
+              <span class="text-muted"><%= reactions.count %></span>
+            </div>
+          </div>
+        </div>
+      <% end %>
+    <% else %>
+      <p class="text-center">No hay reacciones para esta publicación.</p>
+    <% end %>
+  </div>
+
+  <!-- Bootstrap JS -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

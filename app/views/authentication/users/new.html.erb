@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro de Usuario</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: #f8f9fa;
+            color: #495057;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        .card {
+            border-radius: 15px;
+            box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .card-header {
+            background-color: #007bff;
+            color: #fff;
+            border-radius: 15px 15px 0 0;
+        }
+
+        .card-title {
+            font-size: 24px;
+            font-weight: bold;
+            text-align: center;
+            margin: 0;
+            padding: 15px 0;
+        }
+
+        .card-body {
+            padding: 20px;
+        }
+
+        .form-group label {
+            font-weight: bold;
+        }
+
+        .form-control {
+            border-radius: 10px;
+        }
+
+        .btn-primary {
+            background-color: #007bff;
+            border: none;
+            border-radius: 10px;
+            font-weight: bold;
+        }
+
+        .btn-primary:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+<br>
+<div class="container">
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      <div class="card">
+        <div class="card-header">
+          <h4 class="card-title text-center">Registro de Usuario</h4>
+        </div>
+        <div class="card-body">
+          <%= form_with(model: @user, class: "user-form") do |form| %>
+            <% if @user.errors.any? %>
+              <div class="alert alert-danger" role="alert">
+                <ul>
+                  <% @user.errors.full_messages.each do |error| %>
+                    <li><%= error %></li>
+                  <% end %>
+                </ul>
+              </div>
+            <% end %>
+
+            <div class="form-group">
+              <%= form.label :emails %>
+              <%= form.email_field :emails, class: "form-control", placeholder: "Ingrese su correo electrónico" %>
+            </div>
+
+            <div class="form-group">
+              <%= form.label :username %>
+              <%= form.text_field :username, class: "form-control", placeholder: "Ingrese su nombre de usuario" %>
+            </div>
+
+            <div class="form-group">
+              <label for="faculty">Faculty</label>
+              <select class="form-control" id="faculty" name="faculty_id">
+                <!-- Iterar sobre las facultades -->
+                <% Faculty.all.order(name: :asc).each do |faculty| %>
+                  <option value="<%= faculty.id %>"><%= faculty.name %></option>
+                <% end %>
+              </select>
+            </div>
+              
+            <div class="form-group">
+              <%= form.label :promocion %>
+              <%= form.text_field :promotion, class: 'form-control', placeholder: "ingrese el ano de su ingreso" %>
+            </div>
+
+            <div class="form-group">
+              <%= form.label :password %>
+              <%= form.password_field :password, class: "form-control", placeholder: "Ingrese su contraseña" %>
+            </div>
+            <br>
+            <div class="form-group">
+              <%= form.submit "Registrarse", class: "btn btn-primary btn-block" %>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

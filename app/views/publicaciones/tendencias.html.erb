@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Publicaciones</title>
+  <!-- Bootstrap CSS -->
+  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Font Awesome -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Roboto', sans-serif;
+      background-color: #333; /* Cambio de color de fondo */
+      color: #fff; /* Cambio de color de texto */
+      margin: 0;
+      padding: 0;
+    }
+    .container {
+      max-width: 800px;
+      margin-top: 50px; /* Aumento del margen superior */
+    }
+    .card {
+      border: none;
+      box-shadow: 0px 0px 20px rgba(255, 255, 255, 0.1); /* Cambio de sombra */
+      transition: transform 0.3s ease;
+      background-color: #444; /* Cambio de color de fondo de la tarjeta */
+    }
+    .card:hover {
+      transform: translateY(-5px);
+    }
+    .card-title {
+      color: #ffd700; /* Cambio de color del título */
+    }
+    .usuario {
+      color: withe; /* Cambio de color del usuario */
+    }
+    .card-link {
+      text-decoration: none;
+      color: inherit;
+    }
+    .card-link:hover {
+      text-decoration: none;
+      color: inherit;
+    }
+    .placeholder-image {
+      height: 200px;
+      background-color: #666; /* Cambio de color del marcador de posición de la imagen */
+    }
+  </style>
+</head>
+<body>
+<br>
+
+<div class="container">
+  <h2 class="text-center mb-4">Publicaciones Top 5 en tendencia semanal</h2>
+  <div class="row">
+    <% @publicaciones.each do |publicacion| %>
+      <div class="col-md-6 mb-4">
+        <div class="card">
+          <!-- Contenido de la publicación -->
+          <%= link_to publicacion_path(publicacion.id), class: "card-link", data: { turbo_frame: '_top' } do %>
+            <% if publicacion.imagen.attached? %>
+              <%= image_tag publicacion.imagen, class: "card-img-top", alt: "Imagen de la publicación" %>
+            <% elsif publicacion.video.attached? %>
+              <div class="embed-responsive embed-responsive-16by9">
+                <%=video_tag publicacion.video, controls: true, class: "embed-responsive-item" %>
+              </div>
+            <% elsif %>
+              <div class="placeholder-image card-img-top"></div>
+            <% end %>
+            
+            <div class="card-body">
+              <h5 class="card-title"><%= publicacion.titulo %></h5>
+              <!-- Contenedor del nombre de usuario -->
+              <div class="usuario mb-3">
+                <i class="bi bi-person me-2" style="font-size: 20px;"></i>
+                <strong ><%= link_to "#{publicacion.user.username} - #{publicacion.user.faculty.name}", usuario_path(publicacion.user.username), data: { turbo_frame: '_top' } %></strong>
+              </div>
+              <!-- Otros detalles de la publicación -->
+              <%#<p class="card-text"><strong>Comentarios:</strong> <%= publicacion.comments.count %>
+              <p class="card-text"><small class="text-muted"><i class="far fa-calendar-alt me-1"></i><%= publicacion.created_at.strftime("%d/%m/%Y %H:%M") %></small></p>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>
+
+<!-- Bootstrap JS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,70 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <div class="container">
+    <!-- Marca del Navbar -->
+    <%= link_to(publicaciones_path, class: "navbar-brand") do %>
+      <h1 class="m-0 text-white">forUNAS</h1>
+    <% end %>
+    
+    <!-- Botón de desplegar en dispositivos pequeños -->
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    
+    <!-- Contenido del Navbar -->
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ml-auto">
+        
+        <!-- Enlace a la página de perfil del usuario actual -->
+        <% if Current.user.present? %>
+          <li class="nav-item">
+            <%= link_to usuario_path(Current.user.username), class: "nav-link text-white" do %>
+              <i class="fas fa-user"></i> <%= Current.user.username %>
+            <% end %>
+          </li>
+        <% end %>
+        
+        <!-- Enlace a la página de notificaciones -->
+        <% if Current.user.present? %>
+          <% unread_notifications = Current.user.notifications.where(read: false) %>
+          <li class="nav-item">
+            <%= link_to notifications_path, class: "nav-link text-white" do %>
+              <i class="fas fa-bell"></i>
+              <span class="badge badge-danger"><%= unread_notifications.count %></span>
+            <% end %>
+          </li>
+        <% end %>
+
+        <!-- Menú desplegable para el usuario administrador -->
+        <% if Current.user && Current.user.admin? %>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle text-white" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <i class="fas fa-cogs"></i> Administrador
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <%= link_to 'Categorías', categories_path, class: "dropdown-item text-dark" %>
+              <!-- Puedes agregar más opciones aquí si es necesario -->
+              <%= link_to 'Facultades', faculties_path, class: "dropdown-item text-dark" %>
+            </div>
+          </li>
+        <% end %>
+        
+        <!-- Enlace para cerrar sesión -->
+        <% if Current.user %>
+          <li class="nav-item">
+            <%= link_to 'Cerrar sesión', session_path(1), class: "nav-link text-white", data: { turbo_method: :delete, turbo_confirm: '¿Estás seguro?' } %>
+          </li>
+        <% end %>
+        
+        <!-- Enlaces para iniciar sesión y registrarse -->
+        <% if User.none? || Current.user.nil? %>
+          <li class="nav-item">
+            <%= link_to 'Iniciar sesión', new_session_path, class: "nav-link text-white" %>
+          </li>
+          <li class="nav-item">
+            <%= link_to 'Registrarse', new_user_path, class: "nav-link text-white" %>
+          </li>
+        <% end %>
+      </ul>
+    </div>
+  </div>
+</nav>

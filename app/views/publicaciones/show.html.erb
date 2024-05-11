@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Red Social - Publicaciones</title>
+  <!-- Bootstrap CSS -->
+  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Font Awesome Icons -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+  <!-- Estilos personalizados -->
+  <%= stylesheet_link_tag 'show' %>
+
+</head>
+<body>
+  <div class="container mt-5">
+    <div class="row justify-content-center">
+      <div class="col-md-8">
+        <div class="card shadow">
+          <% if @publicacion.mostrar_nombre? %>
+            <strong ></strong>
+          <% else%>
+            <div class="card-header">
+              <h1 class="text-center">Usuario: <%= @publicacion.user.username %></h1>
+            </div>
+          <%end%>
+          <div class="card-body">
+            <div class="text-center mb-4">
+              <% if @publicacion.imagen.attached? %>
+                <%= image_tag @publicacion.imagen, width: 400, class: "img-fluid rounded" %>
+              <% elsif @publicacion.video.attached? %>
+                <%= video_tag @publicacion.video, controls: true, class: "img-fluid rounded" %>
+              <% end %>
+            </div>
+            <p class="lead text-center"><%= auto_link(simple_format(@publicacion.descripcion)) %></p>
+            <p class="text-muted text-center mb-4"><i class="bi bi-calendar-check"></i><%= @publicacion.created_at.strftime("%d/%m/%Y %H:%M") %></p>
+
+            <!-- MOSTRAR REAACCIONES DESTACADAS -->
+                <% destacadas = @publicacion.reactions.group(:reaction_type).count.sort_by { |_, v| -v }.first(3) %>
+                <% if destacadas.present? %>
+                  <div class="reacciones-destacadas">
+                    <%= link_to reacciones_path(publicacion_id: @publicacion.id), data: { turbo_frame: '_top' } do %>
+                      <% destacadas.each do |tipo, cantidad| %>
+                        <%= "#{tipo.humanize.capitalize}" "#{cantidad}" if tipo.present? %>
+                      <% end %>
+                    <% end %>
+                  </div>
+                <% end %>
+            
+
+            <div class="d-grid gap-2 d-md-flex justify-content-md-center">
+              <% if @publicacion.user.id == session[:user_id] || (Current.user && Current.user.admin?) %>
+                <%= link_to editar_publicacion_path(@publicacion), class: "btn btn-warning me-md-3 mb-2 mb-md-0", data: { turbo_frame: '_top' } do %>
+                  <i class="bi bi-pencil-fill me-1"></i> Editar
+                <% end %>
+              <% end %>
+
+              <% if @publicacion.user.id == session[:user_id] || (Current.user && Current.user.admin?) %>
+                <%= link_to eliminar_publicacion_path(@publicacion), class: "btn btn-danger", data: { turbo_method: :delete, turbo_confirm: '¿Estás seguro?' } do %>
+                  <i class="bi bi-trash-fill me-1"></i> Eliminar
+                <% end %>
+              <% end %>
+
+              
+            
+
+
+              <!-- app/views/publicaciones/show.html.erb -->
+
+              <!-- Agregar más botones según sea necesario -->
+              <% if @publicacion.mostrar_nombre? %>
+                <% if (Current.user && Current.user.admin?) %>
+                  <%= link_to usuario_path(@publicacion.user.username), class: "btn btn-primary" do %>
+                    <i class="bi bi-person me-1"></i> Ver perfil 
+                  <% end %>
+                <% end %>
+                 
+              <% else%>
+                <% if @publicacion.user.id != session[:user_id] ||  Current.user.admin?%>
+                  <%= link_to usuario_path(@publicacion.user.username), class: "btn btn-primary" do %>
+                    <i class="bi bi-person me-1"></i> Ver perfil 
+                  <% end %>
+                <% end %>
+              <% end%>
+
+              <div class="dropdown">
+                <button class="btn btn-secondary dropdown-toggle" type="button" id="btn-compartir" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  Compartir <i class="fas fa-share"></i>
+                </button>
+                <div class="dropdown-menu" aria-labelledby="btn-compartir">
+                  <!-- Opciones de compartir con iconos, colores y tooltips mejorados -->
+                  
+                  <button id="btn-compartir-whatsapp" class="dropdown-item" data-toggle="tooltip" title="Compartir en WhatsApp">
+                    <i class="fab fa-whatsapp fa-lg text-success mr-2"></i> WhatsApp
+                  </button>
+                  <button id="btn-compartir-facebook" class="dropdown-item" data-toggle="tooltip" title="Compartir en Facebook">
+                    <i class="fab fa-facebook fa-lg text-primary mr-2"></i> Facebook
+                  </button>
+                  <button id="btn-compartir-twitter" class="dropdown-item" data-toggle="tooltip" title="Compartir en Twitter">
+                    <i class="fab fa-twitter fa-lg text-info mr-2"></i> Twitter
+                  </button>
+                </div>
+              </div>
+
+
+
+
+
+              
+              
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="container mt-4">
+    <%= turbo_frame_tag 'comentarios' do %>
+      <h2>Comentarios(<%= @publicacion.comments.count %>)</h2>
+      <div class="comentarios-container" style="max-height: 300px; overflow-y: auto;">
+        <% @comments.order(created_at: :desc).each do |comment| %>
+          <div class="card mb-3">
+            <div class="card-body">
+              <p class="card-text"><strong><%= comment.user.username %>:</strong> <%= comment.content %></p>
+              <p class="card-text text-muted"><small><em>Publicado el <%= comment.created_at.strftime("%d de %B de %Y a las %H:%M") %></em></small></p>
+              <!-- Desplegable para respuestas -->
+              <div class="accordion" id="respuestasAccordion<%= comment.id %>">
+                <div class="accordion-item">
+                  <h2 class="accordion-header" id="headingRespuestas<%= comment.id %>">
+                    <button class="accordion-button collapsed" type="button" data-toggle="collapse" data-target="#collapseRespuestas<%= comment.id %>" aria-expanded="false" aria-controls="collapseRespuestas<%= comment.id %>">
+                      Ver Respuestas (<%= @respuestas.where(comment_id: comment.id).count %>)
+                    </button>
+                  </h2>
+                  <div id="collapseRespuestas<%= comment.id %>" class="accordion-collapse collapse" aria-labelledby="headingRespuestas<%= comment.id %>" data-parent="#respuestasAccordion<%= comment.id %>">
+                    <div class="accordion-body">
+                      <!-- Contenedor de respuestas -->
+                      <div class="respuestas-container">
+                        <% @respuestas.where(comment_id: comment.id).order(created_at: :desc).each do |respuesta| %>
+                          <span style="font-size: small;" class="respuesta-respuesta"> <%= respuesta.created_at.strftime("%d/%m/%Y %H:%M") %></span>
+                          <p class="card-text respuesta-respuesta">
+                            <%= content_tag :strong, respuesta.user.username + ":", class: "respuesta-username" %>
+                            <%= content_tag :span, respuesta.content, class: "respuesta-content" %>
+                          </p>
+
+                        <% end %>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- Contenedor para escribir respuesta -->
+              <div class="response-form mt-3">
+                <%= form_with model: Response.new, url: responses_path(comment_id: comment.id), class: "response-form" , data: { turbo_frame: '_top' }  do |form| %>
+                  <%= form.hidden_field :comment_id, value: comment.id %>
+                  <%= form.hidden_field :user_id, value: session[:user_id] %>
+                  <%= form.text_area :content, placeholder: "Escribe tu respuesta aquí...", class: "form-control mb-3" %>
+                  <%= form.submit "Responder", class: "btn btn-primary" %>
+                <% end %>
+              </div>
+            </div>
+          </div>
+        <% end %>
+      </div>
+
+      <%= form_with model: Comment.new, url: comments_path, class: "mt-4" , data: { turbo_frame: '_top' } do |form| %>
+        <%= form.hidden_field :publicacion_id, value: @publicacion.id %>
+        <%= form.hidden_field :user_id, value: session[:user_id] %>
+        <%= form.text_area :content, placeholder: "Escribe tu comentario aquí...", class: "form-control mb-3" %>
+        <%= form.submit "Comentar", class: "btn btn-primary" %>
+      <% end %>
+    <%end%>
+  </div>
+
+  <!-- Bootstrap JS (opcional, si lo necesitas) -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  <!-- Script para el funcionamiento de los desplegables -->
+  <script>
+    $(document).ready(function() {
+      $('.accordion-button').click(function() {
+        $(this).toggleClass('collapsed');
+      });
+    });
+
+   
+    document.addEventListener('DOMContentLoaded', function() {
+      var btnCompartirTwitter = document.getElementById('btn-compartir-twitter');
+      var btnCompartirWhatsApp = document.getElementById('btn-compartir-whatsapp');
+      var btnCompartirFacebook = document.getElementById('btn-compartir-facebook');
+      var tituloPublicacion = '<%= @publicacion.titulo %>'; // Obteniendo el título de la publicación desde Rails
+
+      btnCompartirTwitter.addEventListener('click', function() {
+        var url = window.location.href;
+        var mensaje = '¡Mira esta publicación en mi red social!';
+        var compartirEnlace = 'https://twitter.com/intent/tweet?url=' + encodeURIComponent(url) + '&text=' + encodeURIComponent(mensaje);
+        
+        window.open(compartirEnlace, '_blank');
+      });
+
+      btnCompartirWhatsApp.addEventListener('click', function() {
+        var url = window.location.href;
+        var mensaje = '¡Mira esta publicación: ' + tituloPublicacion + '!';
+        var compartirEnlace = 'https://api.whatsapp.com/send?text=' + encodeURIComponent(mensaje + '\n' + url);
+        
+        window.open(compartirEnlace, '_blank');
+      });
+
+      btnCompartirFacebook.addEventListener('click', function() {
+        var url = window.location.href;
+        var mensaje = '¡Mira esta publicación: ' + tituloPublicacion + '!';
+        var compartirEnlace = 'https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(url) + '&quote=' + encodeURIComponent(mensaje);
+    
+        window.open(compartirEnlace, '_blank');
+      });
+      
+    });
+
+
+  </script>
+</body>
+</html>

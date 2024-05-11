@@ -1,0 +1,219 @@
+
+    .img-menu {
+      width: 30px; /* Ajusta el tamaño según lo necesites */
+      margin-left: -10px; /* Mueve la imagen más a la izquierda */
+      animation: saltar 2s ease infinite; /* Agrega la animación de salto */
+    }
+    
+    @keyframes saltar {
+      0%, 100% {
+        transform: translateY(0);
+      }
+      50% {
+        transform: translateY(-5px); /* Eleva la imagen 5px */
+      }
+    }
+
+
+    .btn-warning {
+      background-color: #585757; /* botnes facultades nueva pubCambia el color de fondo aquí */
+      color: #ffff; /* Cambia el color del texto aquí */
+    }
+    /* Estilos simplificados para el menú desplegable */
+    .sidebar {
+      width: 250px;
+      position: fixed;
+      top: 0;
+      left: -250px;
+      background-color: #333;
+      padding-top: 60px;
+      transition: 0.5s;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+      z-index: 1000;
+    }
+
+    .sidebar.show {
+      left: 0;
+    }
+
+    .toggle-btn {
+      position: absolute;
+      top: 65px;
+      left: 250px;
+      cursor: pointer;
+      color: #1b1a1a;
+      background: none;
+      border: none;
+      font-size: 20px;
+      z-index: 1001;
+    }
+
+    /* Estilos simplificados para la lista de menú */
+    .menu {
+      list-style-type: none;
+      padding: 0;
+    }
+
+    .menu li {
+      padding: 10px;
+      border-bottom: 1px solid #555;
+    }
+
+    .menu li a {
+      text-decoration: none;
+      color: #fff;
+      display: block;
+      transition: background-color 0.3s;
+    }
+
+    .menu li a:hover {
+      background-color: #555;
+    }
+
+    /* Otros estilos simplificados según tus preferencias */
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background-color: #000;
+      color: #000;
+    }
+
+    .scroll-horizontal {
+      overflow-x: auto;
+      white-space: nowrap; /* Evita que los elementos se envuelvan */
+    }
+
+    .btn-group {
+      display: inline-block; /* Asegura que los botones se muestren en línea */
+    }
+
+    /* Estilos oscuros para las publicaciones */
+    .card {
+      background-color: #222;
+      color: #fff;
+    }
+
+    .card h2,
+    .card p {
+      color: #fff;
+    }
+
+    .card-body {
+      padding: 20px;
+      
+    }
+
+    .publicacion {
+      background-color: #222;
+      border-radius: 10px;
+      margin-bottom: 20px;
+      padding: 20px;
+    }
+
+    .usuario img {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      margin-right: 10px;
+    }
+
+    .usuario h2 {
+      margin: 0;
+    }
+
+    .imagen-publicacion {
+      width: 100%;
+      margin-top: 10px;
+      border-radius: 5px;
+    }
+
+    .reacciones {
+      margin-top: 10px;
+    }
+
+    .reaccion {
+      background-color: #444;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      padding: 5px 10px;
+      margin-right: 5px;
+      cursor: pointer;
+      font-size: 20px;
+    }
+
+   
+
+    
+    .reacciones {
+            margin-top: 10px;
+            display: flex;
+        }
+
+    .reacciones button {
+        border: none;
+        border-radius: 5px;
+        padding: 5px;
+        margin-right: 5px;
+        cursor: pointer;
+        font-size: 20px;
+        transition: filter 0.3s ease; /* Añadido para suavizar el cambio de filtro */
+    }
+
+
+
+    .like i {
+        color: #000; /* reacciones color Negro */
+    }
+    .heart i {
+        color: #000; /* Negro */
+    }
+    .laugh i {
+        color: #000; /* Negro */
+    }
+    .sad i {
+        color: #000; /* Negro */
+    }
+    .angry i {
+        color: #000; /* Negro */
+    }
+    .reacciones button.selected i {
+        filter: brightness(70%);
+    }
+    .like.selected i {
+        color: #0b76e8; /* Azul */
+    }
+    .heart.selected i {
+        color: #dc3545; /* Rojo */
+    }
+    .laugh.selected i {
+        color: #ffc107; /* Amarillo */
+    }
+    .sad.selected i {
+        color: #6c757d; /* Gris */
+    }
+    .angry.selected i {
+        color: #ff5733; /* Naranja */
+    }
+    /* Añadido para hacer los iconos más representativos y vivos al dar clic */
+    .reacciones button i {
+        transition: color 0.3s ease; /* Añadido para suavizar el cambio de color */
+    }
+    .reacciones button:hover i {
+        color: #fff; /* Cambia el color del icono al pasar el ratón */
+    }
+
+    .filtrar {
+        color: white;
+    }
+
+    .p_fijadas {
+        color: white;
+    }
+    .facultad_filtrada {
+        color: white;
+    }
+    .contador {
+        margin-left: 500px; /* Ajusta el margen izquierdo según tus necesidades */
+    }
+      

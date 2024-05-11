@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Notificaciones</title>
+  <!-- Bootstrap CSS -->
+  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Estilos CSS personalizados -->
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #000;
+      color: #fff;
+      margin: 0;
+      padding: 0;
+    }
+
+    .notification {
+      background-color: #222;
+      border-radius: 8px;
+      padding: 15px;
+      margin-bottom: 15px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .notification p {
+      margin: 0;
+      color: #fff;
+    }
+
+    .notification p.notification-username {
+      font-weight: bold;
+    }
+
+    .notification p.notification-time {
+      font-size: 0.8rem;
+      color: #ddd;
+    }
+
+    .notification p.notification-publication {
+      font-style: italic;
+      color: #ddd;
+    }
+
+    /* Estilo para notificaciones no leídas */
+    .notification.new {
+      border-left: 4px solid #007bff; /* Borde azul a la izquierda */
+    }
+
+    /* Estilos para botón */
+    .btn-primary {
+      background-color: #007bff;
+      border-color: #007bff;
+    }
+
+    .btn-primary:hover {
+      background-color: #0056b3;
+      border-color: #0056b3;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container mt-5">
+  <div class="row">
+    <div class="col-md-8 offset-md-2">
+      <%= link_to "Leído", notifications_path(mark_as_read: true), class: "btn btn-primary" %>
+      <br>
+      <br>
+      <% @notifications.each do |notification| %>
+        <div class="notification<%= ' new' unless notification.read %>">
+          <p class="notification-username"><%= notification.user.username %></p>
+          <p class="notification-time"><%= notification.created_at.strftime("%d/%m/%Y %H:%M") %></p>
+          <p><%= notification.message %></p>
+          <% if notification.publicacion %>
+            <p class="notification-publication">La publicación: <%= link_to notification.publicacion.titulo, publicacion_path(notification.publicacion.id) %></p>
+          <% end %>
+        </div>
+      <% end %>
+
+      <% notifications_to_delete = Notification.where.not(id: @notifications.first(20).pluck(:id)) %>
+      <% notifications_to_delete.destroy_all %>
+
+    </div>
+  </div>
+</div>
+
+<!-- Bootstrap JS (opcional, si lo necesitas) -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+</body>
+</html>

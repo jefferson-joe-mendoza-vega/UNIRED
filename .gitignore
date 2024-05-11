@@ -1,0 +1,14 @@
+# Ignorar archivos generados por Rails
+/log/
+/tmp/
+/storage/*.sqlite3
+/storage/*.sqlite3-shm
+/storage/*.sqlite3-wal
+/tmp/cache/
+/storage/hc/
+/storage/l7/
+/storage/l9/
+/storage/wz/
+/storage/z3/
+
+tmp/

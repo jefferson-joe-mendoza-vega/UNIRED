@@ -1,0 +1,51 @@
+<%= link_to publicaciones_path(category_id: category.id), class: "category-link" do %>
+  <div class="category">
+    <span class="category-name" style="color: white;"><%= category.name %></span>
+    <span class="category-icon"><i class="fas fa-chevron-right"></i></span>
+  </div>
+<% end %>
+
+<style>
+  .category-link {
+    text-decoration: none;
+    color: #ffffff; /* Color del texto blanco */
+    transition: color 0.3s ease; /* Transición suave al cambiar el color */
+    cursor: pointer; /* Cambia el cursor al pasar por encima */
+    outline: none; /* Elimina el contorno al hacer clic */
+    display: block; /* Hace que todo el enlace sea clickeable */
+  }
+
+  .category-link:hover {
+    color: #ffb400; /* Cambia el color del texto al pasar el mouse */
+  }
+
+  .category {
+    padding: 10px;
+    border-radius: 8px; /* Aumenta el radio de las esquinas del borde */
+    margin-bottom: 10px; /* Espacio entre cada categoría */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: background-color 0.3s ease; /* Añade transición al cambiar el color de fondo */
+    background-color: #222; /* Fondo negro */
+  }
+
+  .category:hover {
+    background-color: #333; /* Cambia el color de fondo al pasar el mouse */
+  }
+
+  .category-name { 
+    flex: 1;
+    font-weight: bold; /* Hace el texto en negrita */
+  }
+
+  .category-icon {
+    margin-left: 10px;
+    opacity: 0;
+    transition: opacity 0.3s ease; /* Añade transición a la opacidad */
+  }
+
+  .category:hover .category-icon {
+    opacity: 1; /* Muestra el icono al pasar el mouse */
+  }
+</style>
