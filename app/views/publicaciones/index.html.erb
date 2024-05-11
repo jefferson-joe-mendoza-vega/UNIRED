@@ -166,7 +166,7 @@
                   <% end %>
                   <%= link_to reactions_path(publicacion_id: publicacion.id, reaction_type: :me_asombra), method: :post, remote: true do %>
                     <button class="sad" onclick="selectReaction(this)">
-                      <i class="fas fa-sad-tear"></i> <%= me_asombra_count %>
+                      <i class="fas fa-surprise"></i> <%= me_asombra_count %>
                     </button>
                   <% end %>
                   <%= link_to reactions_path(publicacion_id: publicacion.id, reaction_type: :me_entristece), method: :post, remote: true do %>

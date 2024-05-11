@@ -75,10 +75,15 @@
             <div class="card-body">
               <h5 class="card-title"><%= publicacion.titulo %></h5>
               <!-- Contenedor del nombre de usuario -->
-              <div class="usuario mb-3">
-                <i class="bi bi-person me-2" style="font-size: 20px;"></i>
-                <strong ><%= link_to "#{publicacion.user.username} - #{publicacion.user.faculty.name}", usuario_path(publicacion.user.username), data: { turbo_frame: '_top' } %></strong>
-              </div>
+
+              <% if publicacion.mostrar_nombre? %>
+                <strong ></strong>
+              <% elsif%>
+                <div class="usuario mb-3">
+                  <i class="bi bi-person me-2" style="font-size: 20px;"></i>
+                  <strong ><%= link_to "#{publicacion.user.username} - #{publicacion.user.faculty.name}", usuario_path(publicacion.user.username), data: { turbo_frame: '_top' } %></strong>
+                </div>
+              <%end%>
               <!-- Otros detalles de la publicación -->
               <%#<p class="card-text"><strong>Comentarios:</strong> <%= publicacion.comments.count %>
               <p class="card-text"><small class="text-muted"><i class="far fa-calendar-alt me-1"></i><%= publicacion.created_at.strftime("%d/%m/%Y %H:%M") %></small></p>

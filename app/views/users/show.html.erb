@@ -104,22 +104,28 @@
                 <h2 class="text-center mb-3">Publicaciones de <%= @user.username %></h2>
                 <% if @publicaciones.any? %>
                     <% @publicaciones.each do |publicacion| %>
-                        <div class="publicacion">
-                            <% if publicacion.imagen.present? %>
-                                <%= link_to publicacion_path(publicacion.id), class: "img-link" do %>
-                                    <%= image_tag publicacion.imagen, class: "img-fluid rounded mb-3", alt: "Imagen de la publicación" %>
-                                <% end %>
-                            <% elsif publicacion.video.attached? %>
-                                <%= link_to publicacion_path(publicacion.id) do %>
+
+                        <% if publicacion.mostrar_nombre? %>
+                            <strong ></strong>
+                        <% elsif%>
+                           
+                            <div class="publicacion">
+                                <% if publicacion.imagen.present? %>
+                                    <%= link_to publicacion_path(publicacion.id), class: "img-link" do %>
+                                        <%= image_tag publicacion.imagen, class: "img-fluid rounded mb-3", alt: "Imagen de la publicación" %>
+                                    <% end %>
+                                <% elsif publicacion.video.attached? %>
+                                    <%= link_to publicacion_path(publicacion.id) do %>
+                                        <div class="placeholder-image mb-3"></div>
+                                        <i class="fas fa-video fa-3x text-danger mr-2"></i>
+                                    <% end %>
+                                <% else %>
                                     <div class="placeholder-image mb-3"></div>
-                                    <i class="fas fa-video fa-3x text-danger mr-2"></i>
                                 <% end %>
-                            <% else %>
-                                <div class="placeholder-image mb-3"></div>
-                            <% end %>
-                            <h2><%= link_to publicacion.titulo, publicacion_path(publicacion.id) %></h2>
-                            <p><%= publicacion.created_at.strftime("%d/%m/%Y %H:%M") %></p>
-                        </div>
+                                <h2><%= link_to publicacion.titulo, publicacion_path(publicacion.id) %></h2>
+                                <p><%= publicacion.created_at.strftime("%d/%m/%Y %H:%M") %></p>
+                            </div>
+                        <%end%>
                     <% end %>
                 <% else %>
                     <p class="text-center">No hay publicaciones para este usuario.</p>
