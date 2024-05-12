@@ -6,6 +6,7 @@ class PublicacionesController < ApplicationController
   before_action :load_reactions_counts, only: [:show]
 
   def index
+    @facultades=Faculty.all.order(:name)
     @categories = Category.order(:name)
     load_faculty_publicaciones if params[:category_id].present? || params[:faculty_id].present?
     search_publicaciones if params[:query].present?

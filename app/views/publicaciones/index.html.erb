@@ -54,9 +54,10 @@
           <strong><span class="filtrar">Filtrar todas las publicaciones por facultad:</span></strong>
           <div class="scroll-horizontal">
             <div class="btn-group">
-              <% Faculty.all.each do |faculty| %>
+              <% @facultades.each do |faculty| %>
                 <%= link_to faculty.name, publicaciones_path(faculty_id: faculty.id), class: "btn btn-warning me-md-3 mb-2 mb-md-0", role: "button" %>
               <% end %>
+
             </div>
           </div>
         </div>
