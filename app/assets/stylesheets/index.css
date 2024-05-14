@@ -1,4 +1,31 @@
 
+.custom-pagination a {
+  color: #333; /* Color del texto */
+  padding: 5px 10px; /* Espaciado interno */
+  margin: 0 3px; /* Margen entre los enlaces */
+  text-decoration: none; /* Quitar subrayado */
+  border: 1px solid #ccc; /* Borde */
+  border-radius: 3px; /* Bordes redondeados */
+  background-color: #fff; /* Fondo del botón */
+}
+
+.custom-pagination a:hover {
+  background-color: #f0f0f0; /* Cambio de color al pasar el ratón */
+}
+
+.custom-pagination .current {
+  background-color: #007bff; /* Color de fondo para la página actual */
+  color: #fff; /* Color del texto para la página actual */
+}
+
+@media (max-width: 576px) {
+  .custom-pagination a {
+    padding: 3px 6px; /* Espaciado interno reducido para dispositivos móviles */
+    margin: 0 2px; /* Margen reducido para dispositivos móviles */
+  }
+}
+
+    
     .img-menu {
       width: 30px; /* Ajusta el tamaño según lo necesites */
       margin-left: -5px; /* Mueve la imagen más a la izquierda */

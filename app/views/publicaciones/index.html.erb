@@ -198,7 +198,7 @@
           <% end %>
         <%end%>
 
-        <%= turbo_frame_tag "publicacionss~#{@pagy.page}" do %>
+        <%= turbo_frame_tag "publicacionss" do %>
           <!-- Lista de Publicaciones -->
           <h1 style="color: #FFFFFF;">Publicaciones</h1>
           <% @publicaciones.each do |publicacion| %>
@@ -306,8 +306,15 @@
             </div>
             <br>
           <% end %>
-          <%= turbo_frame_tag "publicacionss~#{@pagy.next}", src: pagy_url_for(@pagy,@pagy.next), loading: :lazy if @pagy.next %>
+          
         <% end %>
+        
+        <div class="pagination justify-content-center">
+          <%= will_paginate @publicaciones, renderer: WillPaginate::ActionView::LinkRenderer, class: "custom-pagination" %>
+        </div>
+
+
+        
       </div>
     </div>
   </div>
@@ -354,5 +361,34 @@
     // Agregar la clase 'selected' al botón de reacción clicado
     button.classList.add('selected');
   }
+  
+
+  
 </script>
+<script type="text/javascript">
+  $(document).ready(function() {
+    // Función para cerrar el slidebar solo si está abierto
+    function cerrarSlidebar() {
+      if ($('.sidebar').hasClass('show')) {
+        $('.sidebar').removeClass('show');
+      }
+    }
+
+    // Evento de clic en el botón de toggle
+    $('.toggle-btn, .img-menu').click(function(event) {
+      event.stopPropagation(); // Evitar que el clic se propague al documento
+      $('.sidebar').toggleClass('show');
+    });
+
+    // Evento de clic en el documento
+    $(document).on('click', function(event) {
+      // Verificar si el clic ocurrió fuera del slidebar
+      if (!$(event.target).closest('.sidebar').length && !$(event.target).closest('.toggle-btn').length) {
+        cerrarSlidebar();
+      }
+    });
+  });
+</script>
+
+
 </html>
