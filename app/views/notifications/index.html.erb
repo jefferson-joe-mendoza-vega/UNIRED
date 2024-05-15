@@ -61,11 +61,11 @@
   </style>
 </head>
 <body>
-
+<br>
 <div class="container mt-5">
   <div class="row">
     <div class="col-md-8 offset-md-2">
-      <%= link_to "Leído", notifications_path(mark_as_read: true), class: "btn btn-primary" %>
+      <%= link_to "marcar como Leído ✔️", notifications_path(mark_as_read: true), class: "btn btn-primary" %>
       <br>
       <br>
       <% @notifications.each do |notification| %>
