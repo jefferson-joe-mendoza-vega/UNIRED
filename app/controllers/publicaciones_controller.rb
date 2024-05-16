@@ -10,7 +10,7 @@ class PublicacionesController < ApplicationController
     @categories = Category.order(:name)
     load_faculty_publicaciones if params[:category_id].present? || params[:faculty_id].present?
     search_publicaciones if params[:query].present?
-    @publicaciones = @publicaciones.paginate(page: params[:page], per_page: 2)
+    @publicaciones = @publicaciones.paginate(page: params[:page], per_page: 20)
     
     @publicaciones_fijadas_index = Publicacion.where(fijadaindex: true) unless params[:faculty_id].present?
 

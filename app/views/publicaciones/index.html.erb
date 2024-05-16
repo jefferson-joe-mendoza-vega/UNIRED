@@ -52,7 +52,9 @@
         <br>
         <!-- Lista de enlaces para filtrar por facultad -->
         <div class="facultades">
-          <strong><span class="filtrar">Filtrar todas las publicaciones por facultad:</span></strong>
+          <strong><span class="filtrar">Filtra las publicaciones por tu facultad:</span></strong>
+          <p></p>
+        
           <div class="scroll-horizontal">
             <div class="btn-group">
               <% @facultades.each do |faculty| %>
@@ -62,7 +64,7 @@
             </div>
           </div>
         </div>
-        <br>
+  
         <strong class="exclusive-heading">
           <h2 class="facultad_filtrada"><%= @faculty_name %></h2>
         </strong>
@@ -80,7 +82,7 @@
         <br>
         <%if @publicaciones_fijadas_facultad.present? %>
           <% @publicaciones_fijadas_facultad.each do |publicacion| %>
-            <h1 style="color: #FFFFFF;">📌</h1>
+            <h2 style="color: #FFFFFF;">📌</h2>
             <div class="card my-0">
               <%if publicacion.fijada.present? %>
                 <div class="card-body">
@@ -141,7 +143,7 @@
 
         <%if @publicaciones_fijadas_index.present? %>
           <% @publicaciones_fijadas_index.each do |publicacion| %>
-            <h1 style="color: #FFFFFF;">📌</h1>
+            <h2 style="color: #FFFFFF;">📌</h2>
             <div class="card my-0">
               <%if publicacion.fijadaindex.present? %>
                 <div class="card-body">
@@ -201,7 +203,7 @@
 
         <%= turbo_frame_tag "publicacionss" do %>
           <!-- Lista de Publicaciones -->
-          <h1 style="color: #FFFFFF;">Publicaciones</h1>
+          <h1>Publicaciones</h1>
           <% @publicaciones.each do |publicacion| %>
             <div class="card my-0">
               <div class="card-body">
