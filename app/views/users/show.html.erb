@@ -90,7 +90,14 @@
             <div class="col-md-8">
                 <div class="user-card">
                     <h1>
-                        <i class="fas fa-user-circle fa-2x mr-2"></i>
+                        <% if @user.fotoperfil.present? %>
+                            <!-- Ejemplo de cómo renderizar el parcial en una vista -->
+                            <%= render partial: 'perfil', locals: { user: @user } %>
+
+                            <!-- Aquí puedes mostrar una imagen predeterminada o un mensaje indicando que no hay imagen de perfil -->
+                        <% else %>
+                            <i class="fas fa-user-circle fa-2x mr-2"></i>
+                        <%end%>
                         <%= @user.username + " - "+@user.faculty.name + " "+@user.promotion%>
                         <% if @user.verified %>
                             <span class="badge badge-success">Verificado</span>

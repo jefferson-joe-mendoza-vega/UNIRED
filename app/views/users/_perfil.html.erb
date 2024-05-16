@@ -1,0 +1,77 @@
+<% if user.fotoperfil.present? %>
+  <style>
+      /* Estilos CSS */
+      .circle-container {
+          width: 150px; /* Ancho del contenedor del círculo */
+          height: 150px; /* Alto del contenedor del círculo */
+          border-radius: 50%; /* Forma el contenedor como un círculo */
+          overflow: hidden; /* Oculta el contenido que excede el círculo */
+          margin: 0 auto; /* Centra el contenedor horizontalmente */
+      }
+
+      .circle-image {
+          width: 100%; /* Ajusta el tamaño de la imagen al contenedor del círculo */
+          height: auto;
+          display: block;
+          border-radius: 50%; /* Forma la imagen como un círculo */
+          cursor: pointer; /* Cambia el cursor al pasar sobre la imagen */
+          transition: transform 0.3s ease; /* Agrega una transición suave al hacer clic */
+      }
+
+      .circle-image:hover {
+          transform: scale(1.1); /* Aumenta ligeramente el tamaño de la imagen al pasar el cursor sobre ella */
+      }
+
+      /* Estilos para el overlay */
+      .overlay {
+          display: none;
+          position: fixed;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          background-color: rgba(0, 0, 0, 0.7); /* Fondo semitransparente */
+          z-index: 9999; /* Asegura que el overlay esté por encima de todo */
+      }
+
+      .overlay img {
+          display: block;
+          margin: auto;
+          max-width: 90%;
+          max-height: 90%;
+          margin-top: 5%;
+          cursor: pointer; /* Cambia el cursor al pasar sobre la imagen */
+      }
+  </style>
+
+  <!-- Contenedor del círculo -->
+  <div class="circle-container">
+      <!-- Imagen principal -->
+      <img class="circle-image" src="<%= user.fotoperfil %>" alt="Imagen de perfil">
+  </div>
+
+  <!-- Overlay para la imagen en tamaño completo -->
+  <div class="overlay" onclick="closeOverlay(event)">
+      <img class="full-image" src="<%= user.fotoperfil %>" alt="Imagen en tamaño completo">
+  </div>
+
+  <script>
+      // Función para mostrar la imagen en tamaño completo al hacer clic en la imagen principal
+      document.querySelector('.circle-image').onclick = function() {
+          // Obtiene la URL de la imagen principal
+          var mainImageUrl = this.src;
+          // Asigna la URL de la imagen principal al elemento de imagen en el overlay
+          document.querySelector('.full-image').src = mainImageUrl;
+          // Muestra el overlay
+          document.querySelector('.overlay').style.display = 'block';
+      };
+
+      // Función para cerrar el overlay al hacer clic en cualquier parte fuera de la imagen
+      function closeOverlay(event) {
+          if (event.target.className === 'overlay') {
+              // Oculta el overlay si se hizo clic en cualquier parte fuera de la imagen
+              document.querySelector('.overlay').style.display = 'none';
+          }
+      }
+  </script>
+<% end %>

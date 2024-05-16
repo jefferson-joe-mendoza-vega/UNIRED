@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_04_27_201224) do
+ActiveRecord::Schema[7.1].define(version: 2024_05_16_044631) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -122,6 +122,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_04_27_201224) do
     t.string "facebook"
     t.string "whatsapp"
     t.string "telegram"
+    t.string "fotoperfil"
     t.index ["emails"], name: "index_users_on_emails", unique: true
     t.index ["faculty_id"], name: "index_users_on_faculty_id"
     t.index ["username"], name: "index_users_on_username", unique: true

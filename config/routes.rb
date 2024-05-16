@@ -26,6 +26,7 @@ Rails.application.routes.draw do
 
   resources :users, only: [:show, :index], path: '/user', param: :username, as: :usuario
   delete '/user/:username', to: 'users#destroy', as: :eliminar_usuario
+  patch '/user/:username', to: 'users#update', as: :update_user
 
   
   namespace :authentication, path: '', as: '' do  
