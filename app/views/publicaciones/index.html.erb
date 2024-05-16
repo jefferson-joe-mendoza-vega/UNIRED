@@ -42,7 +42,7 @@
         <%= form_with url: publicaciones_path, method: :get do |form| %>
           <div class="form-group">
             <div class="input-group">
-              <%= form.text_field :query, class: "form-control", placeholder: "🔍Buscar en forUnas" %>
+              <%= form.text_field :query, class: "form-control", placeholder: "🔍Buscar publicaciones" %>
               <div class="input-group-append">
                 <%= form.submit "Buscar", class: "btn btn-primary" %>
               </div>
