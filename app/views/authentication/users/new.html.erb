@@ -102,14 +102,22 @@
             </div>
               
             <div class="form-group">
-              <%= form.label :promocion %>
+              <%= form.label :promotion %>
               <%= form.text_field :promotion, class: 'form-control', placeholder: "ingrese el ano de su ingreso" %>
             </div>
 
             <div class="form-group">
               <%= form.label :password %>
-              <%= form.password_field :password, class: "form-control", placeholder: "Ingrese su contraseña" %>
+              <div class="input-group">
+                <%= form.password_field :password, class: "form-control", placeholder: "Ingrese su contraseña", id: "password-field" %>
+                <div class="input-group-append">
+                  <button type="button" class="btn btn-outline-secondary" id="toggle-password">Mostrar</button>
+                </div>
+              </div>
             </div>
+
+          
+
             <br>
             <div class="form-group">
               <%= form.submit "Registrarse", class: "btn btn-primary btn-block" %>
@@ -124,5 +132,32 @@
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script>
+  $(document).ready(function() {
+    $('#toggle-password').click(function() {
+      var passwordField = $('#password-field');
+      var fieldType = passwordField.attr('type');
+      if (fieldType === 'password') {
+        passwordField.attr('type', 'text');
+        $(this).text('Ocultar');
+      } else {
+        passwordField.attr('type', 'password');
+        $(this).text('Mostrar');
+      }
+    });
+
+    $('#toggle-password-confirmation').click(function() {
+      var passwordConfirmationField = $('#password-confirmation-field');
+      var fieldType = passwordConfirmationField.attr('type');
+      if (fieldType === 'password') {
+        passwordConfirmationField.attr('type', 'text');
+        $(this).text('Ocultar');
+      } else {
+        passwordConfirmationField.attr('type', 'password');
+        $(this).text('Mostrar');
+      }
+    });
+  });
+</script>
 </body>
 </html>
