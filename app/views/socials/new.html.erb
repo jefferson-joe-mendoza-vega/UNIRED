@@ -87,7 +87,6 @@
                   </div>
                   <%= form.text_field :whatsapp, class: 'form-control', placeholder: 'Tu número de WhatsApp', aria_describedby: 'whatsappHelp' %>
                 </div>
-                
               </div>
 
               <div class="form-group">
@@ -98,7 +97,6 @@
                   </div>
                   <%= form.text_field :facebook, class: 'form-control', placeholder: 'Tu enlace de perfil de Facebook' %>
                 </div>
-                
               </div>
 
               <div class="form-group">
@@ -109,7 +107,21 @@
                   </div>
                   <%= form.text_field :telegram, class: 'form-control', placeholder: 'Tu enlace de perfil de Telegram' %>
                 </div>
-                
+              </div>
+
+              <div class="form-group">
+                <%= form.label :fotoperfil, "Foto de Perfil" %>
+                <div class="input-group">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text"><i class="fas fa-image text-warning"></i></span>
+                  </div>
+                  <%= form.text_field :fotoperfil, class: 'form-control', placeholder: 'Enlace a tu foto de perfil' %>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <%= form.label :descripcionperfil, "Descripción del Perfil" %>
+                <%= form.text_area :descripcionperfil, class: 'form-control', placeholder: 'Escribe una breve descripción de tu perfil' %>
               </div>
 
               <div class="text-center">

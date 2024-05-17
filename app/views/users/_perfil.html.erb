@@ -47,12 +47,12 @@
   <!-- Contenedor del círculo -->
   <div class="circle-container">
       <!-- Imagen principal -->
-      <img class="circle-image" src="<%= user.fotoperfil %>" alt="Imagen de perfil">
+      <img class="circle-image" src="<%= user.social.fotoperfil%>" alt="Imagen de perfil">
   </div>
 
   <!-- Overlay para la imagen en tamaño completo -->
   <div class="overlay" onclick="closeOverlay(event)">
-      <img class="full-image" src="<%= user.fotoperfil %>" alt="Imagen en tamaño completo">
+      <img class="full-image" src="<%= user.social.fotoperfil %>" alt="Imagen en tamaño completo">
   </div>
 
   <script>
