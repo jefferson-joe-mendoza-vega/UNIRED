@@ -3,7 +3,7 @@
   <div class="d-flex justify-content-center"> <!-- Utiliza flexbox para alinear horizontalmente -->
     <% if user.social.whatsapp.present? %>
       <div class="mb-3 me-3"> <!-- Agrega espacio entre los botones -->
-        <a href="https://wa.me/#{user.social.whatsapp}" class="btn btn-success btn-circle btn-lg" target="_blank">
+        <a href="https://api.whatsapp.com/send?phone=<%= user.social.whatsapp %>" class="btn btn-success btn-circle btn-lg" target="_blank">
           <i class="fab fa-whatsapp"></i>
         </a>
       </div>
