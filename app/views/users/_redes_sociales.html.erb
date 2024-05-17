@@ -1,0 +1,28 @@
+<% if user.social.present? %>
+
+  <div class="d-flex justify-content-center"> <!-- Utiliza flexbox para alinear horizontalmente -->
+    <% if user.social.whatsapp.present? %>
+      <div class="mb-3 me-3"> <!-- Agrega espacio entre los botones -->
+        <a href="https://wa.me/#{user.social.whatsapp}" class="btn btn-success btn-circle btn-lg" target="_blank">
+          <i class="fab fa-whatsapp"></i>
+        </a>
+      </div>
+    <% end %>
+
+    <% if user.social.facebook.present? %>
+      <div class="mb-3 me-3"> <!-- Agrega espacio entre los botones -->
+        <a href="<%= user.social.facebook %>" class="btn btn-primary btn-circle btn-lg" target="_blank">
+          <i class="fab fa-facebook"></i>
+        </a>
+      </div>
+    <% end %>
+
+    <% if user.social.telegram.present? %>
+      <div class="mb-3"> <!-- Agrega espacio entre los botones -->
+        <a href= "<%= user.social.telegram %>" class="btn btn-info btn-circle btn-lg" target="_blank">
+          <i class="fab fa-telegram"></i>
+        </a>
+      </div>
+    <% end %>
+  </div>
+<% end %>

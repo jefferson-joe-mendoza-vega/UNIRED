@@ -11,6 +11,8 @@ Rails.application.routes.draw do
   get '/publicaciones/:id/edit', to: 'publicaciones#edit', as: :editar_publicacion
   get '/tendencias', to: 'publicaciones#tendencias'
 
+  resources :socials, only: [:new, :create]  
+  # Agregar esta línea para la acción POST
   # config/routes.rb
   resources :reactions, only: [:index, :create]
   get '/reacciones', to: 'reactions#reacciones'
@@ -23,10 +25,10 @@ Rails.application.routes.draw do
   
 
 
+ 
 
   resources :users, only: [:show, :index], path: '/user', param: :username, as: :usuario
   delete '/user/:username', to: 'users#destroy', as: :eliminar_usuario
-  patch '/user/:username', to: 'users#update', as: :update_user
 
   
   namespace :authentication, path: '', as: '' do  

@@ -108,8 +108,20 @@
                     </h1>
                     <% if @user.id == session[:user_id] || (Current.user && Current.user.admin?) %>
                         <%= link_to 'Eliminar mi cuenta', eliminar_usuario_path(@user.id), data: { turbo_method: :delete, turbo_confirm: '¿Estás seguro?' }, class: 'btn btn-danger btn-eliminar' %>
+                        <br>
+                        <br>
+                        <%= link_to new_social_path, class: "btn btn-primary btn-lg" do %>
+                            <i class="fas fa-plus-circle me-2"></i> Agregar redes sociales
+                        <% end %>
                     <% end %>
+                    
                 </div>
+                
+                
+                <!-- Render del partial de redes sociales -->
+                <%= render partial: 'redes_sociales', locals: { user: @user } %>
+
+
                 <h2 class="text-center mb-3">Publicaciones de <%= @user.username %></h2>
                 <% if @publicaciones.any? %>
                     <% @publicaciones.each do |publicacion| %>

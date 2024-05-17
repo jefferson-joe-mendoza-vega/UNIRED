@@ -1,0 +1,36 @@
+<h1>Crear Nuevo Recurso Social</h1>
+
+<%= form_with(model: @social, local: true) do |form| %>
+  <% if @social.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@social.errors.count, "error") %> prohibieron que este recurso social se guarde:</h2>
+
+      <ul>
+        <% @social.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <%= form.hidden_field :user_id, value: Current.user.id %>
+
+  <div class="field">
+    <%= form.label :whatsapp %>
+    <%= form.text_field :whatsapp %>
+  </div>
+
+  <div class="field">
+    <%= form.label :facebook %>
+    <%= form.text_field :facebook %>
+  </div>
+
+  <div class="field">
+    <%= form.label :telegram %>
+    <%= form.text_field :telegram %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit 'Crear Recurso Social' %>
+  </div>
+<% end %>

@@ -25,6 +25,7 @@ class User < ApplicationRecord
   has_many :responses, dependent: :destroy
   has_many :notifications, dependent: :destroy
   has_many :reactions, dependent: :destroy
+  has_one :social  # Agrega esta línea para establecer la relación entre Usuario y Social
   
   before_save :downcase_attributes
 
