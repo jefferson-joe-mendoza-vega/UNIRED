@@ -153,7 +153,7 @@
                   <% else%>
                     <div class="usuario">
                       <div class="nombre-usuario">
-                       <% if publicacion.user.fotoperfil.present? %>
+                       <% if publicacion.present? && publicacion.user.present? && publicacion.user.social.present? && publicacion.user.social.fotoperfil.present? %>
                             <!-- Ejemplo de cómo renderizar el parcial en una vista -->
                             <%= render partial: 'fotoperfil', locals: { user: publicacion.user } %>
 
@@ -222,7 +222,7 @@
                 <% else%>
                   <div class="usuario">
                     <div class="nombre-usuario">
-                      <% if publicacion.user.fotoperfil.present? %>
+                      <% if publicacion.present? && publicacion.user.present? && publicacion.user.social.present? && publicacion.user.social.fotoperfil.present? %>
                         <!-- Ejemplo de cómo renderizar el parcial en una vista -->
                         <%= render partial: 'fotoperfil', locals: { user: publicacion.user } %>
 

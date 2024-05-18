@@ -90,7 +90,7 @@
             <div class="col-md-8">
                 <div class="user-card">
                     <h1>
-                        <% if @user.social.fotoperfil.present? %>
+                        <% if @user.present? && @user.social.present? && @user.social.fotoperfil.present? %>
                             
                             <!-- Ejemplo de cómo renderizar el parcial en una vista -->
                             <%= render partial: 'perfil', locals: { user: @user } %>
