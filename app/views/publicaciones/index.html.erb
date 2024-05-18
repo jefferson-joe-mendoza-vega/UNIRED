@@ -270,7 +270,11 @@
                   <% end %>
                   <% if publicacion.video.attached? %>
                     <div class="embed-responsive embed-responsive-16by9">
-                      <%= video_tag publicacion.video, controls: true, class: "embed-responsive-item" %>
+                 
+                      
+                      <%= video_tag publicacion.video, class: "embed-responsive-item video-autoplay", loop: true, controls: true %>
+
+
                     </div>
                   <% end %>
                   <p class="comentarios">
@@ -415,6 +419,38 @@
     });
   });
 </script>
+<script>
+  // Detectar cuando el video está en la vista
+  function isElementInViewport(el) {
+    var rect = el.getBoundingClientRect();
+    return (
+      rect.top >= 0 &&
+      rect.left >= 0 &&
+      rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
+      rect.right <= (window.innerWidth || document.documentElement.clientWidth)
+    );
+  }
+
+  // Reproducir o pausar el video según si está en la vista
+  function playOrPauseVideos() {
+    var videos = document.querySelectorAll('.video-autoplay');
+    videos.forEach(function(video) {
+      if (isElementInViewport(video)) {
+        video.play();
+      } else {
+        video.pause();
+      }
+    });
+  }
+
+  // Reproducir o pausar los videos al desplazarse o redimensionarse la página
+  window.addEventListener('scroll', playOrPauseVideos);
+  window.addEventListener('resize', playOrPauseVideos);
+
+  // Reproducir los videos cuando se cargue la página
+  window.addEventListener('load', playOrPauseVideos);
+</script>
+
 
 
 </html>
