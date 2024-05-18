@@ -65,6 +65,39 @@
       background-color: #c82333;
       border-color: #bd2130;
     }
+   /* Estilos personalizados para la paginación */
+  .custom-pagination {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+  }
+
+  .custom-pagination a {
+    color: #333; /* Color del texto */
+    padding: 5px 10px; /* Espaciado interno */
+    margin: 0 3px; /* Margen entre los enlaces */
+    text-decoration: none; /* Quitar subrayado */
+    border: 1px solid #ccc; /* Borde */
+    border-radius: 3px; /* Bordes redondeados */
+    background-color: #fff; /* Fondo del botón */
+  }
+
+  .custom-pagination a:hover {
+    background-color: #f0f0f0; /* Cambio de color al pasar el ratón */
+  }
+
+  .custom-pagination .current {
+    background-color: #007bff; /* Color de fondo para la página actual */
+    color: #fff; /* Color del texto para la página actual */
+  }
+
+  @media (max-width: 576px) {
+    .custom-pagination a {
+      padding: 3px 6px; /* Espaciado interno reducido para dispositivos móviles */
+      margin: 0 2px; /* Margen reducido para dispositivos móviles */
+    }
+  }
+
   </style>
 </head>
 <body>
@@ -86,7 +119,11 @@
       <div class="col-md-4 mb-4">
         <div class="card h-100 shadow">
           <div class="card-body">
-             <i class="bi bi-person me-2" style="font-size: 32px;"></i>
+            <% if usuario.present? && usuario.social.present? && usuario.social.fotoperfil.present? %>
+              <%= render partial: 'perfil', locals: { user: usuario } %>
+            <% else %>
+              <i class="bi bi-person me-2" style="font-size: 32px;"></i>
+            <% end %>
             <h5 class="card-title"><%= usuario.username %></h5>
             <% if usuario.faculty %>
               <p class="card-text"><strong>Facultad:</strong> <%= usuario.faculty.name %> - <%= usuario.promotion %></p>
@@ -101,6 +138,11 @@
       </div>
     <% end %>
   </div>
+
+  <!-- Enlaces de paginación -->
+  <div class="custom-pagination">
+    <%= will_paginate @usuarios, renderer: WillPaginate::ActionView::LinkRenderer %>
+  </div>  
 </div>
 
 <!-- Bootstrap JS -->
