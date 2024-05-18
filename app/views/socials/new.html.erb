@@ -52,6 +52,34 @@
     .btn-primary:hover {
       background-color: #0056b3;
     }
+    .file-label {
+      display: inline-block;
+      padding: 10px 20px;
+      background-color: #007BFF;
+      color: #fff;
+      border-radius: 4px;
+      cursor: pointer;
+      margin-bottom: 20px;
+    }
+    .file-label:hover {
+      background-color: #0056b3;
+    }
+    button {
+      padding: 10px 20px;
+      background-color: #28a745;
+      color: #fff;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #218838;
+    }
+    #error-message {
+      color: red;
+      margin-top: 20px;
+      display: none;
+    }
   </style>
 </head>
 <body>
@@ -68,7 +96,6 @@
               <% if @social.errors.any? %>
                 <div id="error_explanation" class="alert alert-danger">
                   <h4><i class="fas fa-exclamation-triangle mr-2"></i><%= pluralize(@social.errors.count, "error") %> prohibieron que este recurso social se guarde:</h4>
-
                   <ul>
                     <% @social.errors.full_messages.each do |message| %>
                       <li><%= message %></li>
@@ -111,11 +138,16 @@
 
               <div class="form-group">
                 <%= form.label :fotoperfil, "Foto de Perfil" %>
+                
+                <label for="file-input" class="file-label">Subir Foto de Perfil</label>
+                <input type="file" id="file-input" accept="image/*" style="display: none;">
+                <button type="button" id="upload-button">Subir</button>
+                <div id="error-message"></div>
                 <div class="input-group">
                   <div class="input-group-prepend">
                     <span class="input-group-text"><i class="fas fa-image text-warning"></i></span>
                   </div>
-                  <%= form.text_field :fotoperfil, class: 'form-control', placeholder: 'Enlace a tu foto de perfil' %>
+                  <%= form.text_field :fotoperfil, class: 'form-control', id: 'fotoperfil-url', placeholder: 'Enlace a tu foto de perfil', readonly: true %>
                 </div>
               </div>
 
@@ -138,5 +170,57 @@
   <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  <script>
+    document.querySelector('.file-label').addEventListener('click', (event) => {
+      event.preventDefault();
+      document.getElementById('file-input').click();
+    });
+
+    document.getElementById('upload-button').addEventListener('click', () => {
+      const fileInput = document.getElementById('file-input');
+      const errorMessage = document.getElementById('error-message');
+      const fotoperfilUrl = document.getElementById('fotoperfil-url');
+      errorMessage.style.display = 'none';
+
+      if (fileInput.files.length === 0) {
+        errorMessage.textContent = '¡Por favor selecciona un archivo primero!';
+        errorMessage.style.display = 'block';
+        return;
+      }
+
+      const file = fileInput.files[0];
+      const formData = new FormData();
+      formData.append('image', file);
+
+      const apiKeys = [
+        'e4a0c0c881822609e0130e39bf9653eb',
+        'c6d96acfc49d9b5a95346f935845d16d',
+        '9beb06f4ad5d7a4b422e2d9d5803cf9d'
+      ];
+
+      const selectedApiKey = apiKeys[Math.floor(Math.random() * apiKeys.length)];
+
+      fetch(`https://api.imgbb.com/1/upload?key=${selectedApiKey}`, {
+        method: 'POST',
+        body: formData
+      })
+      .then(response => response.json())
+      .then(data => {
+        if (data.success) {
+          const imageUrl = data.data.url;
+          fotoperfilUrl.value = imageUrl;
+        } else {
+          errorMessage.textContent = 'Error en la carga de la imagen: ' + data.error.message;
+          errorMessage.style.display = 'block';
+        }
+      })
+      .catch(error => {
+        console.error('Error:', error);
+        errorMessage.textContent = 'Ocurrió un error al subir la imagen: ' + error.message;
+        errorMessage.style.display = 'block';
+      });
+    });
+  </script>
 </body>
 </html>
+``
