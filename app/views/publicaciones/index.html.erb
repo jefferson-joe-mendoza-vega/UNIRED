@@ -236,17 +236,14 @@
                       <% else %>
                         <i class="bi bi-person me-2" style="font-size: 32px;"></i>
                         <strong ><%= link_to "#{publicacion.user.username} - #{publicacion.user.faculty.name}", usuario_path(publicacion.user.username), style: "color: white;", data: { turbo_frame: '_top' }%></strong>
+                        <% if publicacion.user.verified %>
+                          <span class="badge bg-success">Verificado</span>
+                        <% end %>
+                        <% if publicacion.user.admin %>
+                          <span class="badge bg-primary">Administrador</span>
+                        <% end %>
                       <%end%>
 
-
-
-                      
-                      <% if publicacion.user.verified %>
-                        <span class="badge bg-success">Verificado</span>
-                      <% end %>
-                      <% if publicacion.user.admin %>
-                        <span class="badge bg-primary">Administrador</span>
-                      <% end %>
                     </div>
                   </div>
                 <% end %>
