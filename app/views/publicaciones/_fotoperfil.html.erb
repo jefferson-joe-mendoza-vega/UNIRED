@@ -1,4 +1,4 @@
-<% if user.fotoperfil.present? %>
+<% if user.social.present? && user.social.fotoperfil.present? %>
   <style>
       /* Estilos CSS */
       .user-info-container {
@@ -56,13 +56,12 @@
       <!-- Contenedor del círculo de la imagen de perfil -->
       <div class="circle-container">
           <!-- Imagen de perfil -->
-          
           <img class="circle-image" src="<%= user.social.fotoperfil %>" alt="Imagen de perfil">
       </div>
       <!-- Detalles del usuario -->
       <div class="user-details">
           <!-- Nombre de usuario y facultad -->
-          <strong><%= link_to "#{user.username} - #{user.faculty.name}", usuario_path(user.username), style: "color: white;", data: { turbo_frame: '_top' }%></strong>
+          <strong><%= link_to "#{user.username} - #{user.faculty.name}", usuario_path(user.username), style: "color: white;", data: { turbo_frame: '_top' } %></strong>
           <!-- Si el usuario está verificado, puedes agregar un icono de verificación aquí -->
           <% if user.admin %>
             <span class="badge bg-primary">Administrador</span>
