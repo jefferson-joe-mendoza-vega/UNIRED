@@ -4,7 +4,7 @@ h1 {
   color: #FFFFFF; /* Color del texto */
   font-size: 36px; /* Tamaño de fuente */
   font-family: 'Arial', sans-serif; /* Tipo de letra */
-
+  text-align: center; /* Alineación */
   margin-top: 20px; /* Margen superior */
 }
 
