@@ -269,12 +269,8 @@
                       </p>
                   <% end %>
                   <% if publicacion.video.attached? %>
-                    <div class="embed-responsive embed-responsive-16by9">
-                 
-                      
-                      <%= video_tag publicacion.video, class: "embed-responsive-item video-autoplay", loop: true, controls: true %>
-
-
+                    <div class="video-container">
+                      <%= video_tag publicacion.video, class: "video-autoplay", loop: true, controls: true %>
                     </div>
                   <% end %>
                   <p class="comentarios">
