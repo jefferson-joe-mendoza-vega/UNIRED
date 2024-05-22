@@ -34,6 +34,29 @@
         .btn-primary:hover {
             background-color: #0056b3;
         }
+
+        .loader {
+            width: 50px;
+            height: 50px;
+            border: 5px solid #ccc;
+            border-top-color: #007bff;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+            100% {
+                transform: rotate(360deg);
+            }
+        }
     </style>
 </head>
 <body>
@@ -48,7 +71,7 @@
           <h4 class="card-title text-center mb-0">Nueva Publicación</h4>
         </div>
         <div class="card-body">
-          <%= form_with model: @publicacion, url: publicaciones_path, html: { class: "form" } do |form| %>
+          <%= form_with model: @publicacion, url: publicaciones_path, html: { class: "form", onsubmit: "startLoading()" } do |form| %>
             <% @publicacion.errors.full_messages.each do |error| %>
               <div class="alert alert-danger" role="alert">
                 <%= error %>
@@ -103,6 +126,7 @@
               <%= form.submit "Publicar", class: "btn btn-primary btn-block", id: "submit-btn" %>
             </div>
           <% end %>
+          <div class="loader" id="loader"></div>
         </div>
       </div>
     </div>
@@ -140,7 +164,6 @@
     removeButton.style.display = "none"; // Hide remove button
   }
   
-  // Función para mostrar u ocultar los botones de eliminar según la selección
   document.querySelectorAll('.form-control-file').forEach(function(input) {
     input.addEventListener('change', function() {
       const type = this.id.split('-')[0];
@@ -152,6 +175,14 @@
       }
     });
   });
+
+  function startLoading() {
+    var button = document.getElementById('submit-btn');
+    var loader = document.getElementById('loader');
+
+    button.style.display = 'none';
+    loader.style.display = 'block';
+  }
 </script>
 
 </body>

@@ -56,6 +56,29 @@
         .btn-primary:hover {
             background-color: #0056b3;
         }
+
+        .loader {
+            width: 50px;
+            height: 50px;
+            border: 5px solid #ccc;
+            border-top-color: #007bff;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            display: none;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+            100% {
+                transform: rotate(360deg);
+            }
+        }
     </style>
 </head>
 <body>
@@ -70,7 +93,7 @@
           <h4 class="card-title text-center">Registro de Usuario</h4>
         </div>
         <div class="card-body">
-          <%= form_with(model: @user, class: "user-form") do |form| %>
+          <%= form_with(model: @user, class: "user-form", id: "register-form") do |form| %>
             <% if @user.errors.any? %>
               <div class="alert alert-danger" role="alert">
                 <ul>
@@ -116,14 +139,13 @@
               </div>
             </div>
 
-          
-
             <br>
             <div class="form-group">
-              <%= form.submit "Registrarse", class: "btn btn-primary btn-block" %>
+              <%= form.submit "Registrarse", class: "btn btn-primary btn-block", id: "submit-btn" %>
             </div>
           <% end %>
         </div>
+        <div class="loader" id="loader"></div>
       </div>
     </div>
   </div>
@@ -145,18 +167,14 @@
         $(this).text('Mostrar');
       }
     });
+  });
 
-    $('#toggle-password-confirmation').click(function() {
-      var passwordConfirmationField = $('#password-confirmation-field');
-      var fieldType = passwordConfirmationField.attr('type');
-      if (fieldType === 'password') {
-        passwordConfirmationField.attr('type', 'text');
-        $(this).text('Ocultar');
-      } else {
-        passwordConfirmationField.attr('type', 'password');
-        $(this).text('Mostrar');
-      }
-    });
+  document.getElementById('register-form').addEventListener('submit', function() {
+    var button = document.getElementById('submit-btn');
+    var loader = document.getElementById('loader');
+
+    button.style.display = 'none';
+    loader.style.display = 'block';
   });
 </script>
 </body>
