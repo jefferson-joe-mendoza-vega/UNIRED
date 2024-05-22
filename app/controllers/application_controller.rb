@@ -17,7 +17,7 @@ class ApplicationController < ActionController::Base
 
     def autorizar! record = nil
         if record
-            es_permitido=record.user_id==Current.user.id || Current.user.admin? 
+            es_permitido=record.user_id==Current.user.id || Current.user.admin? || Current.user.lider
             redirect_to publicaciones_path, alert: "no tienes autorizacion" unless es_permitido
         else
             Current.user.admin?
