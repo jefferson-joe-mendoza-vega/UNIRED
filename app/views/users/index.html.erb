@@ -122,7 +122,7 @@
             <% if usuario.present? && usuario.social.present? && usuario.social.fotoperfil.present? %>
               <%= render partial: 'perfil', locals: { user: usuario } %>
             <% else %>
-              <i class="bi bi-person me-2" style="font-size: 32px;"></i>
+              <i class="bi bi-person me-2" style="font-size: 32px;"></i> 
             <% end %>
             <h5 class="card-title"><%= usuario.username %></h5>
             <% if usuario.faculty %>
