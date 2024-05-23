@@ -1,0 +1,63 @@
+<!-- app/views/partials/_escribir.html.erb -->
+<h4 id="texto-escrito"><span class="typed-text-custom"></span><span class="typing-animation-custom"></span></h4>
+
+<style>
+  .typing-animation-custom::after {
+    content: '|';
+    animation: blink-custom 0.75s infinite alternate;
+  }
+
+  /* Estilos para el texto */
+  .typed-text-custom {
+    background: linear-gradient(to right, #ff7e5f, #feb47b, #ffcb77, #aad0fe); /* Degradado de colores atractivos */
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  /* Estilos para el fondo */
+
+</style>
+
+<script>
+  const textArrayCustom = ["sube tu  foto de perfil!","agrega tus redes sociales para que se comuniquen contigo"];
+  let textIndexCustom = 0;
+  let letterIndexCustom = 0;
+  let typingTimeoutCustom;
+
+  function typeTextCustom() {
+    if (letterIndexCustom < textArrayCustom[textIndexCustom].length) {
+      document.querySelector('.typed-text-custom').textContent += textArrayCustom[textIndexCustom].charAt(letterIndexCustom);
+      letterIndexCustom++;
+      typingTimeoutCustom = setTimeout(typeTextCustom, 100);
+    } else {
+      clearTimeout(typingTimeoutCustom);
+      setTimeout(eraseTextCustom, 1500);
+    }
+  }
+
+  function eraseTextCustom() {
+    if (letterIndexCustom > 0) {
+      document.querySelector('.typed-text-custom').textContent = textArrayCustom[textIndexCustom].substring(0, letterIndexCustom - 1);
+      letterIndexCustom--;
+      typingTimeoutCustom = setTimeout(eraseTextCustom, 50);
+    } else {
+      clearTimeout(typingTimeoutCustom);
+      textIndexCustom = (textIndexCustom + 1) % textArrayCustom.length;
+      setTimeout(typeTextCustom, 500);
+    }
+  }
+
+  document.addEventListener('DOMContentLoaded', function() {
+    setTimeout(typeTextCustom, 500);
+  });
+
+  // Función para recargar la página cuando se hace clic en el texto, campo de texto o el palito de escritura
+  document.addEventListener('click', function(event) {
+    // Verificar si el clic ocurrió en el texto, campo de texto o el palito de escritura
+    if (event.target.matches('.typed-text-custom') || event.target.matches('.typing-animation-custom') || event.target.matches('#texto-escrito')) {
+      // Recargar la página
+      location.reload();
+    }
+  });
+</script>

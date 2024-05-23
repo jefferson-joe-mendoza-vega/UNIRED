@@ -125,7 +125,9 @@
                 <!-- Render del partial de redes sociales -->
                 <%= render partial: 'redes_sociales', locals: { user: @user } %>
 
-
+                <%= turbo_frame_tag 'texto' do %>
+                    <%= render partial: 'escribir2'%>
+                <%end%>
                 <h2 class="text-center mb-3">Publicaciones de <%= @user.username %></h2>
                 <% if @publicaciones.any? %>
                     <% @publicaciones.each do |publicacion| %>

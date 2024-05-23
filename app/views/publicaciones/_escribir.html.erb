@@ -1,5 +1,5 @@
 <!-- app/views/partials/_escribir.html.erb -->
-<h4><span class="typed-text"></span><span class="typing-animation"></span></h4>
+<h4 id="texto-escrito-2"><span class="typed-text"></span><span class="typing-animation"></span></h4>
 
 <style>
   .typing-animation::after {
@@ -50,5 +50,14 @@
 
   document.addEventListener('DOMContentLoaded', function() {
     setTimeout(typeText, 500);
+  });
+
+  // Función para recargar la página cuando se hace clic en el texto
+  document.addEventListener('click', function(event) {
+    // Verificar si el clic ocurrió en el texto
+    if (event.target.matches('.typed-text') || event.target.matches('.typing-animation') || event.target.matches('#texto-escrito-2')) {
+      // Recargar la página
+      location.reload();
+    }
   });
 </script>

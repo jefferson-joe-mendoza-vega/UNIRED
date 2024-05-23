@@ -80,7 +80,9 @@
           <% end %>
         </div>
         <br>
-        <%= render partial: 'escribir' %>
+        <%= turbo_frame_tag 'texto22' do %>
+          <%= render partial: 'escribir' %>
+        <%end%>
         <br>
         <%if @publicaciones_fijadas_facultad.present? %>
           <% @publicaciones_fijadas_facultad.each do |publicacion| %>
