@@ -1,0 +1,54 @@
+<!-- app/views/partials/_escribir.html.erb -->
+<h4><span class="typed-text"></span><span class="typing-animation"></span></h4>
+
+<style>
+  .typing-animation::after {
+    content: '|';
+    animation: blink 0.75s infinite alternate;
+  }
+
+  /* Estilos para el texto */
+  .typed-text {
+    background: linear-gradient(to right, #ff7e5f, #feb47b, #ffcb77, #aad0fe); /* Degradado de colores atractivos */
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  /* Estilos para el fondo */
+
+</style>
+
+<script>
+  const textArray = ["Hola!","Bienvenido a ...", "¡UniRed!", "publica, comenta y ...", "comparte!."];
+  let textIndex = 0;
+  let letterIndex = 0;
+  let typingTimeout;
+
+  function typeText() {
+    if (letterIndex < textArray[textIndex].length) {
+      document.querySelector('.typed-text').textContent += textArray[textIndex].charAt(letterIndex);
+      letterIndex++;
+      typingTimeout = setTimeout(typeText, 100);
+    } else {
+      clearTimeout(typingTimeout);
+      setTimeout(eraseText, 1500);
+    }
+  }
+
+  function eraseText() {
+    if (letterIndex > 0) {
+      document.querySelector('.typed-text').textContent = textArray[textIndex].substring(0, letterIndex - 1);
+      letterIndex--;
+      typingTimeout = setTimeout(eraseText, 50);
+    } else {
+      clearTimeout(typingTimeout);
+      textIndex = (textIndex + 1) % textArray.length;
+      setTimeout(typeText, 500);
+    }
+  }
+
+  document.addEventListener('DOMContentLoaded', function() {
+    setTimeout(typeText, 500);
+  });
+</script>

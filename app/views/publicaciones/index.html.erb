@@ -80,6 +80,8 @@
           <% end %>
         </div>
         <br>
+        <%= render partial: 'escribir' %>
+        <br>
         <%if @publicaciones_fijadas_facultad.present? %>
           <% @publicaciones_fijadas_facultad.each do |publicacion| %>
             <h2 style="color: #FFFFFF;">📌</h2>
