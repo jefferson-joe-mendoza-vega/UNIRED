@@ -106,6 +106,9 @@
                         <% if @user.admin %>
                             <span class="badge badge-primary">Administrador</span>
                         <% end %>
+                        <% if @user.lider %>
+                          <span class="badge bg-danger">Lider</span>
+                        <% end %>
                     </h1>
                     <% if @user.id == session[:user_id] || (Current.user && Current.user.admin?) %>
                         <%= link_to 'Eliminar mi cuenta', eliminar_usuario_path(@user.id), data: { turbo_method: :delete, turbo_confirm: '¿Estás seguro?' }, class: 'btn btn-danger btn-eliminar' %>
