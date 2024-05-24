@@ -11,6 +11,8 @@
     <!-- Botón de desplegar en dispositivos pequeños -->
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
       <% if Current.user.present? %>
+          <% unread_notifications = Current.user.notifications.where(read: false) %>
+          <span class="badge badge-danger"><%= unread_notifications.count if  unread_notifications.present?%></span>
           <img width="40" height="40" src="https://img.icons8.com/matisse/100/gender-neutral-user--v1.png" alt="gender-neutral-user--v1"/>
           <li class="nav-item">
            <%= Current.user.username %>

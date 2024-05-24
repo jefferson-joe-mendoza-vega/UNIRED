@@ -3,8 +3,19 @@ class ResponsesController < ApplicationController
     
     def create
       @response = Response.new(response_params)
+      
+
       if @response.save
-        redirect_to @comment, notice: 'Respuesta creada correctamente.'
+        @notificacion = Notification.new(
+          user_id: @response.comment.user_id,
+          publicacion_id: @response.comment.publicacion_id,
+          message: "#{Current.user.username} respondió a tu comentario: '#{@comment.content}'"
+        ) 
+        
+        if @notificacion.save
+        
+          redirect_to @comment, notice: 'Respuesta creada correctamente.'
+        end
       else
         redirect_to @comment, alert: 'Hubo un error al crear la respuesta.'
       end
