@@ -5,6 +5,9 @@ gem 'will_paginate'
 gem 'rails_autolink'
 gem 'will_paginate-bootstrap'
 
+gem 'image_processing', '~> 1.2'
+gem 'streamio-ffmpeg', '~> 3.0'
+
 
 ruby "3.2.3"
 
