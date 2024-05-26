@@ -78,34 +78,30 @@ class PublicacionesController < ApplicationController
 
   end
   def compress_and_attach_video
-    # Path del video original
-    original_video_path = ActiveStorage::Blob.service.path_for(@publicacion.video.key)
-  
-    # Path donde se guardará el video comprimido
-    compressed_video_path = "#{Rails.root}/tmp/compressed_video.mp4"
-  
-    # Comando FFmpeg para comprimir el video
-    ffmpeg_command = "ffmpeg -i #{original_video_path} -vf scale=640:-2 -c:v libx264 -preset medium -crf 28 -c:a aac -b:a 128k -movflags +faststart #{compressed_video_path}"
+    return unless @publicacion.video.attached?
   
     begin
-      # Ejecutar el comando FFmpeg para comprimir el video
+      original_video_path = @publicacion.video.blob.service.send(:path_for, @publicacion.video.key)
+  
+      compressed_video_path = "#{Rails.root}/tmp/compressed_video.mp4"
+  
+      ffmpeg_command = "ffmpeg -i #{original_video_path} -vf scale=640:-2 -c:v libx264 -preset medium -crf 28 -c:a aac -b:a 128k -movflags +faststart #{compressed_video_path}"
+  
       stdout, stderr, status = Open3.capture3(ffmpeg_command)
   
       if status.success?
-        # Adjuntar el video comprimido a la publicación
-        @publicacion.video.attach(io: File.open(compressed_video_path), filename: 'compressed_video.mp4')
+        File.open(compressed_video_path) do |file|
+          @publicacion.video.attach(io: file, filename: 'compressed_video.mp4')
+        end
   
-        # Eliminar el archivo temporal del video comprimido
         File.delete(compressed_video_path) if File.exist?(compressed_video_path)
       else
-        # Manejar errores si FFmpeg no pudo comprimir el video
         Rails.logger.error "Error al comprimir el video: #{stderr}"
       end
     rescue => e
       Rails.logger.error "Error procesando el video: #{e.message}"
     end
   end
-
   def load_publicaciones
     @publicaciones = Publicacion.all.with_attached_imagen.order(created_at: :desc)
   end
