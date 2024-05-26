@@ -291,20 +291,31 @@
                     <span ><i class="fas fa-comments"></i> <%= publicacion.comments.count %></span>
                   </p>
                 <% end %>
-                <!-- MOSTRAR REACCIONES DESTACADAS -->   
-                <% destacadas = publicacion.reactions.group(:reaction_type).count.sort_by { |_, v| -v }.first(3) %>
-                <% if destacadas.present? %>
-                  <div class="reacciones-destacadas">
-                    <%= link_to reacciones_path(publicacion_id: publicacion.id), data: { turbo_frame: '_top' } do %>
-                      <% destacadas.each do |tipo, cantidad| %>
-                        <%= "#{tipo.humanize.capitalize}" "#{cantidad}" if tipo.present? %>
+                <!-- MOSTRAR REACCIONES DESTACADAS --> 
+                <%= turbo_frame_tag "reacciones" do %>  
+                  <% destacadas = publicacion.reactions.group(:reaction_type).count.sort_by { |_, v| -v }.first(3) %>
+                  <% if destacadas.present? %>
+                    <div class="reacciones-destacadas">
+                      <%= link_to reacciones_path(publicacion_id: publicacion.id), data: { turbo_frame: '_top' } do %>
+                        <% destacadas.each do |tipo, cantidad| %>
+                          <% emoji = case tipo
+                                    when 'me_gusta' then '👍'
+                                    when 'me_encanta' then '❤️'
+                                    when 'me_divierte' then '😂'
+                                    when 'me_asombra' then '😮'
+                                    when 'me_entristece' then '😢'
+                                    when 'me_enoja' then '😡'
+                                    else '❓'
+                                    end %>
+                          <%= "#{emoji} #{cantidad}" if tipo.present? %>
+                        <% end %>
                       <% end %>
-                    <% end %>
-                  </div>
-                <% end %>
-                <!-- CONTENEDOR PARA REACCIONAR-->
+                    </div>
+                  <% end %>
+
+                  <!-- CONTENEDOR PARA REACCIONAR-->
                 
-                <%= turbo_frame_tag "reacciones" do %>
+                
                   <% me_divierte_count = publicacion.reactions.where(reaction_type: 'me_divierte').count %>
                   <% me_gusta_count = publicacion.reactions.where(reaction_type: 'me_gusta').count %>
                   <% me_encanta_count = publicacion.reactions.where(reaction_type: 'me_encanta').count %> 
