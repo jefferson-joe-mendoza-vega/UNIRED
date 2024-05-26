@@ -21,7 +21,17 @@ h1 {
   margin-top: 20px; /* Margen superior */
 }
 
+.custom-pagination {
+  display: flex;
+  justify-content: center;
+}
+
 .custom-pagination a {
+  display: none; /* Oculta todos los enlaces */
+}
+
+.custom-pagination .next_page {
+  display: inline-block; /* Muestra solo el enlace 'Next' */
   color: #333; /* Color del texto */
   padding: 5px 10px; /* Espaciado interno */
   margin: 0 3px; /* Margen entre los enlaces */
@@ -31,21 +41,25 @@ h1 {
   background-color: #fff; /* Fondo del botón */
 }
 
-.custom-pagination a:hover {
+.custom-pagination .next_page:hover {
   background-color: #f0f0f0; /* Cambio de color al pasar el ratón */
 }
 
-.custom-pagination .current {
-  background-color: #007bff; /* Color de fondo para la página actual */
-  color: #fff; /* Color del texto para la página actual */
+.custom-pagination .next_page[disabled] {
+  display: none; /* Oculta el enlace 'Next' si está deshabilitado */
+}
+
+.custom-pagination .next_page::after {
+  content: " cargar más publicaciones..."; /* Cambia el texto del enlace 'Next' */
 }
 
 @media (max-width: 576px) {
-  .custom-pagination a {
+  .custom-pagination .next_page {
     padding: 3px 6px; /* Espaciado interno reducido para dispositivos móviles */
     margin: 0 2px; /* Margen reducido para dispositivos móviles */
   }
 }
+
 
     
     .img-menu {

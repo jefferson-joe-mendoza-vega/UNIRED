@@ -226,9 +226,10 @@
           <% end %>
         <%end%>
 
+        <h1>Publicaciones</h1>
         <%= turbo_frame_tag "publicacionss" do %>
           <!-- Lista de Publicaciones -->
-          <h1>Publicaciones</h1>
+          
           <% @publicaciones.each do |publicacion| %>
             <div class="card my-0">
               <div class="card-body">
@@ -345,13 +346,13 @@
             </div>
             <br>
           <% end %>
+          <%= turbo_frame_tag "publicacionss" do %>
+            <div class="pagination justify-content-center">
+              <%= will_paginate @publicaciones, renderer: WillPaginate::ActionView::LinkRenderer, class: "custom-pagination" %>
+            </div>
+          <%end%>
           
         <% end %>
-        
-        <div class="pagination justify-content-center">
-          <%= will_paginate @publicaciones, renderer: WillPaginate::ActionView::LinkRenderer, class: "custom-pagination" %>
-        </div>
-
 
         
       </div>
