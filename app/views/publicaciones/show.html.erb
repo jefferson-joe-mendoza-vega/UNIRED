@@ -58,7 +58,7 @@
               <% end %>
 
 
-              <% if @publicacion.user.id == session[:user_id] || (Current.user && Current.user.admin?) || (Current.user && Current.user.lider? && Current.user.faculty_id == @publicacion.user.faculty_id) %>
+              <% if @publicacion.user.id == session[:user_id] || (Current.user && Current.user.admin?) || (Current.user && Current.user.lider? && Current.user.faculty_id == @publicacion.user.faculty_id  && Current.user.promotion == @publicacion.user.promotion) %>
                 <%= link_to eliminar_publicacion_path(@publicacion), class: "btn btn-danger", data: { turbo_method: :delete, turbo_confirm: '¿Estás seguro?' } do %>
                   <i class="bi bi-trash-fill me-1"></i> Eliminar
                 <% end %>
