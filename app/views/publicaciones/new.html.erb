@@ -140,6 +140,17 @@
     const removeButton = document.querySelector(`#remove-${type}`);
 
     const file = fileInput.files[0];
+
+    // Limit file size to 100 MB (100 * 1024 * 1024 bytes)
+    const maxSize = 100 * 1024 * 1024;
+
+    if (file && file.size > maxSize) {
+      alert("El archivo es demasiado grande para la vista previa. El tamaño máximo para la vista previa es de 100 MB.");
+      preview.style.display = "none"; // Hide preview
+      removeButton.style.display = "block"; // Show remove button
+      return;
+    }
+
     const reader = new FileReader();
 
     reader.addEventListener("load", function () {

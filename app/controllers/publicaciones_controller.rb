@@ -21,8 +21,6 @@ class PublicacionesController < ApplicationController
       faculty_id = params[:faculty_id]
       @publicaciones_fijadas_facultad = @publicaciones_fijadas_facultad.joins(:user).where(users: { faculty_id: faculty_id })
     end
-
-
   end
 
   def show
@@ -69,39 +67,66 @@ class PublicacionesController < ApplicationController
 
   private
   def resize_and_compress_image
+    return unless @publicacion.imagen.attached?
+
     begin
-      image = @publicacion.imagen.variant(resize_to_limit: [800, 800], quality: '50%').processed
-      @publicacion.imagen.attach(image)
-    rescue ActiveStorage::FileNotFoundError => e
+      original_image_path = @publicacion.imagen.blob.service.send(:path_for, @publicacion.imagen.key)
+      
+      image = MiniMagick::Image.open(original_image_path)
+      if image.width > 800 || image.height > 800
+        image.resize "800x800"
+        image.quality "85"
+        
+        compressed_image_path = "#{Rails.root}/tmp/compressed_image.jpg"
+        image.write(compressed_image_path)
+
+        File.open(compressed_image_path) do |file|
+          @publicacion.imagen.attach(io: file, filename: 'compressed_image.jpg')
+        end
+
+        File.delete(compressed_image_path) if File.exist?(compressed_image_path)
+      end
+    rescue => e
       Rails.logger.error "Error procesando la imagen: #{e.message}"
     end
-
   end
+
   def compress_and_attach_video
     return unless @publicacion.video.attached?
-  
+
     begin
       original_video_path = @publicacion.video.blob.service.send(:path_for, @publicacion.video.key)
-  
-      compressed_video_path = "#{Rails.root}/tmp/compressed_video.mp4"
-  
-      ffmpeg_command = "ffmpeg -i #{original_video_path} -vf scale=640:-2 -c:v libx264 -preset medium -crf 28 -c:a aac -b:a 128k -movflags +faststart #{compressed_video_path}"
-  
-      stdout, stderr, status = Open3.capture3(ffmpeg_command)
-  
+      video_info_command = "ffprobe -v error -show_entries stream=width,height -of csv=p=0:s=x #{original_video_path}"
+      
+      stdout, stderr, status = Open3.capture3(video_info_command)
+      
       if status.success?
-        File.open(compressed_video_path) do |file|
-          @publicacion.video.attach(io: file, filename: 'compressed_video.mp4')
+        width, height = stdout.strip.split('x').map(&:to_i)
+        
+        if height > 480
+          compressed_video_path = "#{Rails.root}/tmp/compressed_video.mp4"
+          ffmpeg_command = "ffmpeg -i #{original_video_path} -vf scale=-2:480 -c:v libx264 -preset medium -crf 28 -c:a aac -b:a 128k -movflags +faststart #{compressed_video_path}"
+          
+          stdout, stderr, status = Open3.capture3(ffmpeg_command)
+          
+          if status.success?
+            File.open(compressed_video_path) do |file|
+              @publicacion.video.attach(io: file, filename: 'compressed_video.mp4')
+            end
+            
+            File.delete(compressed_video_path) if File.exist?(compressed_video_path)
+          else
+            Rails.logger.error "Error al comprimir el video: #{stderr}"
+          end
         end
-  
-        File.delete(compressed_video_path) if File.exist?(compressed_video_path)
       else
-        Rails.logger.error "Error al comprimir el video: #{stderr}"
+        Rails.logger.error "Error al obtener información del video: #{stderr}"
       end
     rescue => e
       Rails.logger.error "Error procesando el video: #{e.message}"
     end
   end
+
   def load_publicaciones
     @publicaciones = Publicacion.all.with_attached_imagen.order(created_at: :desc)
   end
@@ -109,7 +134,6 @@ class PublicacionesController < ApplicationController
   def load_faculty_publicaciones
     @publicaciones = @publicaciones.where(category_id: params[:category_id]) if params[:category_id].present?
     @publicaciones = @publicaciones.joins(:user).where(users: { faculty_id: params[:faculty_id] }) if params[:faculty_id].present?
-  
   end
 
   def search_publicaciones
@@ -144,7 +168,7 @@ class PublicacionesController < ApplicationController
                                 .order('COUNT(comments.id) DESC')
                                 .limit(5)
   end
-    
+
   def publicacion_params
     params.require(:publicacion).permit(:titulo, :descripcion, :imagen, :category_id, :mostrar_nombre, :fijada, :fijadaindex, :video)
   end
