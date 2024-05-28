@@ -1,8 +1,9 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Forunas</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title><%= yield(:title) || "UniRed" %></title>
+  <meta name="description" content="<%= yield(:description) || "Red social para la comunidad universitaria" %>">
+  <meta name="keywords" content="UniRed, Universidad Nacional Agraria de la Selva, universidad, estudiantes, red social, unired, tingo maria">
   <%= csrf_meta_tags %>
   <%= csp_meta_tag %>
 
@@ -23,7 +24,7 @@
 
     /* Ajustar el cuerpo del documento para evitar que el contenido se solape con el encabezado */
     body {
-      padding-top: 56px; /* La altura del encabezado, ajusta según sea necesario */
+      padding-top: 40px; /* La altura del encabezado, ajusta según sea necesario */
     }
 
     /* Estilo adicional para el cuerpo si hay una barra de desplazamiento vertical */
