@@ -10,8 +10,14 @@
   object-fit: contain; /* Esto asegura que el video se ajuste dentro del contenedor manteniendo su relación de aspecto */
 }
 
-
-
+.total-publicaciones {
+  background-color: #d4edda; /* Color de fondo verde */
+  color: #155724; /* Color de texto oscuro */
+  padding: 10px; /* Espaciado interior */
+  border: 1px solid #c3e6cb; /* Borde sólido verde claro */
+  border-radius: 5px; /* Bordes redondeados */
+  margin-bottom: 10px; /* Espacio inferior */
+}
 /* Estilos para el título "Publicaciones" */
 h1 {
   color: #FFFFFF; /* Color del texto */

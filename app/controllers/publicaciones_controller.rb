@@ -64,6 +64,13 @@ class PublicacionesController < ApplicationController
     @publicacion.destroy
     redirect_to publicaciones_path, notice: 'La publicación se ha eliminado correctamente.', status: :see_other
   end
+  # app/controllers/publicaciones_controller.rb
+
+  def total
+    @total_publicaciones = Publicacion.count
+    render json: { total_publicaciones: @total_publicaciones }
+  end
+
 
   private
   def resize_and_compress_image

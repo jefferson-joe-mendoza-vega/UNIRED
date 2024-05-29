@@ -45,9 +45,32 @@ def destroy
   
 end
 
+def buscar
+  query = params[:query].strip
 
+  if query.present? && query.length >= 3
+    if query.start_with?('@')
+      username = query[1..-1]
+      @usuarios = User.includes(:faculty).where("username ILIKE ?", "%#{username}%").limit(10)
+    elsif query.start_with?('!')
+      faculty_name = query[1..-1]
+      @usuarios = User.includes(:faculty).joins(:faculty).where("faculties.name ILIKE ?", "%#{faculty_name}%").order("promotion DESC").limit(10)
+    elsif query.start_with?('#')
+      promotion_ano = query[1..-1]
+      @usuarios = User.where("promotion ILIKE ?", "%#{promotion_ano}%").limit(10)
+    else
+      @usuarios = User.includes(:faculty).where("username ILIKE ?", "%#{query}%").limit(10)
+    end
 
-
+    respond_to do |format|
+      format.json { render json: @usuarios.map { |u| { username: u.username, faculty: u.faculty&.name } } }
+    end
+  else
+    respond_to do |format|
+      format.json { render json: [] }
+    end
+  end
+end
 end
 
 

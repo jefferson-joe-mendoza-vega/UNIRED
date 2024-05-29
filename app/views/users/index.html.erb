@@ -65,89 +65,157 @@
       background-color: #c82333;
       border-color: #bd2130;
     }
-   /* Estilos personalizados para la paginación */
-  .custom-pagination {
-    display: flex;
-    justify-content: center;
-    margin-top: 20px;
-  }
-
-  .custom-pagination a {
-    color: #333; /* Color del texto */
-    padding: 5px 10px; /* Espaciado interno */
-    margin: 0 3px; /* Margen entre los enlaces */
-    text-decoration: none; /* Quitar subrayado */
-    border: 1px solid #ccc; /* Borde */
-    border-radius: 3px; /* Bordes redondeados */
-    background-color: #fff; /* Fondo del botón */
-  }
-
-  .custom-pagination a:hover {
-    background-color: #f0f0f0; /* Cambio de color al pasar el ratón */
-  }
-
-  .custom-pagination .current {
-    background-color: #007bff; /* Color de fondo para la página actual */
-    color: #fff; /* Color del texto para la página actual */
-  }
-
-  @media (max-width: 576px) {
-    .custom-pagination a {
-      padding: 3px 6px; /* Espaciado interno reducido para dispositivos móviles */
-      margin: 0 2px; /* Margen reducido para dispositivos móviles */
+    /* Estilos personalizados para la paginación */
+    .custom-pagination {
+      display: flex;
+      justify-content: center;
+      margin-top: 20px;
     }
-  }
 
+    .custom-pagination a {
+      color: #333; /* Color del texto */
+      padding: 5px 10px; /* Espaciado interno */
+      margin: 0 3px; /* Margen entre los enlaces */
+      text-decoration: none; /* Quitar subrayado */
+      border: 1px solid #ccc; /* Borde */
+      border-radius: 3px; /* Bordes redondeados */
+      background-color: #fff; /* Fondo del botón */
+    }
+
+    .custom-pagination a:hover {
+      background-color: #f0f0f0; /* Cambio de color al pasar el ratón */
+    }
+
+    .custom-pagination .current {
+      background-color: #007bff; /* Color de fondo para la página actual */
+      color: #fff; /* Color del texto para la página actual */
+    }
+
+    @media (max-width: 576px) {
+      .custom-pagination a {
+        padding: 3px 6px; /* Espaciado interno reducido para dispositivos móviles */
+        margin: 0 2px; /* Margen reducido para dispositivos móviles */
+      }
+    }
+
+    #resultados-busqueda {
+      background-color: #222;
+      border: 1px solid #444;
+      border-radius: 5px;
+      padding: 10px;
+      max-height: 200px;
+      overflow-y: auto;
+      margin-top: 10px;
+      color: #fff; /* Cambiar el color del texto a blanco */
+    }
+
+    #resultados-busqueda p {
+      margin: 5px 0;
+      color: #fff; /* Cambiar el color del texto de los párrafos a blanco */
+    }
+
+    #resultados-busqueda a {
+      color: #fff; /* Cambiar el color del enlace a blanco */
+      text-decoration: none;
+    }
+
+    #resultados-busqueda a:hover {
+      text-decoration: underline;
+    }
   </style>
 </head>
 <body>
-<br>
-<div class="container mt-5">
-  <!-- Formulario de búsqueda -->
-  <form action="<%= usuario_index_path %>" method="get" class="form-inline">
-    <div class="input-group input-group-lg">
-      <input type="text" name="query" class="form-control" placeholder="Buscar por @nombre o !facultad o #promo" style="width: 450px;">
-      <div class="input-group-append">
-        <button type="submit" class="btn btn-primary">Buscar</button>
-      </div>
-    </div>
-  </form>
-
-  <!-- Listado de usuarios -->
-  <div class="row">
-    <% @usuarios.each do |usuario| %>
-      <div class="col-md-4 mb-4">
-        <div class="card h-100 shadow">
-          <div class="card-body">
-            <% if usuario.present? && usuario.social.present? && usuario.social.fotoperfil.present? %>
-              <%= render partial: 'perfil', locals: { user: usuario } %>
-            <% else %>
-              <i class="bi bi-person me-2" style="font-size: 32px;"></i> 
-            <% end %>
-            <h5 class="card-title"><%= usuario.username %></h5>
-            <% if usuario.faculty %>
-              <p class="card-text"><strong>Facultad:</strong> <%= usuario.faculty.name %> - <%= usuario.promotion %></p>
-            <% end %>
-            <p class="card-text"><strong>Publicaciones:</strong> <%= usuario.publicacions.count %></p>
-            <% if Current.user && Current.user.admin? %>
-              <a href="<%= eliminar_usuario_path(usuario.id) %>" class="btn btn-danger btn-sm mr-2" data-turbo-method="delete" data-turbo-confirm="¿Estás seguro?">Eliminar Usuario</a>
-            <% end %>
-            <a href="<%= usuario_path(usuario.username) %>" class="btn btn-primary btn-sm">Ver perfil</a>
-          </div>
+  <br>
+  <div class="container mt-5">
+    <!-- Formulario de búsqueda -->
+    <form action="<%= usuario_index_path %>" method="get" class="form-inline">
+      <div class="input-group input-group-lg">
+        <input type="text" name="query" class="form-control" id="busqueda" placeholder="Buscar por @nombre o !facultad o #promo" style="width: 450px;" autocomplete="off">
+        <div class="input-group-append">
+          <button type="submit" class="btn btn-primary">Buscar</button>
         </div>
       </div>
-    <% end %>
+      <div id="resultados-busqueda" class="mt-3"></div>
+    </form>
+
+    <!-- Listado de usuarios -->
+    <div class="row">
+      <% @usuarios.each do |usuario| %>
+        <div class="col-md-4 mb-4">
+          <div class="card h-100 shadow">
+            <div class="card-body">
+              <% if usuario.present? && usuario.social.present? && usuario.social.fotoperfil.present? %>
+                <%= render partial: 'perfil', locals: { user: usuario } %>
+              <% else %>
+                <i class="bi bi-person me-2" style="font-size: 32px;"></i> 
+              <% end %>
+              <h5 class="card-title"><%= usuario.username %></h5>
+              <% if usuario.faculty %>
+                <p class="card-text"><strong>Facultad:</strong> <%= usuario.faculty.name %> - <%= usuario.promotion %></p>
+              <% end %>
+              <p class="card-text"><strong>Publicaciones:</strong> <%= usuario.publicacions.count %></p>
+              <% if Current.user && Current.user.admin? %>
+                <a href="<%= eliminar_usuario_path(usuario.id) %>" class="btn btn-danger btn-sm mr-2" data-turbo-method="delete" data-turbo-confirm="¿Estás seguro?">Eliminar Usuario</a>
+              <% end %>
+              <a href="<%= usuario_path(usuario.username) %>" class="btn btn-primary btn-sm">Ver perfil</a>
+            </div>
+          </div>
+        </div>
+      <% end %>
+    </div>
+
+    <!-- Enlaces de paginación -->
+    <div class="custom-pagination">
+      <%= will_paginate @usuarios, renderer: WillPaginate::ActionView::LinkRenderer %>
+    </div>
   </div>
 
-  <!-- Enlaces de paginación -->
-  <div class="custom-pagination">
-    <%= will_paginate @usuarios, renderer: WillPaginate::ActionView::LinkRenderer %>
-  </div>  
-</div>
+  <!-- Bootstrap JS -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
-<!-- Bootstrap JS -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  <script>
+    $(document).ready(function() {
+      // Función para realizar la búsqueda dinámica
+      $('#busqueda').on('input', function() {
+        var query = $(this).val().trim();
 
+        if (query.length >= 3) {
+          $.ajax({
+            url: '<%= buscar_usuarios_path %>',
+            type: 'GET',
+            data: { query: query },
+            dataType: 'json',
+            success: function(data) {
+              mostrarResultados(data);
+            },
+            error: function(xhr, status, error) {
+              console.error('Error al realizar la búsqueda:', error);
+            }
+          });
+        } else {
+          $('#resultados-busqueda').empty();
+        }
+      });
+
+      // Función para mostrar los resultados de la búsqueda
+      function mostrarResultados(data) {
+        var resultadosDiv = $('#resultados-busqueda');
+        resultadosDiv.empty();
+
+        if (data.length > 0) {
+          data.forEach(function(usuario) {
+            resultadosDiv.append(
+              '<p><i class="fas fa-graduation-cap"></i><a href="/user/' + usuario.username + '">' +
+              usuario.username + ' (' + usuario.faculty + ')' +
+              '</a></p>'
+            );
+          });
+        } else {
+          resultadosDiv.append('<p>No se encontraron resultados.</p>');
+        }
+      }
+    });
+  </script>
 </body>
 </html>
