@@ -5,6 +5,7 @@ Rails.application.routes.draw do
   delete 'publicaciones/:id', to: 'publicaciones#destroy', as: :eliminar_publicacion
   patch "/publicaciones/:id", to: 'publicaciones#update'
   post '/publicaciones', to: 'publicaciones#create'
+  get 'buscar_publicaciones', to: 'publicaciones#buscar'
   get '/publicaciones/new', to: 'publicaciones#new', as: :nueva_publicacion
   get '/publicaciones', to: 'publicaciones#index'
   get '/publicaciones/:id', to: 'publicaciones#show', as: :publicacion

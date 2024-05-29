@@ -71,6 +71,20 @@ class PublicacionesController < ApplicationController
     render json: { total_publicaciones: @total_publicaciones }
   end
 
+  def buscar
+    query = params[:query].strip
+
+    if query.present? && query.length >= 3
+      @publicaciones = Publicacion.where("titulo ILIKE ? OR descripcion ILIKE ?", "%#{query}%", "%#{query}%").limit(10)
+    else
+      @publicaciones = []
+    end
+
+    respond_to do |format|
+      format.json { render json: @publicaciones }
+    end
+  end
+
 
   private
   def resize_and_compress_image
