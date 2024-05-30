@@ -75,7 +75,7 @@
           <!-- Botón de nueva publicación -->
           <% if Current.user %>
             <div class="d-grid gap-2 d-md-flex justify-content-md-end ms-auto">
-              <%= link_to(nueva_publicacion_path, class: "btn btn-warning btn-md") do %>
+              <%= link_to(nueva_publicacion_path, class: "btn-nueva-publicacion") do %>
                 <i class="bi bi-journal-plus me-2"></i> Nueva publicación
               <% end %>
             </div>
@@ -463,7 +463,7 @@
     });
     resultadosDiv.append(resultadosContainer);
   } else {
-    resultadosDiv.append('<p>No se encontraron resultados.</p>');
+    resultadosDiv.append('<p style="color: #FFFFFF;">No se encontraron resultados.</p>');
   }
 }
 });
