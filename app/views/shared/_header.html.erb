@@ -22,8 +22,10 @@
     <!-- Contenido del Navbar -->
     <div class="collapse navbar-collapse" id="navbarNav">
       <ul class="navbar-nav ml-auto">
+        <hr style="border-top: 1px solid black; margin-bottom: 1rem;">
         
         <!-- Enlace a la página de perfil del usuario actual -->
+        
         <% if Current.user.present? %>
           <li class="nav-item ml-auto">
             <%= link_to usuario_path(Current.user.username), class: "nav-link text-white" do %>
@@ -34,6 +36,7 @@
         
         <!-- Enlace a la página de notificaciones -->
         <% if Current.user.present? %>
+          <div class="border-bottom mb-3"></div>
           <% unread_notifications = Current.user.notifications.where(read: false) %>
           <li class="nav-item ml-auto">
             <%= link_to notifications_path, class: "nav-link text-white" do %>
@@ -45,6 +48,7 @@
 
         <!-- Menú desplegable para el usuario administrador -->
         <% if Current.user && Current.user.admin? %>
+          <div class="border-bottom mb-3"></div>
           <li class="nav-item dropdown ml-auto">
             <a class="nav-link dropdown-toggle text-white" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
               <i class="fas fa-cogs"></i> Administrador
@@ -59,6 +63,7 @@
         
         <!-- Enlace para cerrar sesión -->
         <% if Current.user %>
+          <div class="border-bottom mb-3"></div>
           <li class="nav-item ml-auto">
             <%= link_to 'Cerrar sesión', session_path(1), class: "nav-link text-white", data: { turbo_method: :delete, turbo_confirm: '¿Estás seguro?' } %>
           </li>
@@ -70,6 +75,7 @@
             <%= link_to 'Iniciar sesión', new_session_path, class: "nav-link text-white" %>
           </li>
           <li class="nav-item">
+            <div class="border-bottom mb-3"></div>
             <%= link_to 'Registrarse', new_user_path, class: "nav-link text-white" %>
           </li>
         <% end %>

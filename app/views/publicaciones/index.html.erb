@@ -368,16 +368,23 @@
                   <% me_enoja_count = publicacion.reactions.where(reaction_type: 'me_enoja').count %> 
                   <div class="border-bottom mb-3"></div>
                   <div class="reaction-dropdown">
-                    
-                    <%if (Current.user.present? && publicacion.reactions.where(user_id: Current.user.id).exists?)%>
-                      <span class="reaction-icon" onclick="toggleReactionMenu(this)">
-                        <span style="font-size: 24px; margin-left: 30px;">❤️</span> 
-                      </span>
-                    <% elsif  %>
-                      <span class="reaction-icon" onclick="toggleReactionMenu(this)">
-                        <span style="font-size: 24px; margin-left: 30px;">🤍</span>
+                    <%if Current.user.present?%> 
+                      <%if (Current.user.present? && publicacion.reactions.where(user_id: Current.user.id).exists?)%>
+                        <span class="reaction-icon" onclick="toggleReactionMenu(this)">
+                          <span style="font-size: 24px; margin-left: 30px;">❤️</span> 
+                        </span>
+                      <% elsif  %>
+                        <span class="reaction-icon" onclick="toggleReactionMenu(this)">
+                          <span style="font-size: 24px; margin-left: 30px;">🤍</span>
 
+                        </span>
+                      <%end%>
+                    <%else%>
+                      <span class="reaction-icon" onclick="showLoginMessage(this)">
+                        <span style="font-size: 24px; margin-left: 30px;">🤍</span>
+                        <span class="login-message">Inicie session para reaccionar</span>
                       </span>
+                      
                     <%end%>
                     <div class="reaction-menu">
                       <% if Current.user %>
@@ -448,6 +455,20 @@
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 </body>
+<script>
+  function showLoginMessage(element) {
+    var message = element.querySelector('.login-message');
+    if (message) {
+      message.style.display = 'block';
+      setTimeout(function() {
+        message.style.display = 'none';
+      }, 3000); // 3000 milisegundos = 3 segundos
+    }
+  }
+
+
+
+</script>
 <script>
   $(document).ready(function() {
   $('#busqueda').on('input', function() {
