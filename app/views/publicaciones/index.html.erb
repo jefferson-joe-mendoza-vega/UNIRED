@@ -73,7 +73,7 @@
         <br>
         <div class="col-4 text-end">
           <!-- Botón de nueva publicación -->
-          <% if Current.user %>
+          <% if 1==1%>
             <div class="d-grid gap-2 d-md-flex justify-content-md-end ms-auto">
               <%= link_to(nueva_publicacion_path, class: "btn-nueva-publicacion") do %>
                 <i class="bi bi-journal-plus me-2"></i> Nueva publicación
@@ -334,9 +334,6 @@
                       <%= video_tag publicacion.video, class: "video-autoplay", loop: true, controls: true %>
                     </div>
                   <% end %>
-                  <p class="comentarios">
-                    <span ><i class="fas fa-comments"></i> <%= publicacion.comments.count %></span>
-                  </p>
                 <% end %>
                 <!-- MOSTRAR REACCIONES DESTACADAS --> 
                 <%= turbo_frame_tag "reacciones" do %>  
@@ -370,38 +367,63 @@
                   <% me_entristece_count = publicacion.reactions.where(reaction_type: 'me_entristece').count %> 
                   <% me_enoja_count = publicacion.reactions.where(reaction_type: 'me_enoja').count %> 
                   <div class="border-bottom mb-3"></div>
-                  <% if Current.user %>
-                    <%= link_to reactions_path(publicacion_id: publicacion.id, reaction_type: :me_gusta), method: :post, remote: true do %>
-                      <button class="like" onclick="selectReaction(this)">
-                        <i class="fas fa-thumbs-up"></i> <%= me_gusta_count %>
-                      </button>
-                    <% end %>
-                    <%= link_to reactions_path(publicacion_id: publicacion.id, reaction_type: :me_encanta), method: :post, remote: true do %>
-                      <button class="heart" onclick="selectReaction(this)">
-                        <i class="fas fa-heart"></i> <%= me_encanta_count %>
-                      </button>
-                    <% end %>
-                    <%= link_to reactions_path(publicacion_id: publicacion.id, reaction_type: :me_divierte), method: :post, remote: true do %>
-                      <button class="laugh" onclick="selectReaction(this)">
-                        <i class="fas fa-laugh"></i> <%= me_divierte_count %>
-                      </button>
-                    <% end %>
-                    <%= link_to reactions_path(publicacion_id: publicacion.id, reaction_type: :me_asombra), method: :post, remote: true do %>
-                      <button class="sad" onclick="selectReaction(this)">
-                        <i class="fas fa-surprise"></i> <%= me_asombra_count %>
-                      </button>
-                    <% end %>
-                    <%= link_to reactions_path(publicacion_id: publicacion.id, reaction_type: :me_entristece), method: :post, remote: true do %>
-                      <button class="angry" onclick="selectReaction(this)">
-                        <i class="fas fa-sad-tear"></i> <%= me_entristece_count %>
-                      </button>
-                    <% end %>
-                    <%= link_to reactions_path(publicacion_id: publicacion.id, reaction_type: :me_enoja), method: :post, remote: true do %>
-                      <button class="angry" onclick="selectReaction(this)">
-                        <i class="fas fa-angry"></i> <%= me_enoja_count %>
-                      </button>
-                    <% end %>
-                  <%end%>
+                  <div class="reaction-dropdown">
+                    
+                    <%if (Current.user.present? && publicacion.reactions.where(user_id: Current.user.id).exists?)%>
+                      <span class="reaction-icon" onclick="toggleReactionMenu(this)">
+                        <span style="font-size: 24px; margin-left: 30px;">❤️</span> 
+                      </span>
+                    <% elsif  %>
+                      <span class="reaction-icon" onclick="toggleReactionMenu(this)">
+                        <span style="font-size: 24px; margin-left: 30px;">🤍</span>
+
+                      </span>
+                    <%end%>
+                    <div class="reaction-menu">
+                      <% if Current.user %>
+                        <%= link_to reactions_path(publicacion_id: publicacion.id, reaction_type: :me_gusta), method: :post, remote: true do %>
+                          <button class="like" onclick="selectReaction(this)">
+                            <i class="fas fa-thumbs-up"></i> <%= me_gusta_count %>
+                          </button>
+                        <% end %>
+                        <%= link_to reactions_path(publicacion_id: publicacion.id, reaction_type: :me_encanta), method: :post, remote: true do %>
+                          <button class="heart" onclick="selectReaction(this)">
+                            <i class="fas fa-heart"></i> <%= me_encanta_count %>
+                          </button>
+                        <% end %>
+                        <%= link_to reactions_path(publicacion_id: publicacion.id, reaction_type: :me_divierte), method: :post, remote: true do %>
+                          <button class="laugh" onclick="selectReaction(this)">
+                            <i class="fas fa-laugh"></i> <%= me_divierte_count %>
+                          </button>
+                        <% end %>
+                        <%= link_to reactions_path(publicacion_id: publicacion.id, reaction_type: :me_asombra), method: :post, remote: true do %>
+                          <button class="sad" onclick="selectReaction(this)">
+                            <i class="fas fa-surprise"></i> <%= me_asombra_count %>
+                          </button>
+                        <% end %>
+                        <%= link_to reactions_path(publicacion_id: publicacion.id, reaction_type: :me_entristece), method: :post, remote: true do %>
+                          <button class="angry" onclick="selectReaction(this)">
+                            <i class="fas fa-sad-tear"></i> <%= me_entristece_count %>
+                          </button>
+                        <% end %>
+                        <%= link_to reactions_path(publicacion_id: publicacion.id, reaction_type: :me_enoja), method: :post, remote: true do %>
+                          <button class="angry" onclick="selectReaction(this)">
+                            <i class="fas fa-angry"></i> <%= me_enoja_count %>
+                          </button>
+                        <% end %>
+                      <%end%>
+                    </div>
+                    
+                    <%= link_to publicacion_path(publicacion.id), style: "color: black;", data: { turbo_frame: '_top' } do %>
+                      <p style="margin-left: 250px; margin-top: -30px;" class="comentarios">
+                        <span ><i class="fas fa-comments"></i> <%= publicacion.comments.count %></span>
+                      </p>
+                    <%end%>
+
+
+                  </div>
+                  
+
                 <% end %>
               </div>
             </div>
@@ -508,6 +530,17 @@
   
 
   
+</script>
+<script>
+  function toggleReactionMenu(button) {
+    var menu = button.nextElementSibling;
+    menu.classList.toggle('show');
+  }
+
+  function selectReaction(button) {
+    // Tu función para manejar la reacción seleccionada
+  }
+
 </script>
 <script type="text/javascript">
   $(document).ready(function() {

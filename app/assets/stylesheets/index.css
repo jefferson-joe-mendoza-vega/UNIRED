@@ -1,3 +1,24 @@
+
+
+.reaction-menu {
+  display: none;
+  position: absolute;
+  background-color: #f9f9f9;
+  min-width: 100px;
+  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+  z-index: 1;
+}
+
+.reaction-menu.show {
+  display: block;
+}
+
+.reaction-menu button {
+  width: auto; /* Permitir que el ancho del botón se ajuste automáticamente */
+  text-align: left;
+  margin-right: 5px; /* Ajustar el espacio entre los botones */
+}
+
 .btn-nueva-publicacion {
   font-size: 16px; /* Reducir el tamaño de la fuente */
   font-weight: bold;
@@ -229,7 +250,7 @@ h1 {
     }
 
     .reaccion {
-      background-color: #444;
+      background-color: #992626;
       color: #fff;
       border: none;
       border-radius: 5px;
