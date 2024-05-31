@@ -26,7 +26,7 @@ class SocialsController < ApplicationController
     private
   
     def social_params
-        params.require(:social).permit(:whatsapp, :facebook, :telegram, :fotoperfil, :descripcionperfil)
+        params.require(:social).permit(:whatsapp, :facebook, :telegram, :fotoperfil, :descripcionperfil, :youtube)
     end
   end
   

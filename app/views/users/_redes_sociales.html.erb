@@ -20,6 +20,14 @@
         </a>
       </div>
     <% end %>
+    
+    <% if user.social.youtube.present? && user.social.youtube != 'null' %>
+      <div class="mb-3">
+        <a href="<%= user.social.youtube %>" class="btn btn-danger btn-circle btn-lg" target="_blank">
+          <i class="fab fa-youtube"></i>
+        </a>
+      </div>
+    <% end %>
 
     <% if user.social.telegram.present? %>
       <div class="mb-3">

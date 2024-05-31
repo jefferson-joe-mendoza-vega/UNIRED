@@ -9,11 +9,7 @@
   <!-- Font Awesome Icons -->
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
   <style>
-    body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background-color: #f8f9fa;
-      padding: 20px;
-    }
+    
     .card {
       border: none;
       border-radius: 15px;
@@ -127,6 +123,16 @@
               </div>
 
               <div class="form-group">
+                <%= form.label :youtube, "YouTube" %>
+                <div class="input-group">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text"><i class="fab fa-youtube text-danger"></i></span>
+                  </div>
+                  <%= form.text_field :youtube, class: 'form-control', placeholder: 'Tu enlace de canal de YouTube' %>
+                </div>
+              </div>
+
+              <div class="form-group">
                 <%= form.label :telegram, "Telegram" %>
                 <div class="input-group">
                   <div class="input-group-prepend">
@@ -159,7 +165,7 @@
               
 
               <div class="form-group">
-                <%= form.label :descripcionperfil, "Descripción del Perfil" %>
+                <%= form.label                 :descripcionperfil, "Descripción del Perfil" %>
                 <%= form.text_area :descripcionperfil, class: 'form-control', placeholder: 'Escribe una breve descripción de tu perfil' %>
               </div>
 
@@ -178,6 +184,7 @@
   <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
   <script>
+    // Event listeners para las funciones de carga de imagen y copiado de enlace
     document.querySelector('.file-label').addEventListener('click', (event) => {
       event.preventDefault();
       document.getElementById('file-input').click();
@@ -237,3 +244,4 @@
   </script>
 </body>
 </html>
+
