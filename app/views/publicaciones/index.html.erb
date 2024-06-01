@@ -273,7 +273,9 @@
                     <div class="nombre-usuario">
                       <% if publicacion.present? && publicacion.user.present? && publicacion.user.social.present? && publicacion.user.social.fotoperfil.present? %>
                         <!-- Ejemplo de cómo renderizar el parcial en una vista -->
-                        <%= render partial: 'fotoperfil', locals: { user: publicacion.user } %>
+                        <%= link_to  usuario_path(publicacion.user.username), style: "color: black;", data: { turbo_frame: '_top' } do %>
+                          <%= render partial: 'fotoperfil', locals: { user: publicacion.user } %>
+                        <%end%>
 
                         <!-- Aquí puedes mostrar una imagen predeterminada o un mensaje indicando que no hay imagen de perfil -->
                       <% else %>
