@@ -23,7 +23,14 @@
             <strong ></strong>
           <% else%>
             <div class="card-header">
-              <h1 class="text-center">Usuario: <%= @publicacion.user.username %></h1>
+              <h3 class="text-center">
+                <span style="color: yellow;">Unasin@:</span> 
+                <%= link_to  usuario_path(@publicacion.user.username), style: "color: black;" do %>
+                  <span style="color: green;"><%= @publicacion.user.username %></span>
+                  <i class="fas fa-graduation-cap"></i>
+                <%end%>
+              </h3>
+
             </div>
           <%end%>
           <div class="card-body">
