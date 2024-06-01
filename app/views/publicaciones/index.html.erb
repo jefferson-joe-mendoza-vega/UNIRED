@@ -384,7 +384,8 @@
                     <%else%>
                       <span class="reaction-icon" onclick="showLoginMessage(this)">
                         <span style="font-size: 24px; margin-left: 30px;">🤍</span>
-                        <span class="login-message">Inicie session para reaccionar</span>
+                        <span class="login-message"><%= link_to 'Inicie session para reaccionar', new_session_path, style: "color: black;", data: { turbo_frame: '_top' }%></span>
+                        
                       </span>
                       
                     <%end%>
