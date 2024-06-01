@@ -388,38 +388,41 @@
                         
                       </span>
                       
+                      
                     <%end%>
                     <div class="reaction-menu">
                       <% if Current.user %>
                         <%= link_to reactions_path(publicacion_id: publicacion.id, reaction_type: :me_gusta), method: :post, remote: true do %>
-                          <button class="like" onclick="selectReaction(this)">
-                            <i class="fas fa-thumbs-up"></i> <%= me_gusta_count %>
-                          </button>
+                          <h3 class="like" onclick="selectReaction(this)">
+                            <i class="fas fa-thumbs-up" style="color: DeepSkyBlue;"></i><span style="color: white;"><%= me_gusta_count %></span>
+                          </h3>
                         <% end %>
                         <%= link_to reactions_path(publicacion_id: publicacion.id, reaction_type: :me_encanta), method: :post, remote: true do %>
-                          <button class="heart" onclick="selectReaction(this)">
-                            <i class="fas fa-heart"></i> <%= me_encanta_count %>
-                          </button>
+                          <h3 class="heart" onclick="selectReaction(this)">
+                            <i class="fas fa-heart" style="color: red;"></i> <span style="color: white;"><%= me_encanta_count %></span>
+                          </h3>
                         <% end %>
                         <%= link_to reactions_path(publicacion_id: publicacion.id, reaction_type: :me_divierte), method: :post, remote: true do %>
-                          <button class="laugh" onclick="selectReaction(this)">
-                            <i class="fas fa-laugh"></i> <%= me_divierte_count %>
-                          </button>
+                      
+                          <h3 class="heart" onclick="selectReaction(this)">
+                            🤣 <span style="color: white;"><%= me_divierte_count %></span>
+                          </h3>
                         <% end %>
                         <%= link_to reactions_path(publicacion_id: publicacion.id, reaction_type: :me_asombra), method: :post, remote: true do %>
-                          <button class="sad" onclick="selectReaction(this)">
-                            <i class="fas fa-surprise"></i> <%= me_asombra_count %>
-                          </button>
+
+                          <h3 class="sad" onclick="selectReaction(this)">
+                            😲​ <span style="color: white;"><%= me_asombra_count %></span>
+                          </h3>
                         <% end %>
                         <%= link_to reactions_path(publicacion_id: publicacion.id, reaction_type: :me_entristece), method: :post, remote: true do %>
-                          <button class="angry" onclick="selectReaction(this)">
-                            <i class="fas fa-sad-tear"></i> <%= me_entristece_count %>
-                          </button>
+                          <h3 class="sad" onclick="selectReaction(this)">
+                            😢​​ <span style="color: white;"><%= me_entristece_count %></span>
+                          </h3>
                         <% end %>
                         <%= link_to reactions_path(publicacion_id: publicacion.id, reaction_type: :me_enoja), method: :post, remote: true do %>
-                          <button class="angry" onclick="selectReaction(this)">
-                            <i class="fas fa-angry"></i> <%= me_enoja_count %>
-                          </button>
+                          <h3 class="angry" onclick="selectReaction(this)">
+                            🤬 <span style="color: white;"><%= me_enoja_count %></span>
+                          </h3>
                         <% end %>
                       <%end%>
                     </div>

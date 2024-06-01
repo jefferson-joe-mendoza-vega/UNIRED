@@ -30,20 +30,24 @@
 .reaction-menu {
   display: none;
   position: absolute;
-  background-color: #f9f9f9;
+  
   min-width: 100px;
   box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
   z-index: 1;
 }
 
 .reaction-menu.show {
-  display: block;
+  display: flex;
 }
 
 .reaction-menu button {
   width: auto; /* Permitir que el ancho del botón se ajuste automáticamente */
   text-align: left;
   margin-right: 5px; /* Ajustar el espacio entre los botones */
+}
+.reactions-container h4 {
+  margin-right: 15px; /* Ajusta el espacio entre los íconos según sea necesario */
+  margin-bottom: 0; /* Elimina el margen inferior si lo hay */
 }
 
 .btn-nueva-publicacion {
