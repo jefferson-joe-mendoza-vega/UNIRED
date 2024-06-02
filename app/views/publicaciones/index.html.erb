@@ -339,7 +339,7 @@
                   <% end %>
                 <% end %>
                 <!-- MOSTRAR REACCIONES DESTACADAS --> 
-                <%= turbo_frame_tag "reacciones" do %>  
+                <%= turbo_frame_tag "publicaacionss" do %>  
                   <% destacadas = publicacion.reactions.group(:reaction_type).count.sort_by { |_, v| -v }.first(3) %>
                   <% if destacadas.present? %>
                     <div class="reacciones-destacadas">
