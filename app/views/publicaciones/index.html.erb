@@ -297,7 +297,7 @@
                 <!-- Contenido de la publicación -->
                 <% time_difference = Time.now - publicacion.created_at %>
                 <% if time_difference < 1.minute %>
-                  <small class="fecha-publicacion"> hace un momento<i class="fas fa-graduation-cap"></i></small>
+                  <small class="fecha-publicacion"> hace un momento<i class="fas fa-graduation-cap"></i></small> 
                 <% elsif time_difference < 1.hour %>
                   <small class="fecha-publicacion"><%= (time_difference / 1.minute).to_i %> min. <i class="fas fa-graduation-cap"></i></small>
                 <% elsif time_difference < 2.hours %>
@@ -307,7 +307,7 @@
                 <% elsif time_difference < 48.hours %>
                   <small class="fecha-publicacion"> hace 1 d. <i class="fas fa-graduation-cap"></i></small>
                 <% elsif time_difference < 5.days %>
-                  <small class="fecha-publicacion"> hace <%= (time_difference / 1.day).to_i %> d. <i class="fas fa-graduation-cap"></i></small>
+                  <small class="fecha-publicacion"> hace <%= (time_difference / 1.day).to_i %> d. <i class="fas fa-graduation-cap"></i></small><small class="badge bg-warning text-dark"><%= publicacion.category.name %></small>
                 <% else %>
                   <small class="fecha-publicacion"> <%= publicacion.created_at.strftime("%d/%m/%Y %H:%M") %> <i class="fas fa-graduation-cap"></i></small>
                 <% end %>
