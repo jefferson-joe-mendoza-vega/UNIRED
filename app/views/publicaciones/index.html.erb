@@ -257,7 +257,7 @@
             <br>
           <% end %>
         <%end%>
-        
+
 
         <h1>Publicaciones</h1>
         <%= turbo_frame_tag "publicacionss" do %>
@@ -298,19 +298,19 @@
                 <!-- Contenido de la publicación -->
                 <% time_difference = Time.now - publicacion.created_at %>
                 <% if time_difference < 1.minute %>
-                  <small class="fecha-publicacion"> hace un momento<i class="fas fa-graduation-cap"></i></small> 
+                  <small class="fecha-publicacion"> hace un momento<i class="fas fa-graduation-cap"></i></small><small class="badge bg-warning text-dark"><%= publicacion.category.name %></small>
                 <% elsif time_difference < 1.hour %>
-                  <small class="fecha-publicacion"><%= (time_difference / 1.minute).to_i %> min. <i class="fas fa-graduation-cap"></i></small>
+                  <small class="fecha-publicacion"><%= (time_difference / 1.minute).to_i %> min. <i class="fas fa-graduation-cap"></i></small><small class="badge bg-warning text-dark"><%= publicacion.category.name %></small>
                 <% elsif time_difference < 2.hours %>
-                  <small class="fecha-publicacion">1 h. <i class="fas fa-graduation-cap"></i></small>
+                  <small class="fecha-publicacion">1 h. <i class="fas fa-graduation-cap"></i></small><small class="badge bg-warning text-dark"><%= publicacion.category.name %></small>
                 <% elsif time_difference < 24.hours %>
-                  <small class="fecha-publicacion"><%= (time_difference / 1.hour).to_i %> h. <i class="fas fa-graduation-cap"></i></small>
+                  <small class="fecha-publicacion"><%= (time_difference / 1.hour).to_i %> h. <i class="fas fa-graduation-cap"></i></small><small class="badge bg-warning text-dark"><%= publicacion.category.name %></small>
                 <% elsif time_difference < 48.hours %>
-                  <small class="fecha-publicacion"> hace 1 d. <i class="fas fa-graduation-cap"></i></small>
+                  <small class="fecha-publicacion"> hace 1 d. <i class="fas fa-graduation-cap"></i></small><small class="badge bg-warning text-dark"><%= publicacion.category.name %></small>
                 <% elsif time_difference < 5.days %>
                   <small class="fecha-publicacion"> hace <%= (time_difference / 1.day).to_i %> d. <i class="fas fa-graduation-cap"></i></small><small class="badge bg-warning text-dark"><%= publicacion.category.name %></small>
                 <% else %>
-                  <small class="fecha-publicacion"> <%= publicacion.created_at.strftime("%d/%m/%Y %H:%M") %> <i class="fas fa-graduation-cap"></i></small>
+                  <small class="fecha-publicacion"> <%= publicacion.created_at.strftime("%d/%m/%Y %H:%M") %> <i class="fas fa-graduation-cap"></i></small><small class="badge bg-warning text-dark"><%= publicacion.category.name %></small>
                 <% end %>
 
                 <%= link_to publicacion_path(publicacion.id), style: "color: black;", data: { turbo_frame: '_top' } do %>
