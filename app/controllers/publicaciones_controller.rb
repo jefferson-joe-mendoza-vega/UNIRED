@@ -1,6 +1,6 @@
 class PublicacionesController < ApplicationController
   require 'open3'
-  skip_before_action :protect_pages, only: [:index, :show]
+  skip_before_action :protect_pages, only: [:index, :show, :buscar]
   before_action :load_publicaciones, only: [:index]
   before_action :load_publicacion, only: [:show, :edit, :update, :destroy]
   before_action :load_comments, only: [:show]
