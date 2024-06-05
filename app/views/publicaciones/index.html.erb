@@ -334,9 +334,13 @@
                   <% end %>
                   <% if publicacion.video.attached? %>
                     <div class="video-container">
-                      <%= video_tag publicacion.video, class: "video-autoplay", loop: true, controls: true %>
+                      <video class="video-autoplay" loop controls loading="lazy" preload="auto">
+                        <source src="<%= url_for(publicacion.video) %>" type="<%= publicacion.video.content_type %>">
+                        Tu navegador no soporta el elemento de video.
+                      </video>
                     </div>
                   <% end %>
+
                 <% end %>
                 <!-- MOSTRAR REACCIONES DESTACADAS --> 
                 <%= turbo_frame_tag "reacciones" do %>  

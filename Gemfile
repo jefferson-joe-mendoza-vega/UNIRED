@@ -4,6 +4,8 @@ gem "pagy", "~> 7.0"
 gem 'will_paginate'  
 gem 'rails_autolink'
 gem 'will_paginate-bootstrap'
+gem 'mini_magick'
+
 
 gem 'image_processing', '~> 1.2'
 gem 'streamio-ffmpeg', '~> 3.0'

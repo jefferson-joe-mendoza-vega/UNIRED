@@ -1,5 +1,6 @@
 class PublicacionesController < ApplicationController
   require 'open3'
+  require 'mini_magick' # Asegúrate de tener la gema MiniMagick instalada
   skip_before_action :protect_pages, only: [:index, :show, :buscar]
   before_action :load_publicaciones, only: [:index]
   before_action :load_publicacion, only: [:show, :edit, :update, :destroy]
