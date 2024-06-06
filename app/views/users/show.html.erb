@@ -120,6 +120,29 @@
                     <% end %>
                     
                 </div>
+                <!-- Vista show.html.erb -->
+                <% if @user.lider? %>
+                    <%= form_with(url: make_leader_path(username: @user.username), method: :post, id: 'make_leader_form', style: 'display: none;') do |form| %>
+                        <%= form.submit 'Quitar Líder', class: 'btn btn-danger', data: { turbo_confirm: '¿Estás seguro de quitar el liderazgo a este usuario?' } %>
+                    <% end %>
+                <% else %>
+                    <%= form_with(url: make_leader_path(username: @user.username), method: :post, id: 'make_leader_form', style: 'display: none;') do |form| %>
+                        <%= form.submit 'Hacer Líder', class: 'btn btn-primary', data: { turbo_confirm: '¿Estás seguro de hacer a este usuario un líder?' } %>
+                    <% end %>
+                <% end %>
+
+
+                
+
+
+
+
+
+
+
+
+
+
                 
                 
                 <!-- Render del partial de redes sociales -->
@@ -161,4 +184,14 @@
         </div>
     </div>
 </body>
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const makeLeaderLink = document.getElementById('make_leader_link');
+    const makeLeaderForm = document.getElementById('make_leader_form');
+    makeLeaderLink.addEventListener('click', (event) => {
+      event.preventDefault();
+      makeLeaderForm.submit();
+    });
+  });
+</script>
 </html>

@@ -29,8 +29,10 @@ Rails.application.routes.draw do
  
 
   resources :users, only: [:show, :index], path: '/user', param: :username, as: :usuario
+  post '/users/:username/make_leader', to: 'users#make_leader', as: :make_leader
   delete '/user/:username', to: 'users#destroy', as: :eliminar_usuario
   get 'buscar_usuarios', to: 'users#buscar'
+  
 
   
   namespace :authentication, path: '', as: '' do  

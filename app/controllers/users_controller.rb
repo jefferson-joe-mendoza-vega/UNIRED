@@ -71,6 +71,25 @@ def buscar
     end
   end
 end
+def make_leader
+  if Current.user && Current.user.admin?
+    user = User.find_by(username: params[:username])
+    if user
+      user.toggle!(:lider)  # Cambiar el estado de liderazgo del usuario
+      if user.lider?
+        flash[:success] = "El usuario #{user.username} ahora es un líder."
+      else
+        flash[:success] = "Se ha quitado el liderazgo al usuario #{user.username}."
+      end
+    else
+      flash[:error] = "No se encontró el usuario."
+    end
+  else
+    flash[:error] = "No tienes permisos para realizar esta acción."
+  end
+  redirect_to usuario_path(params[:username])
+end
+
 end
 
 

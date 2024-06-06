@@ -438,6 +438,27 @@
                       </p>
                     <%end%>
 
+                    <!-- Vista previa del primer comentario -->
+                    <%= link_to publicacion_path(publicacion.id), style: "color: black;", data: { turbo_frame: '_top' } do %>
+                      <% if publicacion.comments.present? %>
+                        <div class="comentario-previo">
+                          <% comentario = publicacion.comments.order(created_at: :desc).first %>
+                          <div class="comentario-contenido">
+                            <% if comentario.user.social.present? && comentario.user.social.fotoperfil.present? %>
+                              <%= image_tag comentario.user.social.fotoperfil, class: "comentario-fotoperfil" %>
+                            <% else %>
+                              <i class="bi bi-person comentario-fotoperfil-placeholder"></i>
+                            <% end %>
+                            <div class="comentario-texto">
+                              <strong class="comentario-usuario"><%= comentario.user.username %></strong>
+                              <p class="primer-comentario"><%= truncate(comentario.content, length: 100) %></p>
+                            </div>
+                          </div>
+                        </div>
+                      <% end %>
+                    <%end%>
+
+
 
                   </div>
                   
