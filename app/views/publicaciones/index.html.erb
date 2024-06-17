@@ -649,7 +649,23 @@
 
   // Reproducir los videos cuando se cargue la página
   window.addEventListener('load', playOrPauseVideos);
+  document.addEventListener('DOMContentLoaded', function() {
+  var button = document.querySelector('.btn-nueva-publicacion');
+
+  window.addEventListener('scroll', function() {
+    if (window.scrollY > 200) { // Cambia 200 por la posición en la que quieres que cambie
+      button.classList.add('scrolled');
+      button.innerHTML = '<i class="bi bi-plus"></i>'; // Cambia el contenido por el ícono "+" deseado
+    } else {
+      button.classList.remove('scrolled');
+      button.innerHTML = '<i class="bi bi-journal-plus me-2"></i> Nueva publicación';
+    }
+  });
+});
+
+  
 </script>
+
 
 
 
