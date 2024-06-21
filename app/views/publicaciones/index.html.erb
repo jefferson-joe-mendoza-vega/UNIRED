@@ -314,7 +314,9 @@
                 <% end %>
 
                 <%= link_to publicacion_path(publicacion.id), style: "color: black;", data: { turbo_frame: '_top' } do %>
-                  <strong><h4 style="color: white;"><%= publicacion.titulo %></h4></strong>
+                  <br>
+                  <br>
+                  <h5 style="color: white;"><%= publicacion.titulo %></h5>
                   <% if publicacion.imagen.attached? %>
                     <%= image_tag publicacion.imagen, class: "img-fluid", alt: "Imagen de la publicación" %>
                   <% else %>
