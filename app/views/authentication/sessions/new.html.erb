@@ -1,51 +1,95 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Iniciar Sesión</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <style>
         body {
-            background-color: #f8f9fa;
-            color: #495057;
-            font-family: Arial, sans-serif;
+            background-color: #121212;
+            color: #e0e0e0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
             margin: 0;
             padding: 0;
         }
 
         .login-form {
-            background-color: #fff;
-            border-radius: 10px;
-            box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.1);
+            background-color: #1f1f1f;
+            border-radius: 20px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
             padding: 30px;
-            margin-top: 50px;
+            width: 100%;
+            max-width: 400px;
+            animation: fadeInUp 0.8s ease-out;
+            margin: auto;
+        }
+
+        h2 {
+            color: #ffcc00;
+            font-size: 28px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            text-align: center;
+            animation: fadeInDown 0.8s ease-out;
         }
 
         .form-group label {
             font-weight: bold;
+            color: #e0e0e0;
+            transition: all 0.3s ease;
         }
 
         .form-control {
+            background-color: #292929;
+            border: 2px solid #444;
             border-radius: 10px;
+            color: #fff;
+            padding: 15px;
+            transition: all 0.3s ease;
+        }
+
+        .form-control:focus {
+            border-color: #ffcc00;
+            box-shadow: 0 0 10px rgba(255, 204, 0, 0.5);
+            background-color: #1c1c1c;
         }
 
         .btn-primary {
-            background-color: #007bff;
+            background-color: #ffcc00;
             border: none;
             border-radius: 10px;
             font-weight: bold;
+            color: #1f1f1f;
+            transition: all 0.3s ease;
         }
 
         .btn-primary:hover {
-            background-color: #0056b3;
+            background-color: #e6b800;
+            transform: scale(1.05);
+        }
+
+        .input-group-append button {
+            border-radius: 0 10px 10px 0;
+            background-color: #444;
+            color: #fff;
+        }
+
+        .input-group-append button:hover {
+            background-color: #555;
         }
 
         .loader {
             width: 50px;
             height: 50px;
-            border: 5px solid #ccc;
-            border-top-color: #007bff;
+            border: 5px solid #444;
+            border-top-color: #ffcc00;
             border-radius: 50%;
             animation: spin 1s linear infinite;
             display: none;
@@ -59,78 +103,106 @@
             0% {
                 transform: rotate(0deg);
             }
+
             100% {
                 transform: rotate(360deg);
             }
         }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
     </style>
 </head>
+
 <body>
-<br>
-<div class="container">
-  <div class="row justify-content-center">
-    <div class="col-md-6">
-      <%= form_with(url: sessions_path, class: "login-form", id: "login-form") do |form| %>        
-        <h2 class="text-center mb-4">Iniciar sesión</h2>
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-12">
+                <div class="login-form">
+                    <%= form_with(url: sessions_path, class: "user-form", id: "login-form") do |form| %>
+                    <h2>Iniciar sesión</h2>
 
-        <% if flash[:danger] %>
-          <div class="alert alert-danger">
-            <%= flash[:danger] %>
-          </div>
-        <% end %>
+                    <% if flash[:danger] %>
+                    <div class="alert alert-danger">
+                        <%= flash[:danger] %>
+                    </div>
+                    <% end %>
 
-        <div class="form-group">
-          <%= form.label :login, class: "font-weight-bold" %>
-          <%= form.text_field :login, class: "form-control", placeholder: "Correo electrónico o nombre de usuario", autocapitalize: "off" %>
-        </div>
-        
-        <div class="form-group">
-          <%= form.label :password, class: "font-weight-bold" %>
-          <div class="input-group">
-            <%= form.password_field :password, class: "form-control", placeholder: "Contraseña", id: "password-field" %>
-            <div class="input-group-append">
-              <button type="button" class="btn btn-outline-secondary" id="toggle-password">Mostrar</button>
+                    <div class="form-group">
+                        <%= form.label :login, class: "font-weight-bold" %>
+                        <%= form.text_field :login, class: "form-control", placeholder: "Correo electrónico o nombre de usuario", autocapitalize: "off" %>
+                    </div>
+
+                    <div class="form-group">
+                        <%= form.label :password, class: "font-weight-bold" %>
+                        <div class="input-group">
+                            <%= form.password_field :password, class: "form-control", placeholder: "Contraseña", id: "password-field" %>
+                            <div class="input-group-append">
+                                <button type="button" class="btn btn-outline-secondary" id="toggle-password">Mostrar</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <%= form.submit "Iniciar sesión", class: "btn btn-primary btn-block", id: "submit-btn" %>
+                    </div>
+                    <% end %>
+                    <div class="loader" id="loader"></div>
+                </div>
+                <div class="text-center mt-3" style="color: #ffcc00;">
+                    ¿No tienes una cuenta? <a href="<%= new_user_path %>" style="color: #e6b800;">Regístrate aquí</a>
+                </div>
             </div>
-          </div>
         </div>
-      
-        <div class="form-group">
-          <%= form.submit "Iniciar sesión", class: "btn btn-primary btn-block", id: "submit-btn" %>
-        </div>
-      <% end %>
-      <div class="loader" id="loader"></div>
     </div>
-    <div class="text-center mt-3">
-        ¿Ya tienes una cuenta? <a href="<%= new_user_path %>">Registrate aquí</a>
-    </div>
-  </div>
-</div>
 
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-<script>
-  $(document).ready(function() {
-    $('#toggle-password').click(function() {
-      var passwordField = $('#password-field');
-      var fieldType = passwordField.attr('type');
-      if (fieldType === 'password') {
-        passwordField.attr('type', 'text');
-        $(this).text('Ocultar');
-      } else {
-        passwordField.attr('type', 'password');
-        $(this).text('Mostrar');
-      }
-    });
-  });
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#toggle-password').click(function () {
+                var passwordField = $('#password-field');
+                var fieldType = passwordField.attr('type');
+                if (fieldType === 'password') {
+                    passwordField.attr('type', 'text');
+                    $(this).text('Ocultar');
+                } else {
+                    passwordField.attr('type', 'password');
+                    $(this).text('Mostrar');
+                }
+            });
+        });
 
-  document.getElementById('login-form').addEventListener('submit', function() {
-    var button = document.getElementById('submit-btn');
-    var loader = document.getElementById('loader');
+        document.getElementById('login-form').addEventListener('submit', function () {
+            var button = document.getElementById('submit-btn');
+            var loader = document.getElementById('loader');
 
-    button.style.display = 'none';
-    loader.style.display = 'block';
-  });
-</script>
+            button.style.display = 'none';
+            loader.style.display = 'block';
+        });
+    </script>
 </body>
+
 </html>

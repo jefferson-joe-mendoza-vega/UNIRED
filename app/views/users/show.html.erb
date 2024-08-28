@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -12,94 +13,158 @@
         /* Estilos generales */
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #333;
-            color: #fff;
+            background-color: #1c1c1c;
+            color: #f0f0f0;
             margin: 0;
             padding: 0;
         }
+
         .container-fluid {
             padding: 20px;
         }
+
         .publicacion {
-            background-color: #444;
-            border: 1px solid #555;
-            border-radius: 5px;
-            padding: 20px;
-            margin-bottom: 20px;
-        }
-        .publicacion:hover {
-            box-shadow: 0 0 10px rgba(255,255,255,0.1);
-        }
-        .img-fluid {
-            max-width: 100%;
-            height: auto;
-            border-radius: 5px;
-        }
-        h1 {
-            font-size: 24px;
-            color: #ffd700;
-            margin-bottom: 20px;
-            text-align: center;
-        }
-        h2 {
-            font-size: 20px;
-            color: #fff;
-            margin-bottom: 10px;
-        }
-        p {
-            font-size: 14px;
-            color: #bbb;
-            margin-bottom: 0;
-        }
-        .badge {
-            margin-left: 5px;
-            font-size: 12px;
-            vertical-align: middle;
-        }
-        .btn-eliminar {
-            margin-top: 10px;
-        }
-        .btn-eliminar:hover {
-            background-color: #dc3545;
-            border-color: #dc3545;
-        }
-        .img-link:hover {
-            opacity: 0.8;
-        }
-        .user-card {
-            background-color: #444;
+            background-color: #2a2a2a;
+            border: 1px solid #3a3a3a;
             border-radius: 10px;
             padding: 20px;
             margin-bottom: 20px;
+            transition: transform 0.3s, box-shadow 0.3s;
         }
+
+        .publicacion:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .img-fluid {
+            max-width: 100%;
+            height: auto;
+            border-radius: 10px;
+            transition: opacity 0.3s;
+        }
+
+        .img-link:hover .img-fluid {
+            opacity: 0.9;
+        }
+
+        h1 {
+            font-size: 28px;
+            color: #ffcc00;
+            margin-bottom: 20px;
+            text-align: center;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            animation: fadeInDown 1s;
+        }
+
+        h2 {
+            font-size: 22px;
+            color: #f0f0f0;
+            margin-bottom: 10px;
+            animation: fadeInLeft 1s;
+        }
+
+        p {
+            font-size: 16px;
+            color: #cccccc;
+            margin-bottom: 0;
+            animation: fadeInUp 1s;
+        }
+
+        .badge {
+            margin-left: 5px;
+            font-size: 14px;
+            vertical-align: middle;
+        }
+
+        .btn-eliminar {
+            margin-top: 10px;
+            transition: background-color 0.3s, transform 0.3s;
+        }
+
+        .btn-eliminar:hover {
+            background-color: #e74c3c;
+            transform: scale(1.05);
+        }
+
+        .user-card {
+            background-color: #2a2a2a;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s;
+        }
+
+        .user-card:hover {
+            transform: translateY(-5px);
+        }
+
         .user-card h1 {
-            color: #ffd700;
+            color: #ffcc00;
             margin-bottom: 10px;
         }
+
         .user-card .badge {
             font-size: 14px;
             margin-left: 5px;
         }
+
+        /* Animaciones */
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
     </style>
 </head>
+
 <body>
-    <br>
-    <br>
     <div class="container-fluid">
         <div class="row justify-content-center">
             <div class="col-md-8">
+            <br>
+            <br>
+            <br>
                 <div class="user-card">
                     <h1>
                         <% if @user.present? && @user.social.present? && @user.social.fotoperfil.present? %>
-                            
-                            <!-- Ejemplo de cómo renderizar el parcial en una vista -->
                             <%= render partial: 'perfil', locals: { user: @user } %>
-
-                            <!-- Aquí puedes mostrar una imagen predeterminada o un mensaje indicando que no hay imagen de perfil -->
                         <% else %>
                             <i class="fas fa-user-circle fa-2x mr-2"></i>
                         <%end%>
-                        <%= @user.username + " - "+@user.faculty.name + " "+@user.promotion%>
+                        <%= @user.username + " - " + @user.faculty.name + " " + @user.promotion %>
                         <% if @user.verified %>
                             <span class="badge badge-success">Verificado</span>
                         <% end %>
@@ -107,7 +172,7 @@
                             <span class="badge badge-primary">Administrador</span>
                         <% end %>
                         <% if @user.lider %>
-                          <span class="badge bg-danger">Lider</span>
+                            <span class="badge bg-danger">Líder</span>
                         <% end %>
                     </h1>
                     <% if @user.id == session[:user_id] || (Current.user && Current.user.admin?) %>
@@ -115,12 +180,11 @@
                         <br>
                         <br>
                         <%= link_to new_social_path, class: "btn btn-primary btn-lg" do %>
-                            <i class="fas fa-plus-circle me-2"></i> Agregar redes sociales y mas...
+                            <i class="fas fa-plus-circle me-2"></i> Agregar redes sociales y más...
                         <% end %>
                     <% end %>
-                    
                 </div>
-                <!-- Vista show.html.erb -->
+
                 <% if @user.lider? %>
                     <%= form_with(url: make_leader_path(username: @user.username), method: :post, id: 'make_leader_form', style: 'display: none;') do |form| %>
                         <%= form.submit 'Quitar Líder', class: 'btn btn-danger', data: { turbo_confirm: '¿Estás seguro de quitar el liderazgo a este usuario?' } %>
@@ -131,51 +195,30 @@
                     <% end %>
                 <% end %>
 
-
-                
-
-
-
-
-
-
-
-
-
-
-                
-                
-                <!-- Render del partial de redes sociales -->
                 <%= render partial: 'redes_sociales', locals: { user: @user } %>
-
                 <%= turbo_frame_tag 'texto' do %>
                     <%= render partial: 'escribir2'%>
                 <%end%>
+
                 <h2 class="text-center mb-3">Publicaciones de <%= @user.username %></h2>
                 <% if @publicaciones.any? %>
                     <% @publicaciones.each do |publicacion| %>
-
-                        <% if publicacion.mostrar_nombre? %>
-                            <strong ></strong>
-                        <% elsif%>
-                           
-                            <div class="publicacion">
-                                <% if publicacion.imagen.present? %>
-                                    <%= link_to publicacion_path(publicacion.id), class: "img-link" do %>
-                                        <%= image_tag publicacion.imagen, class: "img-fluid rounded mb-3", alt: "Imagen de la publicación" %>
-                                    <% end %>
-                                <% elsif publicacion.video.attached? %>
-                                    <%= link_to publicacion_path(publicacion.id) do %>
-                                        <div class="placeholder-image mb-3"></div>
-                                        <i class="fas fa-video fa-3x text-danger mr-2"></i>
-                                    <% end %>
-                                <% else %>
-                                    <div class="placeholder-image mb-3"></div>
+                        <div class="publicacion">
+                            <% if publicacion.imagen.present? %>
+                                <%= link_to publicacion_path(publicacion.id), class: "img-link" do %>
+                                    <%= image_tag publicacion.imagen, class: "img-fluid rounded mb-3", alt: "Imagen de la publicación" %>
                                 <% end %>
-                                <h2><%= link_to publicacion.titulo, publicacion_path(publicacion.id) %></h2>
-                                <p><%= publicacion.created_at.strftime("%d/%m/%Y %H:%M") %></p>
-                            </div>
-                        <%end%>
+                            <% elsif publicacion.video.attached? %>
+                                <%= link_to publicacion_path(publicacion.id) do %>
+                                    <div class="placeholder-image mb-3"></div>
+                                    <i class="fas fa-video fa-3x text-danger mr-2"></i>
+                                <% end %>
+                            <% else %>
+                                <div class="placeholder-image mb-3"></div>
+                            <% end %>
+                            <h2><%= link_to publicacion.titulo, publicacion_path(publicacion.id) %></h2>
+                            <p><%= publicacion.created_at.strftime("%d/%m/%Y %H:%M") %></p>
+                        </div>
                     <% end %>
                 <% else %>
                     <p class="text-center">No hay publicaciones para este usuario.</p>
@@ -184,14 +227,16 @@
         </div>
     </div>
 </body>
+
 <script>
-  document.addEventListener('DOMContentLoaded', () => {
-    const makeLeaderLink = document.getElementById('make_leader_link');
-    const makeLeaderForm = document.getElementById('make_leader_form');
-    makeLeaderLink.addEventListener('click', (event) => {
-      event.preventDefault();
-      makeLeaderForm.submit();
+    document.addEventListener('DOMContentLoaded', () => {
+        const makeLeaderLink = document.getElementById('make_leader_link');
+        const makeLeaderForm = document.getElementById('make_leader_form');
+        makeLeaderLink.addEventListener('click', (event) => {
+            event.preventDefault();
+            makeLeaderForm.submit();
+        });
     });
-  });
 </script>
+
 </html>

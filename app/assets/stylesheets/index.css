@@ -1,4 +1,12 @@
+/* Estilos generales */
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background-color: #000;
+  color: #000;
+}
 
+/* Contenedor de Comentarios */
 .comentario-previo {
   background-color: #494b4d;
   padding: 10px;
@@ -13,7 +21,8 @@
   align-items: center;
 }
 
-.comentario-fotoperfil {
+.comentario-fotoperfil,
+.usuario img {
   width: 40px;
   height: 40px;
   border-radius: 50%;
@@ -23,7 +32,6 @@
 .comentario-fotoperfil-placeholder {
   font-size: 40px;
   color: #ccc;
-  margin-right: 10px;
 }
 
 .comentario-texto {
@@ -32,7 +40,7 @@
 }
 
 .comentario-usuario {
-  color: #1a1b1b;
+  color: #e3e0e0;
   margin-bottom: 5px;
   font-size: 14px;
 }
@@ -40,412 +48,318 @@
 .primer-comentario {
   margin: 0;
   font-size: 14px;
-  color: #991b1b;
+  color: #f9f8f8;
 }
 
-
-.reaction-icon {
-position: relative;
-display: inline-block;
-cursor: pointer;
-}
-
-.login-message {
-display: none;
-position: absolute;
-bottom: 100%; /* Aparecer arriba del icono */
-left: 130%;
-transform: translateX(-50%);
-background-color: #20be30;
-color: #f2f2f2;
-padding: 8px;
-border-radius: 5px;
-box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-font-size: 14px;
-white-space: nowrap;
-z-index: 1000;
-margin-bottom: 5px; /* Espacio entre el icono y la etiqueta */
-}
-
-.reaction-icon:hover .login-message {
-display: block;
-}
-
-
-
-.reaction-menu {
-display: none;
-position: absolute;
-
-min-width: 100px;
-box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
-z-index: 1;
-}
-
-.reaction-menu.show {
-display: flex;
-}
-
-.reaction-menu button {
-width: auto; /* Permitir que el ancho del botón se ajuste automáticamente */
-text-align: left;
-margin-right: 5px; /* Ajustar el espacio entre los botones */
-}
-.reactions-container h4 {
-margin-right: 15px; /* Ajusta el espacio entre los íconos según sea necesario */
-margin-bottom: 0; /* Elimina el margen inferior si lo hay */
-}
-
+/* Botón de Nueva Publicación */
 .btn-nueva-publicacion {
-font-size: 16px; /* Reducir el tamaño de la fuente */
-font-weight: bold;
-color: #fff;
-background: linear-gradient(45deg, #ff6b6b, #f06595, #845ec2, #ffc75f, #ff9671);
-background-size: 300%;
-border: none;
-border-radius: 30px; /* Reducir el radio de la esquina */
-padding: 10px 20px; /* Reducir el espacio interno */
-text-align: center;
-cursor: pointer;
-transition: all 0.5s;
-animation: gradient 3s ease infinite;
-box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Reducir la sombra */
+  font-size: 16px;
+  font-weight: bold;
+  color: #fff;
+  background: linear-gradient(45deg, #ff6b6b, #f06595, #845ec2, #ffc75f, #ff9671);
+  background-size: 300%;
+  border: none;
+  border-radius: 30px;
+  padding: 10px 20px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.5s;
+  animation: gradient 3s ease infinite;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
 }
 
 .btn-nueva-publicacion:hover {
-box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
-transform: scale(1.05);
-}
-
-@keyframes gradient {
-0% { background-position: 0% 50%; }
-50% { background-position: 100% 50%; }
-100% { background-position: 0% 50%; }
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+  transform: scale(1.05);
 }
 
 .btn-nueva-publicacion.scrolled {
-position: fixed;
-bottom: 20px;
-right: 20px;
-width: 60px; /* Tamaño del botón flotante */
-height: 60px;
-padding: 0;
-font-size: 36px; /* Tamaño del icono "+" */
-border-radius: 50%; /* Para que sea circular */
-display: flex;
-align-items: center;
-justify-content: center;
-background-color: #007bff; /* Color de fondo para el botón flotante */
-color: #fff; /* Color del texto dentro del botón flotante */
-box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
-animation: bounceIn 0.5s;
-z-index: 1000; /* Para que esté por encima del contenido */
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  width: 60px;
+  height: 60px;
+  padding: 0;
+  font-size: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #007bff;
+  color: #fff;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+  animation: bounceIn 0.5s;
+  z-index: 1000;
+}
+
+.btn-nueva-publicacion.scrolled i {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 24px;
+}
+
+@keyframes gradient {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
 }
 
 @keyframes bounceIn {
-from {
-  transform: scale(0.8);
-}
-to {
-  transform: scale(1);
-}
+  from { transform: scale(0.8); }
+  to { transform: scale(1); }
 }
 
-/* Estilo para el ícono "+" */
-.btn-nueva-publicacion.scrolled i {
-position: absolute;
-top: 50%;
-left: 50%;
-transform: translate(-50%, -50%);
-font-size: 24px; /* Tamaño del ícono "+" */
-}
-
+/* Video */
 .video-container {
-max-width: 100%;
-max-height: 100%;
-overflow: hidden;
+  max-width: 100%;
+  max-height: 100%;
+  overflow: hidden;
 }
 
 .video-container video {
-width: 100%;
-height: 100%;
-object-fit: contain; /* Esto asegura que el video se ajuste dentro del contenedor manteniendo su relación de aspecto */
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
 }
 
-.total-publicaciones {
-background-color: #d4edda; /* Color de fondo verde */
-color: #155724; /* Color de texto oscuro */
-padding: 10px; /* Espaciado interior */
-border: 1px solid #c3e6cb; /* Borde sólido verde claro */
-border-radius: 5px; /* Bordes redondeados */
-margin-bottom: 10px; /* Espacio inferior */
+/* Publicaciones */
+.card, .publicacion {
+  background-color: #222;
+  color: #fff;
+  border-radius: 10px;
+  margin-bottom: 20px;
+  padding: 20px;
 }
-/* Estilos para el título "Publicaciones" */
+
+.card-body {
+  padding: 20px;
+}
+
+.imagen-publicacion, .img-fluid {
+  width: 100%;
+  margin-top: 10px;
+  border-radius: 5px;
+}
+
+h1, h2 {
+  color: #fff;
+  text-align: center;
+}
+
 h1 {
-color: #FFFFFF; /* Color del texto */
-font-size: 36px; /* Tamaño de fuente */
-font-family: 'Arial', sans-serif; /* Tipo de letra */
-text-align: center; /* Alineación */
-margin-top: 20px; /* Margen superior */
+  font-size: 36px;
+  margin-top: 20px;
 }
 
+h2 {
+  font-size: 24px;
+}
+
+.filtrar, .p_fijadas, .facultad_filtrada {
+  color: white;
+}
+
+/* Reacciones */
+.reaction-icon {
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+}
+
+.login-message {
+  display: none;
+  position: absolute;
+  bottom: 100%;
+  left: 130%;
+  transform: translateX(-50%);
+  background-color: #20be30;
+  color: #f2f2f2;
+  padding: 8px;
+  border-radius: 5px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+  font-size: 14px;
+  white-space: nowrap;
+  z-index: 1000;
+  margin-bottom: 5px;
+}
+
+.reaction-icon:hover .login-message {
+  display: block;
+}
+
+.reaction-menu {
+  display: none;
+  position: absolute;
+  min-width: 100px;
+  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+  z-index: 1;
+}
+
+.reaction-menu.show {
+  display: flex;
+}
+
+.reaction-menu button {
+  text-align: left;
+  margin-right: 5px;
+  border: none;
+  border-radius: 5px;
+  padding: 5px;
+  cursor: pointer;
+  font-size: 20px;
+  transition: filter 0.3s ease;
+}
+
+.reacciones {
+  margin-top: 10px;
+  display: flex;
+}
+
+.reacciones button i {
+  transition: color 0.3s ease;
+}
+
+.reacciones button.selected i {
+  filter: brightness(70%);
+}
+
+.reacciones button:hover i {
+  color: #fff;
+}
+
+.like i, .heart i, .laugh i, .sad i, .angry i {
+  color: #000;
+}
+
+.like.selected i { color: #0b76e8; } /* Azul */
+.heart.selected i { color: #dc3545; } /* Rojo */
+.laugh.selected i { color: #ffc107; } /* Amarillo */
+.sad.selected i { color: #6c757d; } /* Gris */
+.angry.selected i { color: #ff5733; } /* Naranja */
+
+/* Sidebar y Menú */
+.sidebar {
+  width: 250px;
+  position: fixed;
+  top: 0;
+  left: -250px;
+  background-color: #333;
+  padding-top: 60px;
+  transition: 0.5s;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+  z-index: 1000;
+}
+
+.sidebar.show {
+  left: 0;
+}
+
+
+
+.toggle-btn {
+  position: absolute;
+  top: 65px;
+  left: 250px;
+  cursor: pointer;
+  color: #1b1a1a;
+  background: none;
+  border: none;
+  font-size: 20px;
+  z-index: 1001;
+}
+
+.menu {
+  list-style-type: none;
+  padding: 0;
+}
+
+.menu li {
+  padding: 10px;
+  border-bottom: 1px solid #555;
+}
+
+.menu li a {
+  text-decoration: none;
+  color: #fff;
+  display: block;
+  transition: background-color 0.3s;
+}
+
+.menu li a:hover {
+  background-color: #555;
+}
+
+.img-menu {
+  width: 30px;
+  margin-left: -5px;
+  margin-top: 40px;
+  animation: saltar 2s ease infinite;
+}
+
+@keyframes saltar {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-5px); }
+}
+
+/* Otros Estilos */
 .custom-pagination {
-display: flex;
-justify-content: center;
-}
-
-.custom-pagination a {
-display: none; /* Oculta todos los enlaces */
+  display: flex;
+  justify-content: center;
 }
 
 .custom-pagination .next_page {
-display: inline-block; /* Muestra solo el enlace 'Next' */
-color: #333; /* Color del texto */
-padding: 5px 10px; /* Espaciado interno */
-margin: 0 3px; /* Margen entre los enlaces */
-text-decoration: none; /* Quitar subrayado */
-border: 1px solid #ccc; /* Borde */
-border-radius: 3px; /* Bordes redondeados */
-background-color: #fff; /* Fondo del botón */
+  display: inline-block;
+  color: #333;
+  padding: 5px 10px;
+  margin: 0 3px;
+  text-decoration: none;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  background-color: #fff;
+  transition: background-color 0.3s;
 }
 
 .custom-pagination .next_page:hover {
-background-color: #f0f0f0; /* Cambio de color al pasar el ratón */
+  background-color: #f0f0f0;
 }
 
 .custom-pagination .next_page[disabled] {
-display: none; /* Oculta el enlace 'Next' si está deshabilitado */
+  display: none;
 }
 
 .custom-pagination .next_page::after {
-content: " cargar más publicaciones..."; /* Cambia el texto del enlace 'Next' */
+  content: " cargar más publicaciones...";
 }
 
 @media (max-width: 576px) {
-.custom-pagination .next_page {
-  padding: 3px 6px; /* Espaciado interno reducido para dispositivos móviles */
-  margin: 0 2px; /* Margen reducido para dispositivos móviles */
+  .custom-pagination .next_page {
+      padding: 3px 6px;
+      margin: 0 2px;
+  }
 }
+
+.btn-warning {
+  background-color: #585757;
+  color: #fff;
 }
 
+.scroll-horizontal {
+  overflow-x: auto;
+  white-space: nowrap;
+}
 
-  
-  .img-menu {
-    width: 30px; /* Ajusta el tamaño según lo necesites */
-    margin-left: -5px; /* Mueve la imagen más a la izquierda */
-    margin-top: 40px; /* Mueve la imagen hacia abajo */
-    animation: saltar 2s ease infinite; /* Agrega la animación de salto */
-  }
-  
-  @keyframes saltar {
-    0%, 100% {
-      transform: translateY(0);
-    }
-    50% {
-      transform: translateY(-5px); /* Eleva la imagen 5px */
-    }
-  }
+.btn-group {
+  display: inline-block;
+}
 
-
-  .btn-warning {
-    background-color: #585757; /* botnes facultades nueva pubCambia el color de fondo aquí */
-    color: #ffff; /* Cambia el color del texto aquí */
-  }
-  /* Estilos simplificados para el menú desplegable */
-  .sidebar {
-    width: 250px;
-    position: fixed;
-    top: 0;
-    left: -250px;
-    background-color: #333;
-    padding-top: 60px;
-    transition: 0.5s;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-    z-index: 1000;
-  }
-
-  .sidebar.show {
-    left: 0;
-  }
-
-  .toggle-btn {
-    position: absolute;
-    top: 65px;
-    left: 250px;
-    cursor: pointer;
-    color: #1b1a1a;
-    background: none;
-    border: none;
-    font-size: 20px;
-    z-index: 1001;
-  }
-
-  /* Estilos simplificados para la lista de menú */
-  .menu {
-    list-style-type: none;
-    padding: 0;
-  }
-
-  .menu li {
-    padding: 10px;
-    border-bottom: 1px solid #555;
-  }
-
-  .menu li a {
-    text-decoration: none;
-    color: #fff;
-    display: block;
-    transition: background-color 0.3s;
-  }
-
-  .menu li a:hover {
-    background-color: #555;
-  }
-
-  /* Otros estilos simplificados según tus preferencias */
-  body {
-    margin: 0;
-    font-family: Arial, sans-serif;
-    background-color: #000;
-    color: #000;
-  }
-
-  .scroll-horizontal {
-    overflow-x: auto;
-    white-space: nowrap; /* Evita que los elementos se envuelvan */
-  }
-
-  .btn-group {
-    display: inline-block; /* Asegura que los botones se muestren en línea */
-  }
-
-  /* Estilos oscuros para las publicaciones */
-  .card {
-    background-color: #222;
-    color: #fff;
-  }
-
-  .card h2,
-  .card p {
-    color: #fff;
-  }
-
-  .card-body {
-    padding: 20px;
-    
-  }
-
-  .publicacion {
-    background-color: #222;
-    border-radius: 10px;
-    margin-bottom: 20px;
-    padding: 20px;
-  }
-
-  .usuario img {
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    margin-right: 10px;
-  }
-
-  .usuario h2 {
-    margin: 0;
-  }
-
-  .imagen-publicacion {
-    width: 100%;
-    margin-top: 10px;
-    border-radius: 5px;
-  }
-
-  .reacciones {
-    margin-top: 10px;
-  }
-
-  .reaccion {
-    background-color: #992626;
-    color: #fff;
-    border: none;
-    border-radius: 5px;
-    padding: 5px 10px;
-    margin-right: 5px;
-    cursor: pointer;
-    font-size: 20px;
-  }
-
- 
-
-  
-  .reacciones {
-          margin-top: 10px;
-          display: flex;
-      }
-
-  .reacciones button {
-      border: none;
-      border-radius: 5px;
-      padding: 5px;
-      margin-right: 5px;
-      cursor: pointer;
-      font-size: 20px;
-      transition: filter 0.3s ease; /* Añadido para suavizar el cambio de filtro */
-  }
-
-
-
-  .like i {
-      color: #000; /* reacciones color Negro */
-  }
-  .heart i {
-      color: #000; /* Negro */
-  }
-  .laugh i {
-      color: #000; /* Negro */
-  }
-  .sad i {
-      color: #000; /* Negro */
-  }
-  .angry i {
-      color: #000; /* Negro */
-  }
-  .reacciones button.selected i {
-      filter: brightness(70%);
-  }
-  .like.selected i {
-      color: #0b76e8; /* Azul */
-  }
-  .heart.selected i {
-      color: #dc3545; /* Rojo */
-  }
-  .laugh.selected i {
-      color: #ffc107; /* Amarillo */
-  }
-  .sad.selected i {
-      color: #6c757d; /* Gris */
-  }
-  .angry.selected i {
-      color: #ff5733; /* Naranja */
-  }
-  /* Añadido para hacer los iconos más representativos y vivos al dar clic */
-  .reacciones button i {
-      transition: color 0.3s ease; /* Añadido para suavizar el cambio de color */
-  }
-  .reacciones button:hover i {
-      color: #fff; /* Cambia el color del icono al pasar el ratón */
-  }
-
-  .filtrar {
-      color: white;
-  }
-
-  .p_fijadas {
-      color: white;
-  }
-  .facultad_filtrada {
-      color: white;
-  }
-  .contador {
-      margin-left: 500px; /* Ajusta el margen izquierdo según tus necesidades */
-  }
-    
+/* Total de Publicaciones */
+.total-publicaciones {
+  background-color: #d4edda;
+  color: #155724;
+  padding: 10px;
+  border: 1px solid #c3e6cb;
+  border-radius: 5px;
+  margin-bottom: 10px;
+}

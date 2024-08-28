@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,61 +8,100 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <style>
+        /* Estilos generales */
         body {
-            background-color: #f8f9fa;
-            color: #495057;
-            font-family: Arial, sans-serif;
+            background-color: #121212;
+            color: #e0e0e0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
             margin: 0;
             padding: 0;
         }
 
         .card {
-            border-radius: 15px;
-            box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.1);
+            background-color: #1f1f1f;
+            border-radius: 20px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+            animation: fadeInUp 0.8s ease-out;
+            width: 100%;
+            max-width: 500px;
+            margin: auto;
         }
 
         .card-header {
-            background-color: #007bff;
-            color: #fff;
-            border-radius: 15px 15px 0 0;
-        }
-
-        .card-title {
-            font-size: 24px;
-            font-weight: bold;
+            background-color: #292929;
+            color: #ffcc00;
+            border-radius: 20px 20px 0 0;
             text-align: center;
-            margin: 0;
-            padding: 15px 0;
+            padding: 20px;
+            font-size: 28px;
+            font-weight: bold;
+            animation: fadeInDown 0.8s ease-out;
         }
 
         .card-body {
-            padding: 20px;
+            padding: 30px;
+            animation: fadeIn 0.8s ease-out;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+            position: relative;
         }
 
         .form-group label {
             font-weight: bold;
+            color: #e0e0e0;
+            transition: all 0.3s ease;
         }
 
         .form-control {
+            background-color: #292929;
+            border: 2px solid #444;
             border-radius: 10px;
+            color: #fff;
+            padding: 15px;
+            transition: all 0.3s ease;
+        }
+
+        .form-control:focus {
+            border-color: #ffcc00;
+            box-shadow: 0 0 10px rgba(255, 204, 0, 0.5);
+            background-color: #1c1c1c;
         }
 
         .btn-primary {
-            background-color: #007bff;
+            background-color: #ffcc00;
             border: none;
             border-radius: 10px;
             font-weight: bold;
+            color: #1f1f1f;
+            transition: all 0.3s ease;
         }
 
         .btn-primary:hover {
-            background-color: #0056b3;
+            background-color: #e6b800;
+            transform: scale(1.05);
+        }
+
+        .input-group-append button {
+            border-radius: 0 10px 10px 0;
+            background-color: #444;
+            color: #fff;
+        }
+
+        .input-group-append button:hover {
+            background-color: #555;
         }
 
         .loader {
             width: 50px;
             height: 50px;
-            border: 5px solid #ccc;
-            border-top-color: #007bff;
+            border: 5px solid #444;
+            border-top-color: #ffcc00;
             border-radius: 50%;
             animation: spin 1s linear infinite;
             display: none;
@@ -75,107 +115,191 @@
             0% {
                 transform: rotate(0deg);
             }
+
             100% {
                 transform: rotate(360deg);
             }
         }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        /* Animación del placeholder */
+        .form-control::placeholder {
+            color: transparent;
+            transition: color 0.3s ease;
+        }
+
+        .form-control:focus::placeholder {
+            color: #757575;
+        }
+
+        /* Efecto de movimiento de etiquetas al enfocar */
+        .form-group.focused label {
+            transform: translateY(-25px);
+            font-size: 14px;
+            color: #ffcc00;
+        }
+
+        /* Efecto de entrada en el formulario */
+        .user-form {
+            animation: fadeInUp 0.8s ease-out;
+        }
+
+        /* Mostrar facultad seleccionada */
+        .selected-faculty {
+            margin-top: 10px;
+            font-size: 14px;
+            color: #ffcc00;
+        }
     </style>
 </head>
+
 <body>
-<br>
-<br>
-<br>
-<div class="container">
-  <div class="row justify-content-center">
-    <div class="col-md-6">
-      <div class="card">
-        <div class="card-header">
-          <h4 class="card-title text-center">Registro de Usuario</h4>
-        </div>
-        <div class="card-body">
-          <%= form_with(model: @user, class: "user-form", id: "register-form") do |form| %>
-            <% if @user.errors.any? %>
-              <div class="alert alert-danger" role="alert">
-                <ul>
-                  <% @user.errors.full_messages.each do |error| %>
-                    <li><%= error %></li>
-                  <% end %>
-                </ul>
-              </div>
-            <% end %>
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-12">
+                <div class="card">
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+                    <div class="card-header">
+                        Registro de Usuario
+                    </div>
+                    <div class="card-body">
+                        <%= form_with(model: @user, class: "user-form", id: "register-form") do |form| %>
+                        <% if @user.errors.any? %>
+                        <div class="alert alert-danger" role="alert">
+                            <ul>
+                                <% @user.errors.full_messages.each do |error| %>
+                                <li><%= error %></li>
+                                <% end %>
+                            </ul>
+                        </div>
+                        <% end %>
 
-            <div class="form-group">
-              <%= form.label :emails %>
-              <%= form.email_field :emails, class: "form-control", placeholder: "Ingrese su correo electrónico" %>
-            </div>
+                        <div class="form-group">
+                            <%= form.label :emails %>
+                            <%= form.email_field :emails, class: "form-control", placeholder: "Ingrese su correo electrónico" %>
+                        </div>
 
-            <div class="form-group">
-              <%= form.label :username %>
-              <%= form.text_field :username, class: "form-control", placeholder: "Ingrese su nombre de usuario" %>
-            </div>
+                        <div class="form-group">
+                            <%= form.label :username %>
+                            <%= form.text_field :username, class: "form-control", placeholder: "Ingrese su nombre de usuario" %>
+                        </div>
 
-            <div class="form-group">
-              <label for="faculty">Facultad</label>
-              <select class="form-control" id="faculty" name="faculty_id">
-                <option value="" disabled selected>Seleccione su facultad</option>
-                <!-- Iterar sobre las facultades -->
-                <% Faculty.all.order(name: :asc).each do |faculty| %>
-                  <option value="<%= faculty.id %>"><%= faculty.name %></option>
-                <% end %>
-              </select>
-            </div>
-            <div class="form-group">
-              <%= form.label :promotion %>
-              <%= form.text_field :promotion, class: 'form-control', placeholder: "ingrese el año que ingreso ejm: 2022" %>
-            </div>
+                        <div class="form-group">
+                            <label for="faculty">Facultad</label>
+                            <select class="form-control" id="faculty" name="faculty_id">
+                                <option value="" disabled selected>Seleccione su facultad</option>
+                                <% Faculty.all.order(name: :asc).each do |faculty| %>
+                                <option value="<%= faculty.id %>"><%= faculty.name %></option>
+                                <% end %>
+                            </select>
+                            <p class="selected-faculty" id="selected-faculty">Facultad seleccionada: <span></span></p>
+                        </div>
 
-            <div class="form-group">
-              <%= form.label :password %>
-              <div class="input-group">
-                <%= form.password_field :password, class: "form-control", placeholder: "Ingrese su contraseña", id: "password-field" %>
-                <div class="input-group-append">
-                  <button type="button" class="btn btn-outline-secondary" id="toggle-password">Mostrar</button>
+                        <div class="form-group">
+                            <%= form.label :promotion %>
+                            <%= form.text_field :promotion, class: 'form-control', placeholder: "Ingrese el año que ingresó, ej: 2022" %>
+                        </div>
+
+                        <div class="form-group">
+                            <%= form.label :password %>
+                            <div class="input-group">
+                                <%= form.password_field :password, class: "form-control", placeholder: "Ingrese su contraseña", id: "password-field" %>
+                                <div class="input-group-append">
+                                    <button type="button" class="btn btn-outline-secondary" id="toggle-password">Mostrar</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <%= form.submit "Registrarse", class: "btn btn-primary btn-block", id: "submit-btn" %>
+                        </div>
+                        <% end %>
+                    </div>
+                    <div class="loader" id="loader"></div>
                 </div>
-              </div>
             </div>
-
-            <br>
-            <div class="form-group">
-              <%= form.submit "Registrarse", class: "btn btn-primary btn-block", id: "submit-btn" %>
-            </div>
-          <% end %>
         </div>
-        <div class="loader" id="loader"></div>
-      </div>
     </div>
-  </div>
-</div>
 
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-<script>
-  $(document).ready(function() {
-    $('#toggle-password').click(function() {
-      var passwordField = $('#password-field');
-      var fieldType = passwordField.attr('type');
-      if (fieldType === 'password') {
-        passwordField.attr('type', 'text');
-        $(this).text('Ocultar');
-      } else {
-        passwordField.attr('type', 'password');
-        $(this).text('Mostrar');
-      }
-    });
-  });
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#toggle-password').click(function () {
+                var passwordField = $('#password-field');
+                var fieldType = passwordField.attr('type');
+                if (fieldType === 'password') {
+                    passwordField.attr('type', 'text');
+                    $(this).text('Ocultar');
+                } else {
+                    passwordField.attr('type', 'password');
+                    $(this).text('Mostrar');
+                }
+            });
 
-  document.getElementById('register-form').addEventListener('submit', function() {
-    var button = document.getElementById('submit-btn');
-    var loader = document.getElementById('loader');
+            $('.form-control').focus(function () {
+                $(this).parent().addClass('focused');
+            }).blur(function () {
+                if ($(this).val() === '') {
+                    $(this).parent().removeClass('focused');
+                }
+            });
 
-    button.style.display = 'none';
-    loader.style.display = 'block';
-  });
-</script>
+            // Mostrar facultad seleccionada
+            $('#faculty').change(function () {
+                var selectedFaculty = $(this).find('option:selected').text();
+                $('#selected-faculty span').text(selectedFaculty);
+                $('#selected-faculty').fadeIn();
+            });
+        });
+
+        document.getElementById('register-form').addEventListener('submit', function () {
+            var button = document.getElementById('submit-btn');
+            var loader = document.getElementById('loader');
+
+            button.style.display = 'none';
+            loader.style.display = 'block';
+        });
+    </script>
 </body>
+
 </html>

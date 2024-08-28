@@ -1,85 +1,205 @@
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-  <div class="container">
-    <!-- Marca del Navbar -->
-    <%= link_to(publicaciones_path, class: "navbar-brand") do %>
-      <%= image_tag("Photoroom-20240510_233942.png", alt: "Logo de tu sitio web", class: "logo", style: "max-height: 90px; max-width: 150px;") %>
-    <% end %>
+<!DOCTYPE html>
+<html lang="es">
 
-    <!-- Botón de desplegar en dispositivos pequeños -->
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-      <% if Current.user.present? %>
-          <% unread_notifications = Current.user.notifications.where(read: false) %>
-          <span class="badge badge-danger"><%= unread_notifications.count if  unread_notifications.present?%></span>
-          <img width="40" height="40" src="https://img.icons8.com/matisse/100/gender-neutral-user--v1.png" alt="gender-neutral-user--v1"/>
-          <li class="nav-item">
-           <%= Current.user.username %>
-          </li>
-      <% else %>
-        <%= image_tag("usuario.png", style: "width: 40px; height: 40px;") %>
-      <% end %>
-    </button>
-    
-    <!-- Contenido del Navbar -->
-    <div class="collapse navbar-collapse" id="navbarNav">
-      <ul class="navbar-nav ml-auto">
-        <hr style="border-top: 1px solid black; margin-bottom: 1rem;">
-        
-        <!-- Enlace a la página de perfil del usuario actual -->
-        
-        <% if Current.user.present? %>
-          <li class="nav-item ml-auto">
-            <%= link_to usuario_path(Current.user.username), class: "nav-link text-white" do %>
-              <i class="fas fa-user"></i> <%= Current.user.username %>
-            <% end %>
-          </li>
-        <% end %>
-        
-        <!-- Enlace a la página de notificaciones -->
-        <% if Current.user.present? %>
-          <div class="border-bottom mb-3"></div>
-          <% unread_notifications = Current.user.notifications.where(read: false) %>
-          <li class="nav-item ml-auto">
-            <%= link_to notifications_path, class: "nav-link text-white" do %>
-              <i class="fas fa-bell"></i>
-              <span class="badge badge-danger"><%= unread_notifications.count %></span>
-            <% end %>
-          </li>
-        <% end %>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Navbar Mejorada</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        /* Estilos generales */
+        .navbar {
+            background-color: #343a40;
+            padding: 10px 20px;
+            border-bottom: 3px solid #ffcc00;
+        }
 
-        <!-- Menú desplegable para el usuario administrador -->
-        <% if Current.user && Current.user.admin? %>
-          <div class="border-bottom mb-3"></div>
-          <li class="nav-item dropdown ml-auto">
-            <a class="nav-link dropdown-toggle text-white" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              <i class="fas fa-cogs"></i> Administrador
-            </a>
-            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-              <%= link_to 'Categorías', categories_path, class: "dropdown-item text-dark" %>
-              <!-- Puedes agregar más opciones aquí si es necesario -->
-              <%= link_to 'Facultades', faculties_path, class: "dropdown-item text-dark" %>
+        .navbar-brand img {
+            max-height: 60px;
+            transition: transform 0.3s ease;
+        }
+
+        .navbar-brand img:hover {
+            transform: scale(1.1);
+        }
+
+        .navbar-toggler {
+            border: none;
+            outline: none;
+            position: relative;
+        }
+
+        .navbar-toggler:focus {
+            box-shadow: none;
+        }
+
+        .navbar-toggler .badge {
+            position: absolute;
+            top: 0;
+            right: 0;
+            transform: translate(25%, -25%);
+            font-size: 0.8rem;
+        }
+
+        .navbar-nav .nav-item {
+            margin-left: 15px;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .navbar-nav .nav-item:hover {
+            transform: translateY(-3px);
+        }
+
+        .navbar-nav .nav-link {
+            color: #f8f9fa !important;
+            font-weight: bold;
+            font-size: 16px;
+            text-transform: uppercase;
+            transition: color 0.3s ease;
+        }
+
+        .navbar-nav .nav-link:hover {
+            color: #ffcc00 !important;
+        }
+
+        .navbar-nav .badge {
+            background-color: #ff3b3b;
+            color: #fff;
+            font-size: 0.8rem;
+            margin-left: 5px;
+        }
+
+        .dropdown-menu {
+            background-color: #343a40;
+            border-radius: 0;
+            border: none;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            padding: 0;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .dropdown-item {
+            color: #f8f9fa !important;
+            padding: 10px 20px;
+            transition: background-color 0.3s ease;
+        }
+
+        .dropdown-item:hover {
+            background-color: #495057;
+        }
+
+        .nav-item.dropdown .nav-link::after {
+            content: "\f107";
+            font-family: "Font Awesome 5 Free";
+            margin-left: 5px;
+            transition: transform 0.3s ease;
+        }
+
+        .nav-item.dropdown:hover .nav-link::after {
+            transform: rotate(180deg);
+        }
+
+        @media (max-width: 991px) {
+            .navbar-nav .nav-item {
+                margin-left: 0;
+                margin-bottom: 10px;
+            }
+        }
+
+        /* Animación de entrada para el dropdown */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+            <!-- Marca del Navbar -->
+            <%= link_to(publicaciones_path, class: "navbar-brand") do %>
+                <%= image_tag("Photoroom-20240510_233942.png", alt: "Logo de tu sitio web", class: "logo") %>
+            <% end %>
+
+            <!-- Botón de desplegar en dispositivos pequeños -->
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <% if Current.user.present? %>
+                    <% unread_notifications = Current.user.notifications.where(read: false) %>
+                    <span class="badge badge-danger"><%= unread_notifications.count if unread_notifications.present? %></span>
+                    <img width="40" height="40" src="https://img.icons8.com/matisse/100/gender-neutral-user--v1.png" alt="gender-neutral-user--v1" />
+                <% else %>
+                    <%= image_tag("usuario.png", style: "width: 40px; height: 40px;") %>
+                <% end %>
+            </button>
+
+            <!-- Contenido del Navbar -->
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ml-auto">
+                    <!-- Enlace a la página de perfil del usuario actual -->
+                    <% if Current.user.present? %>
+                        <li class="nav-item ml-auto">
+                            <%= link_to usuario_path(Current.user.username), class: "nav-link" do %>
+                                <i class="fas fa-user"></i> <%= Current.user.username %>
+                            <% end %>
+                        </li>
+                    <% end %>
+
+                    <!-- Enlace a la página de notificaciones -->
+                    <% if Current.user.present? %>
+                        <li class="nav-item ml-auto">
+                            <%= link_to notifications_path, class: "nav-link" do %>
+                                <i class="fas fa-bell"></i>
+                                <span class="badge badge-danger"><%= unread_notifications.count %></span>
+                            <% end %>
+                        </li>
+                    <% end %>
+
+                    <!-- Menú desplegable para el usuario administrador -->
+                    <% if Current.user && Current.user.admin? %>
+                        <li class="nav-item dropdown ml-auto">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="fas fa-cogs"></i> Administrador
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <%= link_to 'Categorías', categories_path, class: "dropdown-item" %>
+                                <%= link_to 'Facultades', faculties_path, class: "dropdown-item" %>
+                            </div>
+                        </li>
+                    <% end %>
+
+                    <!-- Enlace para cerrar sesión -->
+                    <% if Current.user %>
+                        <li class="nav-item ml-auto">
+                            <%= link_to 'Cerrar sesión', session_path(1), class: "nav-link", data: { turbo_method: :delete, turbo_confirm: '¿Estás seguro?' } %>
+                        </li>
+                    <% end %>
+
+                    <!-- Enlaces para iniciar sesión y registrarse -->
+                    <% if User.none? || Current.user.nil? %>
+                        <li class="nav-item ml-auto">
+                            <%= link_to 'Iniciar sesión', new_session_path, class: "nav-link" %>
+                        </li>
+                        <li class="nav-item">
+                            <%= link_to 'Registrarse', new_user_path, class: "nav-link" %>
+                        </li>
+                    <% end %>
+                </ul>
             </div>
-          </li>
-        <% end %>
-        
-        <!-- Enlace para cerrar sesión -->
-        <% if Current.user %>
-          <div class="border-bottom mb-3"></div>
-          <li class="nav-item ml-auto">
-            <%= link_to 'Cerrar sesión', session_path(1), class: "nav-link text-white", data: { turbo_method: :delete, turbo_confirm: '¿Estás seguro?' } %>
-          </li>
-        <% end %>
-        
-        <!-- Enlaces para iniciar sesión y registrarse -->
-        <% if User.none? || Current.user.nil? %>
-          <li class="nav-item ml-auto">
-            <%= link_to 'Iniciar sesión', new_session_path, class: "nav-link text-white" %>
-          </li>
-          <li class="nav-item">
-  
-            <%= link_to 'Registrarse', new_user_path, class: "nav-link text-white" %>
-          </li>
-        <% end %>
-      </ul>
-    </div>
-  </div>
-</nav>
+        </div>
+    </nav>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+
+</html>
