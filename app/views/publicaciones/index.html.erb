@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Red Social - Publicaciones</title>
+  <title>UniRed - Publicaciones</title>
   <!-- Bootstrap CSS -->
   <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
   <!-- Font Awesome Icons -->
@@ -137,7 +137,7 @@
                   <% else %>
                     <small class="fecha-publicacion">  <%= publicacion.created_at.strftime("%d/%m/%Y %H:%M") %> <i class="fas fa-graduation-cap"></i></small>
                   <% end %>
-                  <%= link_to publicacion_path(publicacion.id), style: "color: black;", data: { turbo_frame: '_top' } do %>
+                  <%= link_to publicacion_path(publicacion.id), style: "color: white;", data: { turbo_frame: '_top' } do %>
                     <strong><h3 style="color: white;"><%= publicacion.titulo %></h3></strong>
                     <% if publicacion.imagen.attached? %>
                       <%= image_tag publicacion.imagen, class: "img-fluid", alt: "Imagen de la publicación" %>
@@ -224,7 +224,7 @@
                   <% else %>
                     <small class="fecha-publicacion">  <%= publicacion.created_at.strftime("%d/%m/%Y %H:%M") %> <i class="fas fa-graduation-cap"></i></small>
                   <% end %>
-                  <%= link_to publicacion_path(publicacion.id), style: "color: black;", data: { turbo_frame: '_top' } do %>
+                  <%= link_to publicacion_path(publicacion.id), style: "color: white;", data: { turbo_frame: '_top' } do %>
                     <strong><h3 style="color: white;"><%= publicacion.titulo %></h3></strong>
                     <% if publicacion.imagen.attached? %>
                       <%= image_tag publicacion.imagen, class: "img-fluid", alt: "Imagen de la publicación" %>
@@ -314,14 +314,14 @@
                   <small class="fecha-publicacion"> <%= publicacion.created_at.strftime("%d/%m/%Y %H:%M") %> <i class="fas fa-graduation-cap"></i></small><small class="badge bg-warning text-dark"><%= publicacion.category.name %></small>
                 <% end %>
 
-                <%= link_to publicacion_path(publicacion.id), style: "color: black;", data: { turbo_frame: '_top' } do %>
+                <%= link_to publicacion_path(publicacion.id), style: "color: white;", data: { turbo_frame: '_top' } do %>
                   <br>
                   <br>
                   <h5 style="color: white;"><%= publicacion.titulo %></h5>
                   <% if publicacion.imagen.attached? %>
                     <%= image_tag publicacion.imagen, class: "img-fluid", alt: "Imagen de la publicación" %>
                   <% else %>
-                    <div class="placeholder-image"></div>
+                    
                       <p class="descripcion-publicacion" style="color: white;">
                         <% truncated_description = truncate(publicacion.descripcion, length: 150) %>
                         <% lines = truncated_description.lines.take(6) %>
@@ -435,7 +435,7 @@
                       <%end%>
                     </div>
                     
-                    <%= link_to publicacion_path(publicacion.id), style: "color: black;", data: { turbo_frame: '_top' } do %>
+                    <%= link_to publicacion_path(publicacion.id), style: "color: white;", data: { turbo_frame: '_top' } do %>
                       <p style="margin-left: 250px; margin-top: -30px;" class="comentarios">
                         <span ><i class="fas fa-comments"></i> <%= publicacion.comments.count %></span>
                       </p>
@@ -484,192 +484,128 @@
     </div>
   </div>
 
-  <!-- Bootstrap JS (opcional, si lo necesitas) -->
+  <!-- Bootstrap JS and jQuery -->
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-</body>
-<script>
-  function showLoginMessage(element) {
-    var message = element.querySelector('.login-message');
-    if (message) {
-      message.style.display = 'block';
-      setTimeout(function() {
-        message.style.display = 'none';
-      }, 3000); // 3000 milisegundos = 3 segundos
-    }
-  }
-
-
-
-</script>
-<script>
-  $(document).ready(function() {
-  $('#busqueda').on('input', function() {
-    var query = $(this).val().trim();
-
-    if (query.length >= 3) {
-      $.ajax({
-        url: '<%= buscar_publicaciones_path %>',
-        type: 'GET',
-        data: { query: query },
-        dataType: 'json',
-        success: function(data) {
-          mostrarResultados(data);
-        },
-        error: function(xhr, status, error) {
-          console.error('Error al realizar la búsqueda:', error);
+  
+  <!-- Custom Scripts -->
+  <script>
+    $(document).ready(function() {
+      // Búsqueda en tiempo real
+      $('#busqueda').on('input', function() {
+        var query = $(this).val().trim();
+        if (query.length >= 3) {
+          $.ajax({
+            url: '<%= buscar_publicaciones_path %>',
+            type: 'GET',
+            data: { query: query },
+            dataType: 'json',
+            success: function(data) {
+              mostrarResultados(data);
+            },
+            error: function(xhr, status, error) {
+              console.error('Error al realizar la búsqueda:', error);
+            }
+          });
+        } else {
+          $('#resultados-busqueda').empty();
         }
       });
-    } else {
-      $('#resultados-busqueda').empty();
-    }
-  });
 
-  function mostrarResultados(data) {
-  var resultadosDiv = $('#resultados-busqueda');
-  resultadosDiv.empty();
+      function mostrarResultados(data) {
+        var resultadosDiv = $('#resultados-busqueda');
+        resultadosDiv.empty();
 
-  if (data.length > 0) {
-    var resultadosContainer = $('<div style="max-height: 200px; overflow-y: auto;"></div>'); // Contenedor con scroll
-    data.forEach(function(publicacion) {
-      resultadosContainer.append(
-        '<p style="color: #FFFFFF;"><i class="fas fa-graduation-cap"></i><a style="color: #FFFFFF;" href="/publicaciones/' + publicacion.id + '">' +
-        publicacion.titulo + '</a></p>'
-      );
+        if (data.length > 0) {
+          var resultadosContainer = $('<div style="max-height: 200px; overflow-y: auto;"></div>');
+          data.forEach(function(publicacion) {
+            resultadosContainer.append(
+              '<p style="color: #FFFFFF;"><i class="fas fa-graduation-cap"></i><a style="color: #FFFFFF;" href="/publicaciones/' + publicacion.id + '">' + publicacion.titulo + '</a></p>'
+            );
+          });
+          resultadosDiv.append(resultadosContainer);
+        } else {
+          resultadosDiv.append('<p style="color: #FFFFFF;">No se encontraron resultados.</p>');
+        }
+      }
+
+      // Mostrar y ocultar la descripción completa
+      $('.leer-mas').click(function(e) {
+        e.preventDefault();
+        $(this).hide();
+        $(this).siblings('.descripcion-completa').show();
+        $(this).siblings('.leer-menos').show();
+      });
+
+      $('.leer-menos').click(function(e) {
+        e.preventDefault();
+        $(this).hide();
+        $(this).siblings('.descripcion-completa').hide();
+        $(this).siblings('.leer-mas').show();
+      });
+
+      // Toggle Sidebar
+      $('.toggle-btn, .img-menu').click(function(event) {
+        event.stopPropagation();
+        $('.sidebar').toggleClass('show');
+      });
+
+      $(document).on('click', function(event) {
+        if (!$(event.target).closest('.sidebar').length && !$(event.target).closest('.toggle-btn').length) {
+          $('.sidebar').removeClass('show');
+        }
+      });
+
+      // Reproducción automática de videos
+      function isElementInViewport(el) {
+        var rect = el.getBoundingClientRect();
+        return rect.top >= 0 && rect.left >= 0 && rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) && rect.right <= (window.innerWidth || document.documentElement.clientWidth);
+      }
+
+      function playOrPauseVideos() {
+        var videos = document.querySelectorAll('.video-autoplay');
+        videos.forEach(function(video) {
+          if (isElementInViewport(video)) {
+            video.play();
+          } else {
+            video.pause();
+          }
+        });
+      }
+
+      window.addEventListener('scroll', playOrPauseVideos);
+      window.addEventListener('resize', playOrPauseVideos);
+      window.addEventListener('load', playOrPauseVideos);
+
+      // Cambiar botón al hacer scroll
+      var button = document.querySelector('.btn-nueva-publicacion');
+      window.addEventListener('scroll', function() {
+        if (window.scrollY > 200) {
+          button.classList.add('scrolled');
+          button.innerHTML = '<i class="bi bi-plus"></i>';
+        } else {
+          button.classList.remove('scrolled');
+          button.innerHTML = '<i class="bi bi-journal-plus me-2"></i> Nueva publicación';
+        }
+      });
     });
-    resultadosDiv.append(resultadosContainer);
-  } else {
-    resultadosDiv.append('<p style="color: #FFFFFF;">No se encontraron resultados.</p>');
-  }
-}
-});
 
-</script>
-<script type="text/javascript">
-  $(document).ready(function() {
-    $('.leer-mas').click(function(e) {
-      e.preventDefault();
-      $(this).hide();
-      $(this).siblings('.descripcion-completa').show();
-      $(this).siblings('.leer-menos').show();
-    });
-
-    $('.leer-menos').click(function(e) {
-      e.preventDefault();
-      $(this).hide();
-      $(this).siblings('.descripcion-completa').hide();
-      $(this).siblings('.leer-mas').show();
-    });
-  });
-  document.querySelector('.toggle-btn').addEventListener('click', function() {
-    document.querySelector('.sidebar').classList.toggle('show');
-  });
-  // Cuando cambia la selección del desplegable, enviar automáticamente el formulario
-  document.addEventListener("DOMContentLoaded", function() {
-    const selectFacultad = document.querySelector("#faculty_id");
-    selectFacultad.addEventListener("change", function() {
-      document.querySelector("#filtro-form").submit();
-    });
-  });
-
-  function selectReaction(button) {
-    // Remover la clase 'selected' de todos los botones de reacción
-    document.querySelectorAll('.reacciones button').forEach(btn => {
-        btn.classList.remove('selected');
-    });
-
-    // Agregar la clase 'selected' al botón de reacción clicado
-    button.classList.add('selected');
-  }
-  
-
-  
-</script>
-<script>
-  function toggleReactionMenu(button) {
-    var menu = button.nextElementSibling;
-    menu.classList.toggle('show');
-  }
-
-  function selectReaction(button) {
-    // Tu función para manejar la reacción seleccionada
-  }
-
-</script>
-<script type="text/javascript">
-  $(document).ready(function() {
-    // Función para cerrar el slidebar solo si está abierto
-    function cerrarSlidebar() {
-      if ($('.sidebar').hasClass('show')) {
-        $('.sidebar').removeClass('show');
+    function showLoginMessage(element) {
+      var message = element.querySelector('.login-message');
+      if (message) {
+        message.style.display = 'block';
+        setTimeout(function() {
+          message.style.display = 'none';
+        }, 3000);
       }
     }
 
-    // Evento de clic en el botón de toggle
-    $('.toggle-btn, .img-menu').click(function(event) {
-      event.stopPropagation(); // Evitar que el clic se propague al documento
-      $('.sidebar').toggleClass('show');
-    });
-
-    // Evento de clic en el documento
-    $(document).on('click', function(event) {
-      // Verificar si el clic ocurrió fuera del slidebar
-      if (!$(event.target).closest('.sidebar').length && !$(event.target).closest('.toggle-btn').length) {
-        cerrarSlidebar();
-      }
-    });
-  });
-</script>
-<script>
-  // Detectar cuando el video está en la vista
-  function isElementInViewport(el) {
-    var rect = el.getBoundingClientRect();
-    return (
-      rect.top >= 0 &&
-      rect.left >= 0 &&
-      rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
-      rect.right <= (window.innerWidth || document.documentElement.clientWidth)
-    );
-  }
-
-  // Reproducir o pausar el video según si está en la vista
-  function playOrPauseVideos() {
-    var videos = document.querySelectorAll('.video-autoplay');
-    videos.forEach(function(video) {
-      if (isElementInViewport(video)) {
-        video.play();
-      } else {
-        video.pause();
-      }
-    });
-  }
-
-  // Reproducir o pausar los videos al desplazarse o redimensionarse la página
-  window.addEventListener('scroll', playOrPauseVideos);
-  window.addEventListener('resize', playOrPauseVideos);
-
-  // Reproducir los videos cuando se cargue la página
-  window.addEventListener('load', playOrPauseVideos);
-  document.addEventListener('DOMContentLoaded', function() {
-  var button = document.querySelector('.btn-nueva-publicacion');
-
-  window.addEventListener('scroll', function() {
-    if (window.scrollY > 200) { // Cambia 200 por la posición en la que quieres que cambie
-      button.classList.add('scrolled');
-      button.innerHTML = '<i class="bi bi-plus"></i>'; // Cambia el contenido por el ícono "+" deseado
-    } else {
-      button.classList.remove('scrolled');
-      button.innerHTML = '<i class="bi bi-journal-plus me-2"></i> Nueva publicación';
+    function toggleReactionMenu(button) {
+      var menu = button.nextElementSibling;
+      menu.classList.toggle('show');
     }
-  });
-});
-
-  
-</script>
-
-
-
+  </script>
+</body>
 
 </html>
