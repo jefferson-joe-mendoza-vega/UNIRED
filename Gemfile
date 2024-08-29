@@ -6,10 +6,8 @@ gem 'rails_autolink'
 gem 'will_paginate-bootstrap'
 gem 'mini_magick'
 
-
 gem 'image_processing', '~> 1.2'
 gem 'streamio-ffmpeg', '~> 3.0'
-
 
 ruby "3.2.3"
 
@@ -19,14 +17,10 @@ gem "rails", "~> 7.1.3", ">= 7.1.3.2"
 # The original asset pipeline for Rails [https://github.com/rails/sprockets-rails]
 gem "sprockets-rails"
 
-# Use sqlite3 as the database for Active Record
-#gem "sqlite3", "~> 1.4"
-
-# Use postgrase as the database for Active Record
-gem 'pg'
+# Use PostgreSQL as the database for Active Record
+gem 'pg'  # <- Mantén esta entrada y elimina la otra duplicada
 
 gem "aws-sdk-s3"
-
 
 # Use the Puma web server [https://github.com/puma/puma]
 gem "puma", ">= 5.0"
@@ -58,9 +52,6 @@ gem "tzinfo-data", platforms: %i[ windows jruby ]
 # Reduces boot times through caching; required in config/boot.rb
 gem "bootsnap", require: false
 
-# Use Active Storage variants [https://guides.rubyonrails.org/active_storage_overview.html#transforming-images]
-# gem "image_processing", "~> 1.2"
-
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
   gem "debug", platforms: %i[ mri windows ]
@@ -83,16 +74,6 @@ group :test do
   gem "selenium-webdriver"
 end
 
-group :production do
-  gem 'pg'
-end
-
-#gem 'fts5', git: 'https://github.com/rathrio/fts5.git'
-
-gem 'faker' #--------------------------------------------------------------------------------------------------
-
-
+gem 'faker'
 
 gem "pg_search", "~> 2.3"
-
-
