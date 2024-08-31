@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
  
- <% content_for :title, "#{@publicacion.user.username} - Publicación" %>
+ <% content_for :title, "UniRed" %>
 
   <% content_for :meta_tags do %>
     <!-- SEO Meta Tags -->
@@ -13,15 +13,9 @@
     <meta name="author" content="<%= @publicacion.user.username %>">
 
     <!-- Open Graph Meta Tags -->
-    <meta property="og:title" content="<%= @publicacion.user.username %> - Publicación">
+    <meta property="og:title" content="Mira! <%= @publicacion.titulo %> ">
     <meta property="og:description" content="<%= @publicacion.descripcion.truncate(150) %>">
-    <% if @publicacion.imagen.attached? %>
-      <meta property="og:image" content="<%= url_for(@publicacion.meta_image) %>">
-    <% elsif @publicacion.video.attached? %>
-      <meta property="og:image" content="URL_DE_IMAGEN_PREDETERMINADA">
-    <% else %>
-      <meta property="og:image" content="URL_DE_IMAGEN_PREDETERMINADA">
-    <% end %>
+    <meta property="og:image" content="https://i.ibb.co/Qp3GCw4/image-removebg-preview-3.png">
     <meta property="og:url" content="<%= request.original_url %>">
     <meta property="og:type" content="article">
 
@@ -29,14 +23,9 @@
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="<%= @publicacion.user.username %> - Publicación">
     <meta name="twitter:description" content="<%= @publicacion.descripcion.truncate(150) %>">
-    <% if @publicacion.imagen.attached? %>
-      <meta name="twitter:image" content="<%= url_for(@publicacion.meta_image) %>">
-    <% elsif @publicacion.video.attached? %>
-      <meta name="twitter:image" content="URL_DE_IMAGEN_PREDETERMINADA">
-    <% else %>
-      <meta name="twitter:image" content="URL_DE_IMAGEN_PREDETERMINADA">
-    <% end %>
+    <meta name="twitter:image" content="URL_DE_IMAGEN_FIJA">
   <% end %>
+
 
 
 

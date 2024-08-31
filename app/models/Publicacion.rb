@@ -5,10 +5,6 @@ class Publicacion < ApplicationRecord
     validates :titulo, presence: true 
     validates :descripcion, presence: true 
     
-    def meta_image
-        imagen.variant(resize_to_limit: [1200, 630]).processed if imagen.attached?
-    end
-    
 
     def self.search(query)
         where("titulo ILIKE :query OR descripcion ILIKE :query", query: "%#{query}%")

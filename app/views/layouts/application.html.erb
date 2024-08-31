@@ -6,7 +6,27 @@
 
   <title><%= yield :title || "UniRed - Red Social Universitaria" %></title>
 
-  <%= yield :meta_tags %>
+  <!-- Meta Tags por defecto -->
+  <% if content_for?(:meta_tags) %>
+    <%= yield :meta_tags %>
+  <% else %>
+    <meta name="description" content="UniRed es la red social universitaria ideal para conectar, colaborar y participar en la vida universitaria.">
+    <meta name="keywords" content="UniRed, red social, universidad, estudiantes, comunidad universitaria">
+    <meta name="author" content="UniRed Team">
+
+    <!-- Open Graph Meta Tags por defecto -->
+    <meta property="og:title" content="UniRed - Red Social Universitaria">
+    <meta property="og:description" content="Conéctate con la comunidad universitaria en UniRed. Comparte, colabora y participa en la vida universitaria.">
+    <meta property="og:image" content="https://i.ibb.co/Qp3GCw4/image-removebg-preview-3.png">
+    <meta property="og:url" content="<%= request.original_url %>">
+    <meta property="og:type" content="website">
+
+    <!-- Twitter Card Meta Tags por defecto -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="UniRed - Red Social Universitaria">
+    <meta name="twitter:description" content="Descubre UniRed, la red social diseñada para la comunidad universitaria. Interactúa y participa en la vida universitaria.">
+    <meta name="twitter:image" content="https://i.ibb.co/Qp3GCw4/image-removebg-preview-3.png">
+  <% end %>
 
   
   
