@@ -3,7 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Red Social - Publicaciones</title>
+  <% content_for :title, "Red Social - Publicaciones" %>
+
+<% content_for :meta_tags do %>
   <!-- SEO Meta Tags -->
   <meta name="description" content="<%= @publicacion.descripcion.truncate(150) %>">
   <meta name="keywords" content="Red social, publicaciones, estudiantes, comunidad, UNAS">
@@ -29,30 +31,13 @@
   <% elsif @publicacion.video.attached? %>
     <meta name="twitter:image" content="<%= video_thumbnail_url(@publicacion.video) %>">
   <% end %>
-  <!-- Bootstrap CSS -->
-  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-  <!-- Font Awesome Icons -->
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
-  <meta name="description" content="<%= @publicacion.descripcion.truncate(150) %>">
-  <meta name="keywords" content="red social, publicaciones, UNAS, estudiantes, comunidad universitaria, compartir">
-  <meta name="author" content="<%= @publicacion.user.username %>">
-
-  <!-- Open Graph Meta Tags (para compartir en redes sociales) -->
-  <meta property="og:title" content="<%= @publicacion.user.username %> - Publicación en UniRed">
-  <meta property="og:description" content="<%= @publicacion.descripcion.truncate(150) %>">
-  <meta property="og:image" content="<%= @publicacion.imagen.attached? ? url_for(@publicacion.imagen) : 'URL_DE_IMAGEN_PREDETERMINADA' %>">
-  <meta property="og:url" content="<%= request.original_url %>">
-  <meta property="og:type" content="website">
-
-  <!-- Twitter Card Meta Tags (para compartir en Twitter) -->
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="<%= @publicacion.user.username %> - Publicación en UniRed">
-  <meta name="twitter:description" content="<%= @publicacion.descripcion.truncate(150) %>">
-  <meta name="twitter:image" content="<%= @publicacion.imagen.attached? ? url_for(@publicacion.imagen) : 'URL_DE_IMAGEN_PREDETERMINADA' %>">
+<% end %>
 
 
 
-  
+
+
+
   <!-- Estilos personalizados -->
   <%= stylesheet_link_tag 'show' %>
 
