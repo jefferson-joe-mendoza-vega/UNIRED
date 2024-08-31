@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <% content_for :title, "Red Social - Publicaciones" %>
+ 
 <% content_for :title, "#{@publicacion.user.username} - Publicación" %>
 
 <% content_for :meta_tags do %>
@@ -18,9 +18,9 @@
   <% if @publicacion.imagen.attached? %>
     <meta property="og:image" content="<%= url_for(@publicacion.imagen) %>">
   <% elsif @publicacion.video.attached? %>
-    <meta property="og:image" content="<%= video_thumbnail_url(@publicacion.video) %>"> <!-- Thumbnail del video -->
+    <meta property="og:image" content="<%= video_thumbnail_url(@publicacion.video) %>">
   <% else %>
-    <meta property="og:image" content="URL_DE_IMAGEN_PREDETERMINADA"> <!-- Imagen predeterminada si no hay imagen ni video -->
+    <meta property="og:image" content="URL_DE_IMAGEN_PREDETERMINADA">
   <% end %>
   <meta property="og:url" content="<%= request.original_url %>">
   <meta property="og:type" content="article">
@@ -37,6 +37,7 @@
     <meta name="twitter:image" content="URL_DE_IMAGEN_PREDETERMINADA">
   <% end %>
 <% end %>
+
 
   <!-- Estilos personalizados -->
   <%= stylesheet_link_tag 'show' %>
