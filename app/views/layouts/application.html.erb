@@ -3,18 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title><%= yield(:title) || "UniRed - Red Social Universitaria para UNAS" %></title>
   
-  <!-- Descripción optimizada -->
-  <meta name="description" content="<%= yield(:description) || 'UniRed es la red social diseñada específicamente para estudiantes, profesores y personal de la Universidad Nacional Agraria de la Selva (UNAS). Conéctate, comparte y colabora con la comunidad universitaria en Tingo María.' %>">
-
-  <!-- Palabras clave optimizadas -->
-  <meta name="keywords" content="UniRed, red social UNAS, Universidad Nacional Agraria de la Selva, red social universitaria, comunidad universitaria, estudiantes UNAS, Tingo María, red social para universidades, colaboración académica, eventos universitarios">
-
-  <!-- SEO y seguridad -->
-  <meta name="robots" content="index, follow">
-  <%= csrf_meta_tags %>
-  <%= csp_meta_tag %>
 
   <!-- Bootstrap CSS -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
@@ -43,20 +32,7 @@
   <meta name="twitter:description" content="<%= yield(:description) || 'Descubre UniRed, la red social diseñada para la comunidad de la UNAS. Interactúa y participa en eventos y actividades universitarias.' %>">
   <meta name="twitter:image" content="https://imgbb.com/unired.png">
 
-  <!-- Datos estructurados para SEO (JSON-LD) -->
-  <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "WebSite",
-      "name": "UniRed",
-      "url": "https://www.tu-sitio.com",
-      "description": "UniRed es la red social diseñada para estudiantes y personal de la Universidad Nacional Agraria de la Selva (UNAS). Conéctate y participa en la vida universitaria en Tingo María.",
-      "sameAs": [
-        "https://www.facebook.com/unired",
-        "https://twitter.com/unired"
-      ]
-    }
-  </script>
+  
   
 
   <style>
