@@ -4,6 +4,31 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Red Social - Publicaciones</title>
+  <!-- SEO Meta Tags -->
+  <meta name="description" content="<%= @publicacion.descripcion.truncate(150) %>">
+  <meta name="keywords" content="Red social, publicaciones, estudiantes, comunidad, UNAS">
+  <meta name="author" content="<%= @publicacion.user.username %>">
+
+  <!-- Open Graph Meta Tags -->
+  <meta property="og:title" content="<%= @publicacion.user.username %> - Publicación">
+  <meta property="og:description" content="<%= @publicacion.descripcion.truncate(150) %>">
+  <% if @publicacion.imagen.attached? %>
+    <meta property="og:image" content="<%= url_for(@publicacion.imagen) %>">
+  <% elsif @publicacion.video.attached? %>
+    <meta property="og:image" content="<%= video_thumbnail_url(@publicacion.video) %>"> <!-- Puedes generar un thumbnail para videos -->
+  <% end %>
+  <meta property="og:url" content="<%= request.original_url %>">
+  <meta property="og:type" content="article">
+
+  <!-- Twitter Card Meta Tags -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="<%= @publicacion.user.username %> - Publicación">
+  <meta name="twitter:description" content="<%= @publicacion.descripcion.truncate(150) %>">
+  <% if @publicacion.imagen.attached? %>
+    <meta name="twitter:image" content="<%= url_for(@publicacion.imagen) %>">
+  <% elsif @publicacion.video.attached? %>
+    <meta name="twitter:image" content="<%= video_thumbnail_url(@publicacion.video) %>">
+  <% end %>
   <!-- Bootstrap CSS -->
   <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
   <!-- Font Awesome Icons -->
