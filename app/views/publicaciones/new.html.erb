@@ -227,7 +227,7 @@
     button.style.display = 'none';
     loader.style.display = 'block';
   }
-  document.addEventListener("DOMContentLoaded", function() {
+  document.addEventListener("turbo:load",  function() {
     const checkbox = document.querySelector("#publicacion-anonima");
     
     checkbox.addEventListener("click", function() {
@@ -241,7 +241,7 @@
     });
   });
 
-  document.addEventListener("DOMContentLoaded", function() {
+  document.addEventListener("turbo:load",  function() {
     const checkbox = document.querySelector("#publicacion-anonima");
     const icono = document.querySelector("#icono-incognito");
 

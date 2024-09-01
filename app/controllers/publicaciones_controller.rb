@@ -25,6 +25,7 @@ class PublicacionesController < ApplicationController
   end
 
   def show
+    @imagen_url = @publicacion.imagen.attached? ? url_for(@publicacion.imagen) : nil
   end
 
   def new
