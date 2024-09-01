@@ -208,13 +208,14 @@
                                 <%= link_to publicacion_path(publicacion.id), class: "img-link" do %>
                                     <%= image_tag publicacion.imagen, class: "img-fluid rounded mb-3", alt: "Imagen de la publicación" %>
                                 <% end %>
-                            <% elsif publicacion.video.attached? %>
-                                <%= link_to publicacion_path(publicacion.id) do %>
-                                    <div class="placeholder-image mb-3"></div>
-                                    <i class="fas fa-video fa-3x text-danger mr-2"></i>
-                                <% end %>
+    
                             <% else %>
                                 <div class="placeholder-image mb-3"></div>
+                            <% end %>
+                            <% if publicacion.video.attached? %>
+                            <div class="embed-responsive embed-responsive-16by9">
+                                <%= video_tag publicacion.video, controls: true, class: "embed-responsive-item" %>
+                            </div>
                             <% end %>
                             <h2><%= link_to publicacion.titulo, publicacion_path(publicacion.id) %></h2>
                             <p><%= publicacion.created_at.strftime("%d/%m/%Y %H:%M") %></p>
