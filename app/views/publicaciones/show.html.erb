@@ -36,6 +36,14 @@
 <body>
   <br>
   <br>
+  <br>
+  <br>
+ 
+  <% if @publicacion.imagen.attached? %>
+    <h1><%= url_for(@publicacion.imagen) %></h1> <!-- Esto mostrará la URL de la imagen como texto en la vista -->
+  <% end %>
+
+
   <div class="container mt-5">
     <div class="row justify-content-center">
       <div class="col-md-8">
