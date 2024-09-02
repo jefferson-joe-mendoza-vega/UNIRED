@@ -13,9 +13,13 @@
     <meta name="author" content="<%= @publicacion.user.username %>">
 
     <!-- Open Graph Meta Tags -->
-    <meta property="og:title" content="Mira! <%= @publicacion.titulo %> ">
+    <meta property="og:title" content="Mira! <%= @publicacion.titulo %>">
     <meta property="og:description" content="<%= @publicacion.descripcion.truncate(150) %>">
-    <meta property="og:image" content="https://i.ibb.co/Qp3GCw4/image-removebg-preview-3.png">
+    <% if @publicacion.image_url.present? %>
+      <meta property="og:image" content="<%= @publicacion.image_url %>">
+    <% else %>
+      <meta property="og:image" content="https://i.ibb.co/Qp3GCw4/image-removebg-preview-3.png"> <!-- Imagen predeterminada si no hay imagen -->
+    <% end %>
     <meta property="og:url" content="<%= request.original_url %>">
     <meta property="og:type" content="article">
 
@@ -36,7 +40,6 @@
 <body>
   <br>
   <br>
-  
   <div class="container mt-5">
     <div class="row justify-content-center">
       <div class="col-md-8">

@@ -193,6 +193,6 @@ class PublicacionesController < ApplicationController
   end
 
   def publicacion_params
-    params.require(:publicacion).permit(:titulo, :descripcion, :imagen, :category_id, :mostrar_nombre, :fijada, :fijadaindex, :video)
+    params.require(:publicacion).permit(:titulo, :descripcion, :imagen, :category_id, :mostrar_nombre, :fijada, :fijadaindex, :video, :image_url)
   end
 end

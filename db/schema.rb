@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_05_31_174516) do
+ActiveRecord::Schema[7.1].define(version: 2024_09_02_091330) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -85,6 +85,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_05_31_174516) do
     t.boolean "fijada", default: false
     t.boolean "fijadaindex"
     t.boolean "mostrar_nombre"
+    t.string "image_url"
     t.index ["category_id"], name: "index_publicacions_on_category_id"
     t.index ["user_id"], name: "index_publicacions_on_user_id"
   end
