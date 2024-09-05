@@ -96,8 +96,8 @@ class PublicacionesController < ApplicationController
       original_image_path = @publicacion.imagen.blob.service.send(:path_for, @publicacion.imagen.key)
       
       image = MiniMagick::Image.open(original_image_path)
-      if image.width > 800 || image.height > 800
-        image.resize "800x800"
+      if image.width > 600 || image.height > 480
+        image.resize "640x480"
         image.quality "85"
         
         compressed_image_path = "#{Rails.root}/tmp/compressed_image.jpg"
