@@ -8,6 +8,7 @@
 
   <% content_for :meta_tags do %>
     <!-- SEO Meta Tags -->
+    <meta name="robots" content="index, follow">
     <meta name="description" content="<%= @publicacion.descripcion.truncate(150) %>">
     <meta name="keywords" content="Red social, publicaciones, estudiantes, comunidad, UNAS">
     <meta name="author" content="<%= @publicacion.user.username %>">
