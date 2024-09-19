@@ -76,7 +76,7 @@ class PublicacionesController < ApplicationController
   def buscar
     query = params[:query].strip
 
-    if query.present? && query.length >= 3
+    if query.present? && query.length >= 1
       @publicaciones = Publicacion.where("titulo ILIKE ? OR descripcion ILIKE ?", "%#{query}%", "%#{query}%").limit(10)
     else
       @publicaciones = []

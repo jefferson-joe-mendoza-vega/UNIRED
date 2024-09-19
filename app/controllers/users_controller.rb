@@ -48,7 +48,7 @@ end
 def buscar
   query = params[:query].strip
 
-  if query.present? && query.length >= 3
+  if query.present? && query.length >= 2
     if query.start_with?('@')
       username = query[1..-1]
       @usuarios = User.includes(:faculty).where("username ILIKE ?", "%#{username}%").limit(10)
