@@ -180,7 +180,7 @@
       $('#busqueda').on('input', function() {
         var query = $(this).val().trim();
 
-        if (query.length >= 3) {
+        if (query.length >= 2) {
           $.ajax({
             url: '<%= buscar_usuarios_path %>',
             type: 'GET',

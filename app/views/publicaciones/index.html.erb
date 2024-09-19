@@ -519,7 +519,7 @@
       // Búsqueda en tiempo real
       $('#busqueda').on('input', function() {
         var query = $(this).val().trim();
-        if (query.length >= 3) {
+        if (query.length >= 1) {
           $.ajax({
             url: '<%= buscar_publicaciones_path %>',
             type: 'GET',
